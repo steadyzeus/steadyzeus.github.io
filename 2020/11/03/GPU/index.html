@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    css GPU硬件加速原理 |  Steady&#39;blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-GPU" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  css GPU硬件加速原理
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/11/03/GPU/" class="article-date">
+  <time datetime="2020-11-03T13:55:30.000Z" itemprop="datePublished">2020-11-03</time>
+</a>
+      
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.8k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">10分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>满世界的动画性能优化技巧，例如：</p>
+<p>只允许改变transform、opacity，其它属性不要动，避免重新计算布局（reflow）</p>
+<p>对动画元素应用transform: translate3d(0, 0, 0)、will-change: transform等，开启硬件加速</p>
+<p>动画元素尽量用fixed、absolute定位方式，避免reflow</p>
+<p>对动画元素应用高一点的z-index，减少复合层数量</p>
+<p>。。。其它可能有用的规则</p>
+<p>那么问题是：已经小心遵守这些规则了，为什么动画还会卡顿、跳帧？还能优化吗？要从哪里入手？</p>
+<p>一.硬件加速是非规范的<br>The most important thing I’d like to tell you before we dive deep into GPU compositing is this: It’s a giant hack. You won’t find anything (at least for now) in the W3C‘s specifications about how compositing works, about how to explicitly put an element on a compositing layer or even about compositing itself. It’s just an optimization that the browser applies to perform certain tasks and that each browser vendor implements in its own way.</p>
+<p>很多情况下，开启硬件加速确实能带来明显的性能提升，但是，这部分内容是非规范的，W3C并没有相关规范说明其中细节，所以通过一些技巧（例如transform: translate3d(0, 0, 0)）开启硬件加速是规范之外的行为，可能得到性能提升，也可能带来严重的性能问题</p>
+<p>也许在将来会形成规范，依照规范去做肯定能获得性能提升，但在这之前，除了必须遵从各项性能优化原则外，还要考虑实际渲染流程，从原理上解决性能问题</p>
+<p>硬件加速（Hardware Acceleration） 硬件加速在CSS动画上是指GPU合成（GPU compositing），浏览器不直接通过CPU生成图像数据显示出来，而是把相关层数据发送给GPU，而GPU在图像数据运算方面有天生优势，所以算是加速</p>
+<p>那么当硬件加速不可用时，浏览器怎样渲染页面？</p>
+<p>在没有硬件加速的情况下，浏览器通常是依赖于CPU来渲染生成网页的内容，大致的做法是遍历这些层，然后按照顺序把这些层的内容依次绘制在一个内部存储空间上（例如bitmap），最后把这个内部表示显示出来，这种做法就是软件渲染（software rendering）</p>
+<p>二.transform和opacity的特殊性 以前通过改变布局相关属性形成动画，例如：</p>
+<p>@keyframes move { from { left: 30px; } to { left: 100px; } } 对于动画的每一帧，浏览器都要重新计算元素的形状位置（reflow），把新状态渲染出来（repaint），再显示到屏幕上</p>
+<p>整页reflow和repaint想想就觉得很慢，那么如果把动画元素抽出来作为前景，每帧其它部分作为背景不变，只重新渲染动画元素，再把前景背景合成起来，是不是会更快？当然会，因为GPU能快速地进行亚像素级图层合成</p>
+<p>但是这样做的前提是能够按照动的，不动的划分出前景背景层，如果动画元素或者受布局影响，或者动的过程中影响到了布局，就会打破前景背景的界限，这样简单分为2层就有问题。那么，应用position: fixed | absolute是不是就能保证不会影响布局了？</p>
+<p>不行，因为left可以接受百分比值、相对单位（em、vw等等），浏览器不能百分百肯定该属性的变化与布局无关，所以不能简单的分出前景背景层，例如：</p>
+<p>@keyframes move { from { left: 30px; } to { left: 100%; } } 但浏览器能百分百肯定transform和opacity的变化与布局无关，不受布局影响，其变化也不会影响现有布局，所以这两个属性的特殊性是：</p>
+<p>does not affect the document’s flow,</p>
+<p>does not depend on the document’s flow,</p>
+<p>does not cause a repaint.</p>
+<p>如果不影响布局，且不受布局影响，其变化不会导致其它部分需要repaint，那么这个东西肯定可以抽出去单独作为一层，放心交给GPU去处理，享受硬件加速带来的好处；</p>
+<p>细腻（GPU能做到亚像素级精度，且对GPU来说不费劲）</p>
+<p>流畅（不受其它运算密集的JS任务影响，动画交给GPU了，与CPU无关）</p>
+<p>三.GPU合成的代价 It might surprise you, but the GPU is a separate computer. That’s right: An essential part of every modern device is actually a standalone unit with its own processors and its own memory- and data-processing models. And the browser, like any other app or game, has to talk with the GPU as it would with an external device.</p>
+<p>GPU是独立的一部分，有自己的处理器、内存核数据处理模型，那么意味着通过CPU在内存里创建的图像数据无法直接与GPU共享，需要打包发送给GPU，GPU收到后才能执行我们期望的一系列操作，这个过程需要时间，而打包数据需要内存</p>
+<p>需要的内存取决于：</p>
+<p>复合层的数量</p>
+<p>复合层的大小</p>
+<p>相对于数量，复合层的大小影响更大一些，例如：</p>
+<p>.rect { width: 320px; height: 240px; background: #f00; } 这个红块如果要发送给GPU的话，需要的存储空间是：320 × 240 × 3 = 230400B = 225KB（rgb需要3个字节），如果图像含有透明部分，就需要320 × 240 × 4 = 307200B = 300KB</p>
+<p>这样一个不起眼的小红块就需要2、300KB，页面动辄几十上百个元素，占全屏半屏的元素也不少，如果都作为复合层，交给GPU，内存消耗可想而知，所以一些很极端的硬件加速场景性能非常差：</p>
+<p>技术分享</p>
+<p>gpu compositing issue</p>
+<p>对于1GB RAM的设备，去掉系统和后台进程的1/3，再去掉浏览器和当前页面的1/3，实际能用的只有200到300MB，如果复合层太多太大，内存会被迅速消耗，然后掉帧（卡顿、闪烁）现象，甚至浏览器/应用崩溃也就很合理了</p>
+<p>P.S.详细见CSS3硬件加速也有坑！！！</p>
+<p>四.创建复合层 浏览器在一些情况下会创建复合层，例如：</p>
+<p>3D transforms: translate3d, translateZ and so on;</p>
+<p>, and <iframe> elements;</iframe></p>
+<p>animation of transform and opacity via Element.animate();</p>
+<p>animation of transform and opacity via СSS transitions and animations;</p>
+<p>position: fixed;</p>
+<p>will-change;</p>
+<p>filter;</p>
+<p>。。。</p>
+<p>还有很多，详细见CompositingReasons.h中定义的常量，分为几类：</p>
+<p>这些大多是我们期望的，算是显式创建的复合层，而另一些情况也会创建复合层：</p>
+<p>位于复合层之上的元素会被创建复合层（B的z-index大于A，对A做动画，B也会被**独立的复合层）</p>
+<p>很容易理解，A在动画过程中可能会与B产生重叠，被B遮住，那么GPU需要每帧对A图层做动画，然后再与B图层合成，才能得到正确结果，所以B无论如何都要被**复合层，连同A一起交给GPU</p>
+<p>隐式创建复合层主要出于重叠考虑，如果浏览器不确定会不会发生重叠，那么就要把不确定的东西都**复合层，所以，从这个角度看，高z-index原则是有道理的</p>
+<p>五.硬件加速的优缺点 优点 动画非常流畅，能达到60fps</p>
+<p>动画执行过程在独立线程里，不受计算密集的JS任务影响</p>
+<p>缺点 把元素**复合层时需要额外重绘，有时很慢（可能需要整页重绘）</p>
+<p>复合层数据传递给GPU有额外时耗，取决于复合层的数量和大小，这在中低端设备可能会导致闪烁</p>
+<p>每个复合层都要消耗一部分内存，移动设备上内存很贵，过多占用会导致浏览器/应用崩溃</p>
+<p>存在隐式复合层的问题，不注意的话内存飙升</p>
+<p>文字模糊，元素有时会变形</p>
+<p>最主要的问题集中在内存消耗和repaint上，所以动画性能优化目标是降低内存消耗，减少repaint</p>
+<p>六.性能优化技巧 1.尽量避免隐式复合层 复合层直接影响repaint、内存消耗：动画开始时创建复合层、结束时删除复合层，都会引起repaint，而动画开始时必须把图层数据发送给GPU，内存消耗集中在这里。两条建议：</p>
+<p>给动画元素应用高z-index，最好直接作为body的子元素，对于嵌套很深的动画元素，可以复制一个到body下，仅用于实现动画效果</p>
+<p>给动画元素应用will-change，浏览器会提前把这些元素**复合层，可以让动画开始/结束时更流畅些，但不能滥用，在不需要的时候赶紧去掉，减少内存消耗</p>
+<p>2.只改变transform和opacity 能用transform、opacity优先用，不能用的话想办法用，比如背景色渐变，可以用盖在上面的伪元素背景色opacity动画模拟；box-shadow动画可以用铺在下面的伪元素opacity动画模拟，这些曲折的实现方式能带来显著性能提升</p>
+<p>3.减少复合层的大小 小元素放大展示，减小width、height，减少传递给GPU的数据，由GPU做scale放大展示，视觉效果无差异（多用于纯色背景元素，对不太重要的图片也可以进行5%到10%的宽高压缩），例如：</p>
+<p><style> #a, #b { will-change: transform; background-color: #f00; } #a { width: 100px; height: 100px; } #b { width: 10px; height: 10px; transform: scale(10); } </style><br>最终显示的两个红色块在视觉上没有差异，但减小了90%的内存消耗</p>
+<p>4.考虑对子元素动画与容器动画 容器动画可能存在不必要的内存消耗，比如子元素之间的空隙，也会被当做有效数据发送给GPU，如果对各个子元素分别应用动画，就能避免这部分的内存消耗</p>
+<p>例如12道太阳光线旋转，转容器就把容器整张图都发送给GPU，单独转12道光线就去掉了光线之间的11条空隙，能够节省一半内存</p>
+<p>5.早早关注复合层的数量和大小 从一开始就关注复合层，尤其是隐式创建的复合层，避免后期优化影响布局</p>
+<p>复合层的大小比数量影响更大，但浏览器会做一些优化操作，把几个复合层整合成一个，叫Layer Squashing，但有时一个大复合层比几个小复合层消耗的内存更多，有必要的话可以手动去掉这种优化：</p>
+<p>// 给每个元素应用不同的translateZ translateZ(0.0001px), translateZ(0.0002px) 6.不要滥用硬件加速 没事不要乱加transform: translateZ(0)、will-change: transform等强制开启硬件加速的属性，GPU合成存在缺点和不足，而且是非标准的行为，最好情况能带来显著性能提升，最坏情况可能会让浏览器崩溃</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/11/03/GPU/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/11/03/react-组件/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">如何封装react 组件</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2015-2020
+        Steady
+      </li>
+      <li>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+    <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Steady&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/2019/about.me/index.html">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+      <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+<script src="/js/share.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['面朝大海，春暖花开','愿你一生努力，一生被爱','想要的都拥有，得不到的都释怀'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+<script src="/js/tocbot.min.js"></script>
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+<script src="/js/ayer.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+  </div>
+</body>
+
+</html>

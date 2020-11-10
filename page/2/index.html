@@ -1,1553 +1,1471 @@
 <!DOCTYPE html>
-<html lang="">
-    <!-- title -->
+<html lang="en">
 
-
-
-
-<!-- keywords -->
-
-
-
-
-<head><meta name="generator" content="Hexo 3.9.0">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="author" content="John Doe">
-    <meta name="renderer" content="webkit">
-    <meta name="copyright" content="John Doe">
+<head>
+  <meta charset="utf-8" />
     
-    <meta name="keywords" content="steady blog,steady-theme,steady-blog">
-    
-    <meta name="description" content>
-    <meta http-equiv="Cache-control" content="no-cache">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Steady&#39;s Blog</title>
-    <style type="text/css">
-    @font-face {
-        font-family: 'Oswald-Regular';
-        src: url("/font/Oswald-Regular.ttf");
-    }
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+     Steady&#39;blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
 
-    body {
-        margin: 0;
-    }
+  
 
-    header,
-    footer,
-    .back-top,
-    .sidebar,
-    .container,
-    .site-intro-meta,
-    .toc-wrapper {
-        display: none;
-    }
+  
 
-    .site-intro {
-        position: relative;
-        z-index: 3;
-        width: 100%;
-        /* height: 50vh; */
-        overflow: hidden;
-    }
-
-    .site-intro-placeholder {
-        position: absolute;
-        z-index: -2;
-        top: 0;
-        left: 0;
-        width: calc(100% + 300px);
-        height: 100%;
-        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
-        background-position: center center;
-        transform: translate3d(-226px, 0, 0);
-        animation: gradient-move 2.5s ease-out 0s infinite;
-    }
-
-    @keyframes gradient-move {
-        0% {
-            transform: translate3d(-226px, 0, 0);
-        }
-        100% {
-            transform: translate3d(0, 0, 0);
-        }
-    }
-
-</style>
-
-    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
-    
-    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
-/* This file is meant as a standalone workflow for
-- testing support for link[rel=preload]
-- enabling async CSS loading in browsers that do not support rel=preload
-- applying rel preload css once loaded, whether supported or not.
-*/ -->
-<script>
-(function( w ){
-	"use strict";
-	// rel=preload support test
-	if( !w.loadCSS ){
-		w.loadCSS = function(){};
-	}
-	// define on the loadCSS obj
-	var rp = loadCSS.relpreload = {};
-	// rel=preload feature support test
-	// runs once and returns a function for compat purposes
-	rp.support = (function(){
-		var ret;
-		try {
-			ret = w.document.createElement( "link" ).relList.supports( "preload" );
-		} catch (e) {
-			ret = false;
-		}
-		return function(){
-			return ret;
-		};
-	})();
-
-	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
-	// then change that media back to its intended value on load
-	rp.bindMediaToggle = function( link ){
-		// remember existing media attr for ultimate state, or default to 'all'
-		var finalMedia = link.media || "all";
-
-		function enableStylesheet(){
-			link.media = finalMedia;
-		}
-
-		// bind load handlers to enable media
-		if( link.addEventListener ){
-			link.addEventListener( "load", enableStylesheet );
-		} else if( link.attachEvent ){
-			link.attachEvent( "onload", enableStylesheet );
-		}
-
-		// Set rel and non-applicable media type to start an async request
-		// note: timeout allows this to happen async to let rendering continue in IE
-		setTimeout(function(){
-			link.rel = "stylesheet";
-			link.media = "only x";
-		});
-		// also enable media after 3 seconds,
-		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
-		setTimeout( enableStylesheet, 3000 );
-	};
-
-	// loop through link elements in DOM
-	rp.poly = function(){
-		// double check this to prevent external calls from running
-		if( rp.support() ){
-			return;
-		}
-		var links = w.document.getElementsByTagName( "link" );
-		for( var i = 0; i < links.length; i++ ){
-			var link = links[ i ];
-			// qualify links to those with rel=preload and as=style attrs
-			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
-				// prevent rerunning on link
-				link.setAttribute( "data-loadcss", true );
-				// bind listeners to toggle media back
-				rp.bindMediaToggle( link );
-			}
-		}
-	};
-
-	// if unsupported, run the polyfill
-	if( !rp.support() ){
-		// run once at least
-		rp.poly();
-
-		// rerun poly on an interval until onload
-		var run = w.setInterval( rp.poly, 500 );
-		if( w.addEventListener ){
-			w.addEventListener( "load", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		} else if( w.attachEvent ){
-			w.attachEvent( "onload", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		}
-	}
-
-
-	// commonjs
-	if( typeof exports !== "undefined" ){
-		exports.loadCSS = loadCSS;
-	}
-	else {
-		w.loadCSS = loadCSS;
-	}
-}( typeof global !== "undefined" ? global : this ) );
-</script>
-
-    <link rel="icon" href="/assets/linke.ico">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
-    <link rel="preload" href="/scripts/main.js" as="script">
-    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
-    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
-    
-    <!-- fancybox -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
-    <!-- 百度统计  -->
-    
-    <!-- 谷歌统计  -->
-    
 </head>
 
-    
-        <body class="home-body">
-    
-    
-<header class="header index-header">
-
-    <div class="read-progress"></div>
-    <div class="header-sidebar-menu">&#xe775;</div>
-    <!-- post页的toggle banner  -->
-    
-    <a class="home-link" href=/>Steady's Blog.</a>
-</header>
-    <div class="wrapper">
-        <div class="site-intro" style="
-
-
-
-
-
-
-
-height:50vh;
-">
-    
-    <!-- 主页  -->
-    
-    
-    <!-- 文章页  -->
-            
-    <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/index-bg.jpg)"></div>
-    <div class="site-intro-meta">
-        <!-- 标题  -->
-        <h1 class="intro-title">
-            <!-- 主页  -->
-            
-            Steady's Blog.
-            <!-- 文章页  -->
-            
-        </h1>
-        <!-- 副标题 -->
-        <p class="intro-subtitle">
-            <!-- 主页副标题  -->
-            
-            
-                If you never try you will never known
-            
-            <!-- 文章页  -->
-            
-        </p>
-        <!-- 文章页meta -->
-        
-    </div>
-</div>
-        <script>
- 
-  // get user agent
-  var browser = {
-    versions: function () {
-      var u = window.navigator.userAgent;
-      return {
-        userAgent: u,
-        trident: u.indexOf('Trident') > -1, //IE内核
-        presto: u.indexOf('Presto') > -1, //opera内核
-        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
-        iPad: u.indexOf('iPad') > -1, //是否为iPad
-        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
-        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
-        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
-      };
-    }()
-  }
-  console.log("userAgent:" + browser.versions.userAgent);
-
-  // callback
-  function fontLoaded() {
-    console.log('font loaded');
-    if (document.getElementsByClassName('site-intro-meta')) {
-      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
-      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
-      var postIntros = document.getElementsByClassName('post-intros')[0]
-      if (postIntros) {
-        postIntros.classList.add('post-fade-in');
-      }
-    }
-  }
-
-  // UC不支持跨域，所以直接显示
-  function asyncCb(){
-    if (browser.versions.uc) {
-      console.log("UCBrowser");
-      fontLoaded();
-    } else {
-      WebFont.load({
-        custom: {
-          families: ['Oswald-Regular']
-        },
-        loading: function () {  //所有字体开始加载
-          // console.log('loading');
-        },
-        active: function () {  //所有字体已渲染
-          fontLoaded();
-        },
-        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
-          console.log('inactive: timeout');
-          fontLoaded();
-        },
-        timeout: 5000 // Set the timeout to two seconds
-      });
-    }
-  }
-
-  function asyncErr(){
-    console.warn('script load from CDN failed, will load local script')
-  }
-
-  // load webfont-loader async, and add callback function
-  function async(u, cb, err) {
-    var d = document, t = 'script',
-      o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
-    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
-  }
-
-  var asyncLoadWithFallBack = function(arr, success, reject) {
-      var currReject = function(){
-        reject()
-        arr.shift()
-        if(arr.length)
-          async(arr[0], success, currReject)
-        }
-
-      async(arr[0], success, currReject)
-  }
-
-  asyncLoadWithFallBack([
-    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
-    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
-    "/lib/webfontloader.min.js"
-  ], asyncCb, asyncErr)
-</script>        
-        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
-        <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/08/30/vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1/" >
-            
-                <span>vue 记录</span>
-        </a>
-        <div class="abstract-content">
-            vue中事件修饰符详解(stop, prevent, self, once, capture, passive).stop 是阻止冒泡行为,不让当前元素的事件继续往外触发,如阻止点击div内部事件,触发div事件
-.prevent 是阻止事件本身行为,如阻止超链接的点击跳转,form表单的点击提交
-.self 是只有是自己触发的自己才会执行,如果接受到内部的冒泡事件传递信号触发,会忽略掉这个信号
-.capture 是改变js默认的事件机制,默认是冒泡,capture功能是将冒泡改为倾听模式
-.once 是将事件设置为只执行一次,如 .click.prevent.once 代表只阻止事件的...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/08/30</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/23/nodejs-exports/" >
-            
-                <span>nodejs exports</span>
-        </a>
-        <div class="abstract-content">
-            exports 与 module.exports为了方便，Node为每个模块提供一个exports变量，指向module.exports。这等同在每个模块头部，有一行这样的命令。
-var exports = module.exports;于是我们可以直接在 exports 对象上添加方法，表示对外输出的接口，如同在module.exports上添加一样。注意，不能直接将exports变量指向一个值，因为这样等于切断了exports与module.exports的联系。
-不同于CommonJS，ES6使用 export 和 import 来导出、导入模块。123456// profile....
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/23</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "steadytag">steadytag</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/19/JavaScript-二进制-十进制/" >
-            
-                <span>JavaScript 二进制 十进制...</span>
-        </a>
-        <div class="abstract-content">
-            利用 toString() 方法 十进制转二进制
-var num = 10；console.log( num.toString(“2”) )  转2进制: “1010”
-console.log( num.toString(“8”) )  转8进制: “12”
-console.log( num.toString(“16”) )  转16进制: “a”
-利用 parseInt() 方法，其它进制转十进制
-var num = 100
-var num2 = num.toString(“2”)  //  “1100100”
-var num8 = num.toString(“8”)  // “144...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/19</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/06/02/dva记录/" >
-            
-                <span>dva记录</span>
-        </a>
-        <div class="abstract-content">
-            123456789101112131415161718192021222324252627282930313233export default &#123;   namespace: &apos;example&apos;,      state: &#123;num:1&#125;,     //表示当前的example中的state状态，这里可以给初始值，这里num初始为1    effects: &#123; //这里是做异步处理的    *addByONe(&#123; param&#125;, &#123; call, put,select &#125;) &#123; //这...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/06/02</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/04/11/微信小程序知识点/" >
-            
-                <span>微信小程序知识点</span>
-        </a>
-        <div class="abstract-content">
-            componet &amp;  template除了component，微信小程序中还有另一种组件化你的方式template模板，这两者之间的区别是，template主要是展示，方法则需要在调用的页面中定义。而component组件则有自己的业务逻辑，可以看做一个独立的page页面。简单来说，如果只是展示，使用template就足够了，如果涉及到的业务逻辑交互比较多，那就最好使用component组件了。 
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/04/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/02/26/记录package-json字段用处/" >
-            
-                <span>记录package.json字段用处</span>
-        </a>
-        <div class="abstract-content">
-            npm install 就是安装模块，npm run dev  就是执行npm script中的命令。当我们执行npm命令的时候，它到哪里去找，这就要说到每个node项目中都有的核心文件package.json 文件。
-　　项目开始时，我们就要建立这个文件。假设我们要创建一个node 项目，我们会新建一个文件夹命名node， 这时我们就要创建package.json文件。进入node 文件夹，你可以手动创建，就和创建一个txt文件一样，但我们一般都会使用命令创建，打开cmd 窗口，输入npm init， 这时你要回答几个问题，如name,version 等，输入内容，一路回车键，当你输入...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/26</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/02/18/canvas-模拟时钟/" >
-            
-                <span>canvas 模拟时钟</span>
-        </a>
-        <div class="abstract-content">
-            &lt;!DOCTYPE html&gt;
-        Title            body {            padding: 0;            margin: 0;            background-color: rgba(0, 0, 0, 0.1)        }        canvas {            display: block;            margin: 200px auto;        }        init();    function init(){        let canvas = doc...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/18</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/02/13/data-xxx-attribute/" >
-            
-                <span>data-xxx ,attribute</span>
-        </a>
-        <div class="abstract-content">
-            data-* 属性是 HTML 5 的新特性，允许用户在 DOM 中存储自定义信息。
-以前，需要存储含有特定含义的信息通常是通过 class 完成的，但这并不是 class 本来的用途。现在，利用 HTML 5，可以为元素添加data-属性，从而存储自定义信息。其中是可以自定义的部分。例如：
- … 通过 JavaScript 访问通过 JavaScript 访问自定义的信息有两种方式：getAttribute()和dataset。
-getAttribute 方法这就是经典的取得一个元素属性的方式，和以前一样。
-document.getElementById(‘tu’).getAttrib...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/13</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/12/21/webpack打包记录/" >
-            
-                <span>webpack打包记录</span>
-        </a>
-        <div class="abstract-content">
-            解决 vender的hash因为文件新增而改变两次构建之间，vender chunk的chunkhash以及各模块的模块ID都保持了一致。从而达到了最佳的缓存效果。https://www.cnblogs.com/zhishaofei/p/8590627.html
-1.Webpack 4 抛弃了原有的 CommonChunksPlugin，换成了更为先进的 SplitChunksPlugin，用于提取公用代码。
-2.js Tree Shaking清除到代码中无用的js代码，只支持import方式引入，不支持commonjs的方式引入只要mode是production就会生效，develpo...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/21</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/12/18/linux使用记录/" >
-            
-                <span>linux git 使用记录</span>
-        </a>
-        <div class="abstract-content">
-            1.全文磁盘搜索：grep -rn “hello,world!” *
-2.git reset –hard至于这几个参数：–mixed意思是：不删除工作空间改动代码，撤销commit，并且撤销git add . 操作这个为默认参数,git reset –mixed HEAD^ 和 git reset HEAD^ 效果是一样的。
-–soft不删除工作空间改动代码，撤销commit，不撤销git add . 
-–hard删除工作空间改动代码，撤销commit，撤销git add . 
-注意完成这个操作后，就恢复到了上一次的commit状态。
-3.
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/18</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    <!-- paginator  -->
-    
-    <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/">&#60; PREV</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">NEXT &#62;</a>
-    </nav>
-    
-</main>
-            <!-- profile -->
-            
-            <div class="profile">
-    <img class="profile-avatar" alt="avatar" src= /avatar/steady.jpeg >
-    <div class="profile-name">Steady</div>
-    
-    <div class="profile-signature">
-        god bless me
-    </div>
-    
-    
-    <div class="profile-social">
-        
-    
-        
-            
-                <a href="mailto:steadyevo@gmail.com" class="iconfont-archer email" title=email ></a>
-            
-        
-    
-        
-            
-                <a href="//github.com/steadyzeus" class="iconfont-archer github" target="_blank" title=github></a>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-
-    </div>
-    
-    
-        <div class="friends">
-            <div>FRIENDS</div>
-            
-                
-                    <span>
-                        <a href= //www.baidu.com target="_black">friendA</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href= //www.google.com target="_black">friendB</a>
-                    </span>
-                
-            
-                
-            
-        </div>
-    
-    
-        <div class="about-me">
-            <a href = "/about" >ABOUT ME</a>
-        </div>
-    
-</div>
-            
-        </div>
-        <footer class="footer footer-unloaded">
-    <!-- social  -->
-    
-    <div class="social">
-        
-    
-        
-            
-                <a href="mailto:steadyevo@gmail.com" class="iconfont-archer email" title=email ></a>
-            
-        
-    
-        
-            
-                <a href="//github.com/steadyzeus" class="iconfont-archer github" target="_blank" title=github></a>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-
-    </div>
-    
-    <!-- powered by Hexo  -->
-    <div class="copyright">
-        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
-    </div>
-    <!-- 不蒜子  -->
-    
-    <div class="busuanzi-container">
-    
-     
-    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
-    
-    </div>
-    
-</footer>
-    </div>
-    <!-- toc -->
-    
-    <div class="back-top iconfont-archer">&#xe639;</div>
-    <div class="sidebar sidebar-hide">
-    <ul class="sidebar-tabs sidebar-tabs-active-0">
-        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
-        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
-        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
-    </ul>
-    <div class="sidebar-content sidebar-content-show-archive">
-          <div class="sidebar-panel-archives">
-    <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <div class="total-and-search">
-        <div class="total-archive">
-        Total : 33
-        </div>
-        <!-- search  -->
-        
-    </div>
-    
-    <div class="post-archive">
-    
-    
-    
-    
-    <div class="archive-year"> 2019 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/22</span><a class="archive-post-title" href= "/2019/12/22/React-高阶组件-属性代理和反向继承-生命周期调研/" >React 高阶组件 属性代理和反向继承 生命周期调研</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/20</span><a class="archive-post-title" href= "/2019/12/20/h5-hybird-webview页面兼容性/" >h5 hybird webview页面兼容性</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/17</span><a class="archive-post-title" href= "/2019/12/17/React-16-新特性/" >React 16 新特性</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/11</span><a class="archive-post-title" href= "/2019/12/11/JavaScript-原生dom操作/" >JavaScript 原生dom操作</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/02</span><a class="archive-post-title" href= "/2019/12/02/vue生命周期/" >vue生命周期</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/27</span><a class="archive-post-title" href= "/2019/11/27/koa800/" >koa800</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/27</span><a class="archive-post-title" href= "/2019/11/27/浅谈vue和react的数据流和绑定/" >浅谈vue和react的数据流和绑定</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/18</span><a class="archive-post-title" href= "/2019/11/18/chrome插件开发教程/" >chrome插件开发教程</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/24</span><a class="archive-post-title" href= "/2019/10/24/Untitled/" >重识排列组合</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/nginx记录/" >nginx记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">08/30</span><a class="archive-post-title" href= "/2019/08/30/vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1/" >vue 记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">07/23</span><a class="archive-post-title" href= "/2019/07/23/nodejs-exports/" >nodejs exports</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">07/19</span><a class="archive-post-title" href= "/2019/07/19/JavaScript-二进制-十进制/" >JavaScript 二进制 十进制...</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">06/02</span><a class="archive-post-title" href= "/2019/06/02/dva记录/" >dva记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2019/04/11/微信小程序知识点/" >微信小程序知识点</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2019/02/26/记录package-json字段用处/" >记录package.json字段用处</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2019/02/18/canvas-模拟时钟/" >canvas 模拟时钟</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/13</span><a class="archive-post-title" href= "/2019/02/13/data-xxx-attribute/" >data-xxx ,attribute</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2018/12/21/webpack打包记录/" >webpack打包记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/2018/12/18/linux使用记录/" >linux git 使用记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/29</span><a class="archive-post-title" href= "/2018/11/29/面试题/" >纯手写轮子</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/css3-动画/" >css3 相关(动画,语法)</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/JavaScript-事件冒泡和捕获/" >JavaScript 事件冒泡和捕获</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/页面布局方式/" >页面布局方式</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/JavaScript-原生语法/" >JavaScript 原生语法</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/2018/11/21/react-生命周期/" >react 生命周期</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/2018/11/13/记一次大促页面性能优化/" >记一次大促页面性能优化</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2018/11/12/屏幕height-width-获取/" >屏幕height width 获取</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/09</span><a class="archive-post-title" href= "/2018/11/09/抖动节流函数/" >抖动节流函数</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/09</span><a class="archive-post-title" href= "/2018/11/09/自我评价/" >自我评价</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/08</span><a class="archive-post-title" href= "/2018/11/08/es6语法/" >es6语法</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/2018/11/07/目标/" >目标</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/2018/11/07/hello-world/" >Hello World</a>
-        </li>
-    
-    </div>
-  </div>
-        <div class="sidebar-panel-tags">
-    <div class="sidebar-tags-name">
-    
-        <span class="sidebar-tag-name" data-tags="steadytag"><span class="iconfont-archer">&#xe606;</span>steadytag</span>
-    
-    </div>
-    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
-    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
-    缺失模块。<br/>
-    1、请确保node版本大于6.2<br/>
-    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
-    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
-    3、在根目录_config.yml里添加配置：
-    <pre style="color: #787878; font-size: 0.6rem;">
-jsonContent:
-  meta: false
-  pages: false
-  posts:
-    title: true
-    date: true
-    path: true
-    text: false
-    raw: false
-    content: false
-    slug: false
-    updated: false
-    comments: false
-    link: false
-    permalink: false
-    excerpt: false
-    categories: true
-    tags: true</pre>
-    </div> 
-    <div class="sidebar-tags-list"></div>
-</div>
-        <div class="sidebar-panel-categories">
-    <div class="sidebar-categories-name">
-    
-        <span class="sidebar-category-name" data-categories="css3"><span class="iconfont-archer">&#xe60a;</span>css3</span>
-    
-        <span class="sidebar-category-name" data-categories="es6"><span class="iconfont-archer">&#xe60a;</span>es6</span>
-    
-        <span class="sidebar-category-name" data-categories="steadycate"><span class="iconfont-archer">&#xe60a;</span>steadycate</span>
-    
-    </div>
-    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
-    <div class="sidebar-categories-list"></div>
-</div>
-    </div>
-</div> 
-    <script>
-    var siteMeta = {
-        root: "/",
-        author: "John Doe"
-    }
-</script>
-    <!-- CDN failover -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <script type="text/javascript">
-        if (typeof window.$ === 'undefined')
-        {
-            console.warn('jquery load from jsdelivr failed, will load local script')
-            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
-        }
-    </script>
-    <script src="/scripts/main.js"></script>
-    <!-- algolia -->
-    
-    <!-- busuanzi  -->
-    
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    
-    <!-- CNZZ  -->
-    
-    </div>
-    <!-- async load share.js -->
-     
-    </body>
 </html>
 
+<body>
+  <div id="app">
+    <main class="content">
+      
 
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+
+<div id="main">
+  <section class="outer">
+  <article class="articles">
+    
+    
+    
+    
+    <article id="post-React-16-新特性" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/17/React-16-新特性/">React 16 新特性</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/12/17/React-16-新特性/" class="article-date">
+  <time datetime="2019-12-17T00:28:14.000Z" itemprop="datePublished">2019-12-17</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h3 id="useEffect-useState-useCallback-Suspense"><a href="#useEffect-useState-useCallback-Suspense" class="headerlink" title="useEffect, useState, useCallback,Suspense"></a>useEffect, useState, useCallback,Suspense</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useCallback, Suspense &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">"react-dom"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./styles.css"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> EmployeesList <span class="keyword">from</span> <span class="string">"./EmployeesList"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> debounce <span class="keyword">from</span> <span class="string">"debounce"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; employeesResource &#125; <span class="keyword">from</span> <span class="string">"./fake-resource"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> initialResource = employeesResource(<span class="string">""</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">EmployeesPage</span>(<span class="params">&#123; resource &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;Suspense fallback=&#123;&lt;div&gt;Fetching employees....&lt;<span class="regexp">/div&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">      &lt;EmployeesFetch resource=&#123;resource&#125; /</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/Suspense&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">function EmployeesFetch(&#123; resource &#125;) &#123;</span></span><br><span class="line"><span class="regexp">  const employees = resource.employees.read();</span></span><br><span class="line"><span class="regexp">  return &lt;EmployeesList employees=&#123;employees&#125; /</span>&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [resource, setResource] = useState(initialResource);</span><br><span class="line">  <span class="keyword">const</span> setResourceByQuery = useCallback(</span><br><span class="line">    debounce(<span class="function"><span class="params">query</span> =&gt;</span> setResource(employeesResource(query)), <span class="number">500</span>),</span><br><span class="line">    []</span><br><span class="line">  );</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">      &lt;h2&gt;Employees list&lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">      &lt;label&gt;Filter:&lt;/</span>label&gt;</span><br><span class="line">      &lt;input</span><br><span class="line">        type=<span class="string">"text"</span></span><br><span class="line">        onChange=&#123;event =&gt; setResourceByQuery(event.target.value)&#125;</span><br><span class="line">        placeholder=<span class="string">"Type query..."</span></span><br><span class="line">      /&gt;</span><br><span class="line">      &lt;EmployeesPage resource=&#123;resource&#125; /&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">const rootElement = document.getElementById("root");</span></span><br><span class="line"><span class="regexp">ReactDOM.render(&lt;App /</span>&gt;, rootElement);</span><br></pre></td></tr></table></figure>
+<p>总结：</p>
+<p>useEffect的执行时机都是每次渲染后触发，无论是首次渲染还是更新渲染。<br>useEffect只会有当然组件是函数组件才会执行，不能再非函数组件中使用。<br>useEffect可以在同一函数组件中使用多次，按调用顺序执行，这样我们可以将生命周期中需要做的事情更小粒度的去编写代码。<br>在useEffect传入的函数中，return一个函数，用作函数组件卸载时需要执行的操作。<br>控制useEffect什么时候执行可以传入第二参数，而且第二个参数必须是数组！react会对这次传入的数组中的每一项和上一次数组中的每一项进行对比，当发现不一样时会做对应记录，在渲染后就会触发对应符合触发的useEffect函数。<br>useEffect的触发是采用异步方式执行的。因为有可能存在多个useEffect的函数，如果像class组件那样在commit阶段最后触发的话，很容易导致阻塞线程。所以React利用setTimeout的方式，将useEffect异步执行。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-JavaScript-原生dom操作" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/11/JavaScript-原生dom操作/">JavaScript 原生dom操作</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/12/11/JavaScript-原生dom操作/" class="article-date">
+  <time datetime="2019-12-11T14:52:35.000Z" itemprop="datePublished">2019-12-11</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h3 id="document-querySelector-document-querySelectorAll"><a href="#document-querySelector-document-querySelectorAll" class="headerlink" title="document.querySelector / document.querySelectorAll"></a>document.querySelector / document.querySelectorAll</h3><p>document.querySelector方法返回文档中与指定选择器或选择器组匹配的第一个 html 元素。 如果找不到匹配项，则返回null。<br>document.querySelectorAll 方法返回与指定的选择器组匹配的文档中的元素列表 (使用深度优先的先序遍历文档的节点)。返回的对象是 NodeList 。<br>// 返回第一个 ul 元素<br>const list = document.querySelector(‘ul’)<br>// 返回所有类名为 info 或者 warning 的 div 元素<br>const elements = document.querySelectorAll(‘div.info, div.warning’);</p>
+<h3 id="Node-removeChild"><a href="#Node-removeChild" class="headerlink" title="Node.removeChild"></a>Node.removeChild</h3><p>Node.removeChild方法从DOM中删除一个子节点并返回删除的节点。 请注意，返回的节点不再是DOM的一部分，而是仍存在于内存中。 如果处理不当，可能会导致内存泄漏。<br>let list = document.querySelector(‘ul’);<br>let firstItem = list.querySelector(‘li’);<br>let removedItem = list.removeChild(firstItem);</p>
+<h3 id="Node-replaceChild"><a href="#Node-replaceChild" class="headerlink" title="Node.replaceChild"></a>Node.replaceChild</h3><p>此方法替换父节点中的子节点(并返回替换后的旧子节点)。请注意，如果处理不当，此方法可能导致与Node.removeChild类似的内存泄漏问题。<br>let list = document.querySelector(‘ul’);<br>let oldItem = list.querySelector(‘li’);<br>let newItem = document.createElement(‘li’);<br>newItem.innerHTML = ‘前端小智’;<br>let replacedItem = list.replaceChild(newItem, oldItem);<br>复</p>
+<h3 id="Element-insertAdjacentHTML"><a href="#Element-insertAdjacentHTML" class="headerlink" title="Element.insertAdjacentHTML"></a>Element.insertAdjacentHTML</h3><p>element.insertAdjacentHTML(position, text) 将指定的文本解析为HTML或XML，并将结果节点插入到DOM树中的指定位置。它不会重新解析它正在使用的元素，因此它不会破坏元素内的现有元素。这避免了额外的序列化步骤，使其比直接innerHTML操作更快。<br>position是相对于元素的位置，并且必须是以下字符串之一：<br>beforebegin：元素自身的前面。<br>afterbegin：插入元素内部的第一个子节点之前。<br>beforeend：插入元素内部的最后一个子节点之后。<br>afterend：元素自身的后面。<br>text是要被解析为HTML或XML,并插入到DOM树中的字符串。<br><!-- beforebegin --></p>
+<p><div><br>  <!-- afterbegin --><br>  <p>Hello World</p><br>  <!-- beforeend --><br></div><br><!-- afterend --><br>复制代码<br>示例：<br>var list = document.querySelector(‘ul’);<br>list.insertAdjacentHTML(‘afterbegin’, ‘<li id="first-item">First</li>‘);</p>
+<h3 id="Element-hasAttribute-Element-removeAttribute"><a href="#Element-hasAttribute-Element-removeAttribute" class="headerlink" title="Element.hasAttribute / Element.removeAttribute"></a>Element.hasAttribute / Element.removeAttribute</h3><p>Element.hasAttribute方法检查给定元素是否具有指定的属性，返回值为boolean。 通过调用Element.removeAttribute方法，我们可以从元素中删除具有给定名称的属性。<br>let list = document.querySelector(‘ul’);<br>if (list.hasAttribute(‘id’)) {<br>    console.log(‘list has an id’);<br>    list.removeAttribute(‘id’);<br>};</p>
+<h3 id="Element-getAttribute-Element-setAttribute"><a href="#Element-getAttribute-Element-setAttribute" class="headerlink" title="Element.getAttribute / Element.setAttribute"></a>Element.getAttribute / Element.setAttribute</h3><p>Element.getAttribute方法返回元素上给定属性的值，反之亦然，Element.setAttribute设置给定元素上属性的值。<br>let list = document.querySelector(‘ul’);<br>list.setAttribute(‘id’, ‘my-list’);<br>let id = list.getAttribute(‘id’);<br>console.log(id); // outputs my-list</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-vue生命周期" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/02/vue生命周期/">vue生命周期</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/12/02/vue生命周期/" class="article-date">
+  <time datetime="2019-12-01T18:05:07.000Z" itemprop="datePublished">2019-12-02</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p><img src="/images/pasted-8.png" alt="upload successful"></p>
+<p><img src="/images/pasted-9.png" alt="upload successful"></p>
+<p>beforeCreate:在实例初始化之后，数据观测data observer(props、data、computed) 和 event/watcher 事件配置之前被调用。</p>
+<p>created:实例已经创建完成之后被调用。在这一步，实例已完成以下的配置：数据观测(data observer)，属性和方法的运算， watch/event 事件回调。然而，挂载阶段还没开始，$el 属性目前不可见。</p>
+<p>beforeMount:在挂载开始之前被调用：相关的 render 函数首次被调用。</p>
+<p>mounted: el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。</p>
+<p>beforeUpdate:数据更新时调用，发生在虚拟 DOM 重新渲染和打补丁之前。 你可以在这个钩子中进一步地更改状态，这不会触发附加的重渲染过程。</p>
+<p>updated：无论是组件本身的数据变更，还是从父组件接收到的 props 或者从vuex里面拿到的数据有变更，都会触发虚拟 DOM 重新渲染和打补丁，并在之后调用 updated。</p>
+<p>beforeDestroy:实例销毁之前调用。在这一步，实例仍然完全可用。</p>
+<p>destroyed:Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。 该钩子在服务器端渲染期间不被调用。<br>注意:</p>
+<p>created阶段的ajax请求与mounted请求的区别：前者页面视图未出现，如果请求信息过多，页面会长时间处于白屏状态。</p>
+<p>单个组件的生命周期</p>
+<p>初始化组件时，仅执行了beforeCreate/Created/beforeMount/mounted四个钩子函数<br>当改变data中定义的变量（响应式变量）时，会执行beforeUpdate/updated钩子函数<br>当切换组件（当前组件未缓存）时，会执行beforeDestory/destroyed钩子函数<br>初始化和销毁时的生命钩子函数均只会执行一次，beforeUpdate/updated可多次执行</p>
+<h2 id="Vue-nextTick-："><a href="#Vue-nextTick-：" class="headerlink" title="Vue.nextTick()："></a>Vue.nextTick()：</h2><p>在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。</p>
+<p>获取更新后的DOM言外之意就是什么操作需要用到了更新后的DOM而不能使用之前的DOM或者使用更新前的DOM会出问题，所以就衍生出了这个获取更新后的 DOM的Vue方法。所以放在Vue.nextTick()回调函数中的执行的应该是会对DOM进行操作的 js代码，比如Swiper扩展包的:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var swiper = new Swiper(&apos;.swiper-container&apos;, &#123;</span><br><span class="line">                    pagination: &apos;.swiper-pagination&apos;,</span><br><span class="line">                    nextButton: &apos;.swiper-button-next&apos;,</span><br><span class="line">                    prevButton: &apos;.swiper-button-prev&apos;,</span><br><span class="line">                    paginationClickable: true,</span><br><span class="line">                    spaceBetween: 30,</span><br><span class="line">                    centeredSlides: true,</span><br><span class="line">                    autoplay: 2500,</span><br><span class="line">                    autoplayDisableOnInteraction: false</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="什么时候需要用Vue-nextTick"><a href="#什么时候需要用Vue-nextTick" class="headerlink" title="什么时候需要用Vue.nextTick():"></a>什么时候需要用Vue.nextTick():</h2><p>你在Vue生命周期的created()钩子函数进行的DOM操作一定要放在Vue.nextTick()的回调函数中。原因是什么呢，原因是在created()钩子函数执行的时候DOM 其实并未进行任何渲染，而此时进行DOM操作无异于徒劳，所以此处一定要将DOM操作的js代码放进Vue.nextTick()的回调函数中。与之对应的就是mounted钩子函数，因为该钩子函数执行时所有的DOM挂载和渲染都已完成，此时在该钩子函数中进行任何DOM操作都不会有问题 。<br>在数据变化后要执行的某个操作，当你设置 vm.someData = ‘new value’，DOM并不会马上更新，而是在异步队列被清除，也就是下一个事件循环开始时执行更新时才会进行必要的DOM更新。如果此时你想要根据更新的 DOM 状态去做某些事情，就会出现问题。。为了在数据变化之后等待 Vue 完成更新 DOM ，可以在数据变化之后立即使用 Vue.nextTick(callback) 。这样回调函数在 DOM 更新完成后就会调用。<br>mounted 不会承诺所有的子组件也都一起被挂载。如果你希望等到整个视图都渲染完毕，可以用 vm.$nextTick 替换掉 mounted：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mounted: function () &#123;</span><br><span class="line">this.$nextTick(function () &#123;</span><br><span class="line"></span><br><span class="line">// Code that will run only after the</span><br><span class="line">// entire view has been rendered</span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-浅谈vue和react的数据流和绑定" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/11/27/浅谈vue和react的数据流和绑定/">浅谈vue和react的数据流和绑定</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/11/27/浅谈vue和react的数据流和绑定/" class="article-date">
+  <time datetime="2019-11-26T19:48:41.000Z" itemprop="datePublished">2019-11-27</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>数据流：<br>Vue和React均是单向数据流传递</p>
+<p>单向数据流指只能从一个方向修改数据，姑且我们可以这样理解，如下图所示。一个父组件下有两个子组件1和子组件2，父组件可以向子组件传递数据。假如子组件都获取到了父组件的name，在子组件1中对name重新修改之后，子组件2和父组件中的值并不会发生改变，这正是因为Vue中的机制是单向数据流，子组件不能直接改变父组件的状态。但反过来，如果是父组件中的name修改了，当然两个子组件中的name也就改变了。</p>
+<p>数据的绑定 :<br>Vue是双向绑定和React是单向绑定</p>
+<p>它们俩主要是由MVVM框架实现，在Vue中主要由三个部分组成，View、ViewModel和Model组成，其中View和Model不能直接进行通信，他们要通过中间件ViewModel来进行。例如，当Model部分数据发生改变时，由于vue中Data Binding将底层数据和Dom层进行了绑定，ViewModel通知View层更新视图；当在视图 View数据发生变化也会同步到Model中。View和Model之间的同步完全是自动的，不需要人手动的操作DOM,所以叫双向绑定。</p>
+<p>而在React中虽然modal和view之间也是通过ViewMode处理,但是l却需要setState去手动刷新渲染view，所以叫单向绑定</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-koa800" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/11/27/koa800/">koa800</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/11/27/koa800/" class="article-date">
+  <time datetime="2019-11-26T19:11:48.000Z" itemprop="datePublished">2019-11-27</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <blockquote>
+<p>基于koa框架, 可扩展、可配置的中间件集合, 以及快速定制项目结构的脚手架工具</p>
+</blockquote>
+<p><a href="http://git.tuan800-inc.com/ruby_cd/cd-ruby-common_package_source/blob/master/node/koa800/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a></p>
+<h2 id="1-要解决的问题"><a href="#1-要解决的问题" class="headerlink" title="1. 要解决的问题"></a>1. 要解决的问题</h2><ol>
+<li><p>脚手架文件太多:</p>
+<ul>
+<li>干扰业务代码</li>
+<li>无法方便的进行更新和升级</li>
+<li>随着时间推移, 项目结构和脚手架文件在不同项目中逐渐变得不统一</li>
+</ul>
+</li>
+<li><p>中间件的管理:</p>
+<ul>
+<li>相同的中间件需要在不同项目中去引用和配置, 重复的工作量, 重复的代码(违反DRY)</li>
+<li>不便于统一的更新和升级</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="2-背景"><a href="#2-背景" class="headerlink" title="2. 背景"></a>2. 背景</h2><p>微服务是当前比较流行的系统架构模式, 各个应用的专注于提供特定的服务. 在框架选择上, 轻量级、 支持中间件选配的koa框架是一个不错的选择.</p>
+<p>koa 的使用非常灵活便捷, 它没有提供模板文件, 也没有要求项目结构标准, 这让开发者有很大的自由度; 不过对于同一个团队下的多个koa应用来说, 这会是一个问题: 多个项目在脚手架结构上的不统一, 将会对跨项目维护、中间件升级等造成麻烦.</p>
+<p>解决以上问题, 有的团队会采用代码规范/项目结构规范来作为约束, 对于生命周期较长的多应用系统, 规范不一定有很好的效果, 规范毕竟是靠人来执行.</p>
+<p>koa800提供另外一种方案: 将各项目的结构标准、共用的中间件依赖等, 提取到npm包中, 对于那些部分项目使用的中间件, 也将其提取到npm包中, 使用者可以对这部分特性进行简单的声明选择. 这样一来, 项目结构和中间件都在koa800中进行控制和装配, 实现了强制的项目标准.</p>
+<p>同时, koa800还提供了项目脚手架的创建和更新功能.</p>
+<hr>
+<h2 id="3-Koa800-介绍"><a href="#3-Koa800-介绍" class="headerlink" title="3. Koa800 介绍"></a>3. Koa800 介绍</h2><p>koa800提供了2个功能:</p>
+<ol>
+<li>Scaffold Generator: 创建、更新项目脚手架, 可配置需要特性. 发生在执行setup脚本时.</li>
+<li>Runtime Koa Wrapper: 统一管理项目中间件, 可配置需要特性. 发生在项目运行时.</li>
+</ol>
+<p>Scaffold Generator和Koa Wrapper都是通过<a href="TODO">Feature</a>进行管理.</p>
+<hr>
+<h3 id="3-1-Scaffold-Generator"><a href="#3-1-Scaffold-Generator" class="headerlink" title="3.1 Scaffold Generator"></a>3.1 Scaffold Generator</h3><p>让我们用koa800来初始化一个新项目:</p>
+<blockquote>
+<p>% mkdir koa800_demo<br>% cd koa800_demo</p>
+</blockquote>
+<p>然后用<code>npm init</code>创建项目package.json</p>
+<p>现在你需要做的是将<code>koa800</code>加入项目依赖:</p>
+<blockquote>
+<p>% npm install koa800 –save</p>
+</blockquote>
+<p>现在该项目的package.json大概是这个样子的:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"koa800_demo"</span>,</span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="string">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"koa800"</span>: <span class="string">"^1.0.0"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行koa800提供的setup脚本更新项目脚手架:</p>
+<blockquote>
+<p>% ./node_modules/.bin/setup</p>
+</blockquote>
+<p>执行完毕后, 将创建类似如下的项目结构:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">├── app/</span><br><span class="line">│   └── controllers/</span><br><span class="line">├── app.js</span><br><span class="line">├── bin/</span><br><span class="line">│   └── www</span><br><span class="line">├── config/</span><br><span class="line">│   ├── environments/</span><br><span class="line">│   │   ├── development.js</span><br><span class="line">│   │   └── production.js</span><br><span class="line">│   ├── errors.js</span><br><span class="line">│   ├── routes/</span><br><span class="line">│   │   └── index.js</span><br><span class="line">│   └── settings.js</span><br><span class="line">└── package.json</span><br></pre></td></tr></table></figure>
+<p>此时查看<code>package.json</code>, 内容也有更新, 内容大概如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"koa800_demo"</span>,</span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="string">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"koa800"</span>: <span class="string">"^1.0.0"</span>,</span><br><span class="line">    <span class="string">"zhe800_cd_node_imago"</span>: <span class="string">"^1.0.0"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"start"</span>: <span class="string">"node ./bin/www"</span>,</span><br><span class="line">    <span class="string">"c"</span>: <span class="string">"node ./node_modules/.bin/c"</span>,</span><br><span class="line">    <span class="string">"setup"</span>: <span class="string">"node ./node_modules/.bin/setup"</span>,</span><br><span class="line">    <span class="string">"imago"</span>: <span class="string">"node -e \"require('zhe800_cd_node_imago')\""</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"koa800Config"</span>: &#123;</span><br><span class="line">    <span class="string">"eslint"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"jsonp"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"tingyun"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"memcached"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"redis"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"prepare_commit_msg"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"auto_routes"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"loom"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"docker"</span>: <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中, koa800Config是用于声明可选feature的属性, 默认情况下, 这里列出了所有可选的features, 但设为了false, 表示不启用, 用户可以根据项目实际需要对某些feature进行开启.</p>
+<p>在每次修改了koa800Config中的feature设置后, 需要再次执行如上的setup脚本, setup脚本会根据koa800Config中的配置去调整当前项目的脚手架和中间件.</p>
+<hr>
+<h3 id="3-2-Runtime-Koa-Wrapper"><a href="#3-2-Runtime-Koa-Wrapper" class="headerlink" title="3.2 Runtime Koa Wrapper"></a>3.2 Runtime Koa Wrapper</h3><p>在上一小节中, 通过setup生成的项目入口文件是app.js, 该文件内容如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"><span class="keyword">let</span> app = <span class="built_in">require</span>(<span class="string">'koa800'</span>)();</span><br><span class="line"><span class="built_in">module</span>.exports = app;</span><br></pre></td></tr></table></figure>
+<p>可以看到, 项目本身没有直接依赖和使用<code>koa</code>, 而是使用的<code>koa800</code>, <code>koa800</code>作为一个包裹器, 引用了<code>koa</code>, 同时引入并正确配置了其他一些依赖的中间件. 同脚手架生成器一样, 用户也可以在package.json的koa800Config属性中去配置需要的依赖feature.</p>
+<hr>
+<h2 id="4-约定"><a href="#4-约定" class="headerlink" title="4. 约定"></a>4. 约定</h2><p>koa800 的主要目的是减少项目之间的重复的项目结构代码, 保证项目的规范和统一, 并能在今后方便的进行整体调整. koa800想要避免的重复代码包括:</p>
+<ul>
+<li>项目组织和加载的代码</li>
+<li>对相同中间件的引用和配置的代码</li>
+<li>CI类, 工具类, 编译打包部署等代码</li>
+</ul>
+<p>koa800创建的脚手架有如下约定:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">├── app/</span><br><span class="line">│   └── controllers/       控制器代码</span><br><span class="line">├── app.js                 app的入口文件</span><br><span class="line">├── bin/</span><br><span class="line">│   └── www                项目启动文件</span><br><span class="line">├── config/                项目配置文件目录</span><br><span class="line">│   ├── environments/          具体环境的个性配置文件目录</span><br><span class="line">│   │   ├── development.js</span><br><span class="line">│   │   └── production.js</span><br><span class="line">│   ├── errors.js</span><br><span class="line">│   ├── routes/            路由目录</span><br><span class="line">│   │   ├── index.js       任意域名路由</span><br><span class="line">│   │   └── search.js      子域名路由, 子域名和文件名一致</span><br><span class="line">│   └── settings.js        基础配置文件, 低优先级</span><br><span class="line">│   └── settings.local.js  全局特殊配置文件, 高优先级</span><br><span class="line">└── package.json</span><br></pre></td></tr></table></figure></p>
+<p>这些约定是由各feature的setup流程进行控制的.</p>
+<hr>
+<h2 id="5-Feature"><a href="#5-Feature" class="headerlink" title="5. Feature"></a>5. Feature</h2><p>Feature 是脚手架构建和中间件装配的基本单元, Feature分为Required和Optional2个类别, 目前的Feature如下:</p>
+<table>
+<thead>
+<tr>
+<th>Required Features</th>
+<th>描述</th>
+<th>Scaffold Generator</th>
+<th>Runtime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>base</td>
+<td>基础特性</td>
+<td>生成项目基础脚手架, 引入基础依赖</td>
+<td>引入并配置项目基本的中间件</td>
+</tr>
+<tr>
+<td>tingyun</td>
+<td>引入tingyun APM监控</td>
+<td>生成tingyun.json.exampl模板文件, 引入依赖</td>
+<td>封装app.monitor.noticeError</td>
+</tr>
+<tr>
+<td>controllers</td>
+<td>控制器</td>
+<td>生成控制器目录app/controllers/</td>
+<td>加载控制器, 挂载到app.controllers</td>
+</tr>
+<tr>
+<td>errors</td>
+<td>错误列表</td>
+<td>生成错误列表模块config/errors.js</td>
+<td>加载错误列表, 挂载到app.errors</td>
+</tr>
+<tr>
+<td>imago</td>
+<td>接入统一配置中心</td>
+<td>引入imago依赖,生成config/imago_conf.js</td>
+<td>将imago配置挂载到app.settings.imago_conf</td>
+</tr>
+<tr>
+<td>settings</td>
+<td>项目配置管理</td>
+<td>生成多级配置管理文件</td>
+<td>按照优先级解析settings, 挂载到app.settings</td>
+</tr>
+<tr>
+<td>start_hooks</td>
+<td>应用启动的前置注册管理</td>
+<td>不涉及</td>
+<td>处理app.start的前置操作</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Optional Features</th>
+<th>描述</th>
+<th>Scaffold Generator</th>
+<th>Runtime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>auto_routes</td>
+<td>自动路由配置</td>
+<td>引入路由和子域名的依赖</td>
+<td>加载config/routes/中的路由, 并自动匹配子域名</td>
+</tr>
+<tr>
+<td>data_service</td>
+<td>接入data service</td>
+<td>引入data service依赖和配置</td>
+<td>配置data service</td>
+</tr>
+<tr>
+<td>docker</td>
+<td>提供dockerfile</td>
+<td>将dockerfile写入images目录</td>
+<td>不涉及</td>
+</tr>
+<tr>
+<td>eslint</td>
+<td>引入eslint</td>
+<td>将.git/hook/pre-commit链接到指定脚本</td>
+<td>不涉及</td>
+</tr>
+<tr>
+<td>jsonp</td>
+<td>引入jsonp支持</td>
+<td>引入jsonp依赖, 并提供check referer</td>
+<td>加载jsonp中间件</td>
+</tr>
+<tr>
+<td>loom</td>
+<td>接入服务治理平台</td>
+<td>引入config/thrift_conf.js</td>
+<td>在app.start前执行app.loom.init</td>
+</tr>
+<tr>
+<td>memcached</td>
+<td>引入memcached</td>
+<td>引入memcached依赖</td>
+<td>将memcached链接挂载到app.settings.memcached</td>
+</tr>
+<tr>
+<td>prepare_commit_msg</td>
+<td>在git commit消息中自动集成分支信息</td>
+<td>将.git/hooks/prepare-commit-ms链接到指定脚本</td>
+<td>不涉及</td>
+</tr>
+<tr>
+<td>redis</td>
+<td>引入redis</td>
+<td>引入redis依赖</td>
+<td>将redis链接挂载到app.redis</td>
+</tr>
+</tbody>
+</table>
+<p>以下是部分feature说明:</p>
+<hr>
+<h3 id="base"><a href="#base" class="headerlink" title="base"></a>base</h3><p>feature base 按照约定创建了项目基本的结构, 同时提供了一些基础的API和脚本:</p>
+<p><strong>API</strong></p>
+<ul>
+<li><p><code>app.requireModule(relativePathFromRoot)</code>: 参数是相对于app.root的相对路径, 这个API让用户不用考虑当前脚本的位置和目标模块的层级关系, 非常方便.</p>
+</li>
+<li><p><code>app.isDevelopment() -&gt; bool</code> <code>app.isProduction() -&gt; bool</code> 用于判断当前执行环境的语法糖.</p>
+</li>
+<li><p><code>app.netFT</code>: 网络请求降级API, 见<a href="http://wiki.tuan800-inc.com/display/NOD/netFT" target="_blank" rel="noopener">http://wiki.tuan800-inc.com/display/NOD/netFT</a></p>
+</li>
+</ul>
+<p><strong>脚本</strong></p>
+<ul>
+<li><code>npm run setup</code>: 按照当前配置的koa800Config更新项目脚手架</li>
+<li><code>npm run c</code>: 提供了koa800 console功能, 方便调试</li>
+</ul>
+<p><img src="/assets/images/koa800/console.gif" alt="console"></p>
+<p>除此之外, base feature还配置了日志, 设置了favicon.ico, 处理了Post 参数等问题.</p>
+<hr>
+<h3 id="eslint"><a href="#eslint" class="headerlink" title="eslint"></a>eslint</h3><p>在node.js 项目中, 我们引入eslint作为代码质量控制工具. 并在git commit 时, 利用 pre-commit hook 对修改的文件自动执行eslint, 强制保证了入库代码的质量.</p>
+<p>在 pre-commit 执行eslint检测到代码错误时, 可以配置要求阻止当前commit(默认), 也可以配置仅作为警告输出, commit仍然成功.</p>
+<p><img src="/assets/images/koa800/eslint.gif" alt="eslint"></p>
+<p>eslint 支持的配置项:</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>false</td>
+<td>关闭 auto eslint</td>
+</tr>
+<tr>
+<td>true/error</td>
+<td>开启 auto eslint, 如eslint失败, 将阻止 git commit</td>
+</tr>
+<tr>
+<td>warning</td>
+<td>开启 auto eslint, 如eslint失败, 仅输出错误消息, 允许 git commit</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="prepare-commit-msg"><a href="#prepare-commit-msg" class="headerlink" title="prepare_commit_msg"></a>prepare_commit_msg</h3><p>对多个开发共同维护的git仓库, 分析某个commit的作者、来源分支或者来源工单, 是一个常见的场景, 不过git commit 中只能查到作者信息, 不能很方便的追踪到来源分支. 在某些团队中是要求在commit message中手动加上当前分支名, 以满足未来分析需要, 这个工作其实可以通过git prepare-commit-msg 来自动实现.</p>
+<p>当在koa800中开启prepare_commit_msg选项后, 每次用户commit代码, 会自动把当前分支名信息记录到commit message中.</p>
+<p><img src="/assets/images/koa800/prepare_commit_msg.gif" alt="prepare_commit_msg"></p>
+<p>prepare_commit_msg 支持的配置项:</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>false</td>
+<td>关闭 prepare_commit_msg</td>
+</tr>
+<tr>
+<td>true</td>
+<td>开启 prepare_commit_msg</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="settings"><a href="#settings" class="headerlink" title="settings"></a>settings</h3><p>配置管理是项目工程结构中重要一环, koa800 的 settings feature 为项目提供了多级的配置管理:</p>
+<ol>
+<li><p>第一优先级:</p>
+<p> <code>config/settings.local.js</code></p>
+<p> 该文件不应该在git版本库, 用于开发测试或者部署环境的特殊配置, 优先级最高.</p>
+</li>
+<li><p>第二优先级:</p>
+<p> <code>config/environments/development.js</code> 或 <code>config/environments/production.js</code></p>
+<p> koa800会根据env的值去加载<code>config/environments/</code>中的同名js配置文件, 该目录中的配置用于不同运行环境的差异化配置.</p>
+<p> 环境配置文件应该放入版本库.</p>
+</li>
+<li><p>最低优先级:</p>
+<p> <code>config/settings.js</code></p>
+<p> 该文件包含项目基础配置, 优先级最低, 应该放入git版本库.</p>
+</li>
+</ol>
+<p>settings属于Required feature, 无需在koa800Conifg中配置.</p>
+<hr>
+<h3 id="start-hooks"><a href="#start-hooks" class="headerlink" title="start_hooks"></a>start_hooks</h3><p>某些应用在启动web 服务前, 需要处理一些前置操作, 如服务注册, 配置同步, 获取静态资源hash值等. 如果任由这些需求在各个微服务中处理, 会有大量的重复代码. 该feature 提供的API <code>app.beforeStart</code> 允许用户在app.start前注册前置操作:</p>
+<p><code>app.beforeStart(action)</code>参数action 可以是以下值:</p>
+<ul>
+<li><p>一个 Promise 实例, koa800会保证此promise resolve后, 才启动web 服务</p>
+</li>
+<li><p>一个 function, 且该function的返回值是一个Promise实例, koa800会在启动web服务前执行该function, 并且会保证此promise resolve后, 才启动web 服务.</p>
+</li>
+<li><p>一个 function, 返回值并不是Promise实例, koa800会在启动web服务前执行该function.</p>
+</li>
+</ul>
+<p><code>app.beforeStart</code> 允许级联调用, 如:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.beforeStart(syncConfiguration).beforeStart(serviceDiscovery).beforeStart(serviceRegistration)</span><br></pre></td></tr></table></figure>
+<p>start_hooks属于Required feature, 无需在koa800Conifg中配置.</p>
+<hr>
+<h3 id="auto-routes"><a href="#auto-routes" class="headerlink" title="auto_routes"></a>auto_routes</h3><p>web应用的http 路由通常由两部分组成: 子域名匹配和path匹配, <a href="https://www.npmjs.com/package/koa-sub-domain" target="_blank" rel="noopener">koa-sub-domain</a>和<a href="https://www.npmjs.com/package/koa-router" target="_blank" rel="noopener">koa-router</a> 可以实现以上功能.</p>
+<p>如果不使用koa800, 用户需要自行配置子域名路由, 如:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">app.use(app.requireModule(<span class="string">'config/routes'</span>).routes());                          <span class="comment">// 泛域名路由</span></span><br><span class="line">app.use(subdomain(<span class="string">'last'</span>, app.requireModule(<span class="string">'config/routes/last'</span>).routes()));  <span class="comment">// last 子域名路由</span></span><br><span class="line">app.use(subdomain(<span class="string">'new'</span>, app.requireModule(<span class="string">'config/routes/new'</span>).routes()));    <span class="comment">// new 子域名路由</span></span><br><span class="line">app.use(subdomain(<span class="string">'top'</span>, app.requireModule(<span class="string">'config/routes/top'</span>).routes()));    <span class="comment">// top 子域名路由</span></span><br></pre></td></tr></table></figure>
+<p>koa800提倡约定大于配置, 只要代码按照约定组织, koa800 会完整这些重复而固定的工作, 减少用户需要编写的代码行.</p>
+<p>在koa800, 只要将路由文件按照约定放入<code>config/routes</code>中, koa800 会自动加载路由, 并按照文件名识别子域名:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config</span><br><span class="line">└── routes</span><br><span class="line">    ├── index.js  泛域名路由</span><br><span class="line">    ├── last.js   last 子域名路由</span><br><span class="line">    ├── new.js    new 子域名路由</span><br><span class="line">    └── top.js    top 子域名路由</span><br></pre></td></tr></table></figure>
+<p>auto_routes 支持的配置项:</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>false</td>
+<td>关闭 auto_routes</td>
+</tr>
+<tr>
+<td>true</td>
+<td>开启 auto_routes</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="jsonp"><a href="#jsonp" class="headerlink" title="jsonp"></a>jsonp</h3><p><a href="https://www.npmjs.com/package/koa-safe-jsonp" target="_blank" rel="noopener">koa-safe-jsonp</a> 提供了koa jsonp支持, koa800将其做了简单的封装.</p>
+<p>jsonp存在较高的<a href="http://www.csdn.net/article/2015-07-14/2825207" target="_blank" rel="noopener">安全风险</a>, referer 检查是jsnop风险防范的常见手段, koa800的jsonp feature 提供了referer 检测的验证action, 该filter位于<code>app/controllers/filters/check_referer.js</code></p>
+<p>使用方式:</p>
+<p>在路由中加上前置filter: <code>filters.checkReferer</code>:</p>
+<blockquote>
+<p>router.get(‘/user_info’, app.controllers.filters.checkReferer, app.controllers.user.info);</p>
+</blockquote>
+<p>可以在<code>app/controllers/filters/check_referer.js</code>中配置特定的refererMatcher.</p>
+<p>jsonp 支持的配置项:</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>false</td>
+<td>关闭 jsonp</td>
+</tr>
+<tr>
+<td>true</td>
+<td>开启 jsonp</td>
+</tr>
+<tr>
+<td>配置对象</td>
+<td>开启 jsonp, 并将配置对象传递给koa-safe-jsonp</td>
+</tr>
+</tbody>
+</table>
+<p>配置对象中可以配置<code>callback</code>和<code>limit</code>, 详见<a href="https://www.npmjs.com/package/koa-safe-jsonp" target="_blank" rel="noopener">koa-safe-jsonp</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jsonp(app, &#123;</span><br><span class="line">  callback: <span class="string">'_callback'</span>, <span class="comment">// default is 'callback'</span></span><br><span class="line">  limit: <span class="number">50</span>, <span class="comment">// max callback name string length, default is 512</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="6-开发者指南"><a href="#6-开发者指南" class="headerlink" title="6. 开发者指南"></a>6. 开发者指南</h2><p>koa800提供的所有特性单元是Feature, 开发者可以通过编写Feature按需扩展koa800的功能.</p>
+<p>在koa800中Feature类定义如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Feature</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(properties) &#123;</span><br><span class="line">    <span class="keyword">this</span>.run          = properties.run;</span><br><span class="line">    <span class="keyword">this</span>.setup        = properties.setup;</span><br><span class="line">    <span class="keyword">this</span>.packageJson  = properties.packageJson;</span><br><span class="line">    <span class="keyword">this</span>.scaffold     = properties.scaffold;</span><br><span class="line">    <span class="keyword">this</span>.dependencies = properties.dependencies;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>属性说明:</p>
+<ul>
+<li>run: 该feature在运行时对app的增强操作</li>
+<li>setup: 该feature在脚手架更新过程中的操作, 该属性期望是一个生成器函数</li>
+<li>packageJson: 该feature在脚手架更新过程中, 对项目package.json的补充, 比如引入scripts, dependencies等</li>
+<li>scaffold: 该feature在脚手架更新过程需要同步的文件列表</li>
+<li>dependencies: 该feature依赖的其他feature</li>
+</ul>
+<p>Scaffold Generator 各feature的处理流程:</p>
+<ol>
+<li>处理dependencies features</li>
+<li>更新scaffold文件列表</li>
+<li>更新packageJson内容</li>
+<li>执行setup</li>
+</ol>
+<p>运行时, 各feature的执行流程:</p>
+<ol>
+<li>依次执行feature.run</li>
+</ol>
+<h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><p>目前koa800测试覆盖率&gt;80%, 开发者在新增、更新feature时, 务必补充单元测试.</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-chrome插件开发教程" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/11/18/chrome插件开发教程/">chrome插件开发教程</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/11/18/chrome插件开发教程/" class="article-date">
+  <time datetime="2019-11-17T18:58:35.000Z" itemprop="datePublished">2019-11-18</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>相关链接</p>
+<p>代码仓库： <a href="mailto:git@git.tuan800-inc.com" target="_blank" rel="noopener">git@git.tuan800-inc.com</a>:ued/cd_ued_chrome_extensions.git ，相关开发流程和使用说明在项目的README中均有描述<br>参考</p>
+<p>Chrome扩展及应用开发（首发版），这本书非常实用，配合书中的项目，可以快速上手Chrome扩展开发<br>Chrome扩展程序官方文档，查API就靠它了，<br>非官方中文文档，可以先快速过一遍api<br>这里主要整理了chrome开发技术、cd_ued_chrome_extensions项目的开发环境和打包流程以及Chrome应用商店的使用步骤。</p>
+<p>Chrome开发相关技术<br>扩展程序由HTML、CSS和JavaScript等web技术组成，并由浏览器提供了一系列增强API。</p>
+<p>在项目文件夹根目录新建一个manifest.json的文件，用于声明相关配置。配置文件主要用来指定文件路径、，配置权限等。</p>
+<p>{<br>    // 区分扩展程序和应用，在扩展程序中只能为2<br>    “manifest_version”: 2,<br>    “name”: “扩展程序测试”,<br>    “version”: “1.0”,<br>    “description”: “Chrome扩展”,<br>    // 在chrome://extensions/扩展程序列表下的图标<br>    “icons”: {},<br>    // 当进入指定URL页面时调用对应脚本<br>    “content_scripts”: [],<br>    // 在浏览器右上角的扩展程序的属性<br>    “browser_action”: {},<br>    // 一些权限设置<br>    “permissions”: [],<br>    // 一直在后台运行的脚本<br>    “background”: {},<br>    // 选项页面<br>    “options_page”: “options.html”<br>}<br>整个扩展程序可分为下面几个部分</p>
+<p>content_scripts，进入指定URL页面可注入的脚本<br>background，在后台运行<br>browser_action，右上角弹窗<br>options_page，扩展程序选项页面<br>content_scripts<br>扩展程序一个非常重要的功能就是可以操作用户正在浏览的页面。在配置文件中通过指定对应的match字段，匹配页面url，并在浏览器访问这些页面时，注入对应的脚本文件。</p>
+<p>“content_scripts”: [<br>  {<br>    “matches”: [<br>      “<em>://local.com/</em>“, // 其中 <em> 表示通配符<br>      “</em>://<a href="http://www.amazon.com/*&quot;" target="_blank" rel="noopener">www.amazon.com/*&quot;</a><br>    ],<br>    “js”: [<br>      “js/content.js”<br>    ]<br>  }<br>]<br>content_scripts里面的脚本运行在于网页文档相同的环境下，包括访问和操作页面的DOM和BOM。</p>
+<p>browser_action<br>有时候需要扩展程序快速展示一些信息功能，右上角的弹窗页面就很有用，弹窗页可以看做是扩展程序与用户的交互窗口。</p>
+<p>“browser_action”: {<br>  “default_icon”: {<br>    “19”: “images/icon19.png”,<br>    “38”: “images/icon38.png”<br>  },<br>  “default_popup”: “popup.html” // 可以在页面上通过script标签引入对应的页面js文件<br>},<br>options_page<br>如果配置了options_page选项，并制定了对应的页面，则右击右上角图标是，会出现“选项”栏，点击可跳转到对应的选项页面。选项页面一般用于为用户进行一些插件配置操作，诸如偏好设置等。</p>
+<p>options_page可以看做是我们为扩展程序提供的一个主页。</p>
+<p>background<br>上面部分是基于前端进行开发的，包括DOM、html、CSS等，可以发现，他们都需要用户的主动操作，要么访问对应的页面，要么点击右上角的图标弹出页面，这类页面统称为UI页面。如果希望扩展程序自动运行并常驻后台来实现一些特定的功能，就可以使用background后台页面。</p>
+<p>“background”: {<br>    “page”: “background.html”<br>  },<br>background在后台启动时就会开始运行，可以用于进行插件数据的初始化等操作。</p>
+<p>页面交互<br>一个扩展程序往往不止一个页面，有时候页面之间需要进行数据传递或事件通知，这时候需要考虑页面交互的问题。</p>
+<p>本地存储<br>一种常见的应用场景是选项页面和其他页面之间的配置选项交互，由于同一个扩展程序的页面(除了注入页面的content_scripts)被认为在同一个域下，因此只需要通过localStorage本地存储就可以轻松做到数据的传递。</p>
+<p>UI页面与后台页面的交互<br>另外一种应用场景时某个页面需要主动通知其他页面，可以通过chrome.runtime接口进行</p>
+<p>// content.js 发送信息<br>chrome.runtime.sendMessage(message);</p>
+<p>// background.js 接收消息<br>chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) { // message就是传递的data });</p>
+<p>由于sendMessage无法指定特定的listener，因此onMessage的监听器会接收到所有的消息推送，如果需要区分消息，则需要开发者自己实现相关的逻辑。message可以是字符串也可以是对象，因此可以在参数上携带发送者的消息。</p>
+<p>let messageStrategy = {<br>  // … 对应的命令逻辑<br>}<br>chrome.runtime.onMessage.addListener((message, sender, sendResponse) =&gt; {<br>    let {command, content} = message<br>    messageStrategy[command] &amp;&amp; messageStrategy<a href="content">command</a><br>});<br>后台页面与标签页交互<br>可以通过向当前的标签页发送消息，从而获取页面内容的信息</p>
+<p>sendMessageToCurrentTab(data) {<br>    return new Promise((resolve, reject) =&gt; {<br>        chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {<br>            chrome.tabs.sendMessage(tabs[0].id, data, function (response) {<br>                resolve(response)<br>            });<br>        });<br>    })<br>}<br>一些常见问题<br>脚本只能通过script标签引入，使用行内脚本会提示<br>配置了popup页面之后，会导致监听插件按钮点击事件<code>chrome.browserAction.onClicked.addListener</code>无效，这是因为默认事件被打开popup.html阻止了，可以在页面初始化逻辑中进行处理点击事件相关的逻辑<br>Chrome提供的大部分API是不支持在content_scripts中运行的，在background中执行没有问题<br>注意配置的match，如果需要在全站页面使用，后面的路径记得配置<em>，例如</em>://<a href="http://www.amazon.com/*，否则只有首页可以注入脚本.." target="_blank" rel="noopener">www.amazon.com/*，否则只有首页可以注入脚本..</a>.<br>项目开发打包流程</p>
+<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>由于后期需要维护多个扩展程序，因此搭建此开发环境，便于开发和后期维护</p>
+<p>由于插件各个脚本存在一定的关联，如storage的key值、公共函数、公共接口等，需要引入模块化开发。</p>
+<p>由于开发预览需要及时更新的文件，因此采用<code>gulp + watch</code>的形式搭建开发环境，使用<code>gulp-webpack</code>进行打包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 开启文件改动监听</span><br><span class="line">gulp js:w</span><br><span class="line"></span><br><span class="line"># 打包生产环境的文件</span><br><span class="line">gulp js --env production</span><br></pre></td></tr></table></figure>
+<ul>
+<li>webpack相关配置位于<code>gulp-webpack</code>的webpack配置项下，用于修改项目名称和相关文件，</li>
+<li>插件源文件开发位于<code>插件名/src</code>目录下，最终打包的文件位于<code>插件名/js</code>目录下，插件配置文件位于<code>插件名/manifest.json</code>下</li>
+<li>开发时装配的插件直接使用<code>插件名</code>目录这个即可</li>
+</ul>
+<h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><p>由于是本地安装chrome插件，因此只需要输出对应的插件资源即可，执行命令<code>npm run build + 对应插件目录名</code>即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build piseer</span><br></pre></td></tr></table></figure>
+<p>实际上打包过程只是剔除不必要的文件，在dist目录下生成对应的压缩包，方便传递或部署到SVN上。</p>
+<p>相关的打包脚本位于<code>scripts/build.js</code>下</p>
+<h2 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h2><p>由于chrome应用商店提供了扩展程序自动更新的机制，因此部分扩展程序可以通过托管到应用商店，只需要将打包的压缩包在<a href="https://chrome.google.com/webstore/developer/dashboard/" target="_blank" rel="noopener">开发者中心</a>添加上传即可。</p>
+<p>发布相关</p>
+<ul>
+<li>发布应用的chrome账号为<a href="mailto:`steadyzhe@gmail.com" target="_blank" rel="noopener">`steadyzhe@gmail.com</a>`，密码找云龙提供</li>
+<li>发布需要上传的压缩包，直接使用<code>npm run build xxx</code>生成的压缩包即可</li>
+<li>发布后一般一个小时内会在应用商店更新，在开发者中心可查看发布进度，一般开发者中心的显示已发布后还需要等待一会应用商店才会更新</li>
+<li>如果manifest.json中的permissions过多（貌似还有其他一些限制），在更新包时可能会被系统检测导致人工审核，建议只申明必须的扩展程序权限。</li>
+</ul>
+<p>插件在应用商店的地址</p>
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/shoppinghelper/phlggmjehjabmkeljbfimpgjkanlmbgc?utm_source=gmail" target="_blank" rel="noopener">亚马逊插件</a>，权限为非公开<br>自动更新<br>相关工单： </li>
+<li><a href="http://redmine.tuan800-inc.com/issues/370684" target="_blank" rel="noopener">亚马逊插件自动更新调研</a></li>
+<li><a href="http://redmine.tuan800-inc.com/issues/372979" target="_blank" rel="noopener">湃势插件自动更新调研</a><br>采用开发者方式安装本地插件包，需要每次更新插件后手动重新下载并解压压缩包，因此需要实现自动更新机制。</li>
+</ul>
+<p>通过应用商店托管扩展程序，有以下特性</p>
+<p>扩展程序安全性，这里的安全性指的是允许用户安装的策略，在发布应用时有公开、非公开、指定账户访问三种等级，其中<br>公开是所有用户都可以通过应用商店搜索到该扩展程序<br>非公开则需要知道扩展程序的下载链接，才能够进行安装，无法直接通过搜索应用商店直接安装<br>指定账户访问则需要在开发者中心添加体验用户的chrome账号，才能够安装该插件，采用这种方式则需要收集使用者的chrome账户<br>自动更新，后续只需要增加版本号并重新在开发者中心发布，chrome会自动更新相关插件，一般会在新版本发布后6个小时内进行更新<br>强制更新，chrome自动更新有一定时间的延迟，如果在发布后想要立即体验更新版本，可以使用强制更新<br>打开<code>chrome://extensions/</code>，选择开发者模式，然后点击更新按钮，强制更新全部扩展程序<br>chrome账户重新登录，在登录状态下安装的扩展程序，重新登录后chrome会进行数据同步，此时也会更新到最新的版本<br>修改chrome扩展更新频率，可以通过在启动chrome时通过参数<code>--extensions-update-frequency=45</code>指定更新检测频率<br>采用非公开方式发布扩展程序，用户只需要第一次点击链接进行扩展程序的安装即可，后续更新都会由chrome自动更新完成，之前通过接口获取配置规则的逻辑也可由发布新版本的机制代替。</p>
+<p>Chrome应用商店开发者中心相关操作流程<br>首先进入开发者中心<a href="https://chrome.google.com/webstore/developer/dashboard/g05227480483751387811?page=1&amp;pli=1，应该需要输入当前Chome账号密码" target="_blank" rel="noopener">https://chrome.google.com/webstore/developer/dashboard/g05227480483751387811?page=1&amp;pli=1，应该需要输入当前Chome账号密码</a></p>
+<p>在“您的列表”下面找到“添加新内容”，打开上传页面；也可以选在已发布的插件，点击右侧的修改操作，进入编辑页面，然后重新上传更新后的包</p>
+<p>点击“选择文件”，选择<code>npm run build</code>打包的压缩文件，然后点击上传，等到文件上传完毕，会自动跳转到编辑页面</p>
+<p>在编辑页面需要填写扩展程序的基本信息，如介绍、图标、轮播图等，此处填写的内容会经过应用商店的审核，某些内容可能会导致审核不通过~</p>
+<p>编辑完成后拉到页面最下面，点击发布按钮即可，此处的公开程度选项决定了是否在应用商店展示该扩展程序。</p>
+<p>发布更改后等待一段时间（一般几分钟到几个小时不等），就可以在应用商店安装对应的扩展程序了。</p>
+<p>之前经历过连续审核未通过的情形，需要根据被拒邮件列举的理由进行调整并重新发布更改，常见的理由有</p>
+<p>未上传图标、空白描述、无预览效果图等<br>未描述产品隐私策略，需要附上隐私政策网址，在描述中详细介绍使用用户数据做什么事情</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-Untitled" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/10/24/Untitled/">重识排列组合</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/10/24/Untitled/" class="article-date">
+  <time datetime="2019-10-23T16:25:00.000Z" itemprop="datePublished">2019-10-24</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>6位数4位为一组共有多少组</p>
+<p>共有15组。C（6，4）=15。    6<em>5</em>4<em>3</em>2<em>1/2</em>1<em>4</em>3<em>2</em>1=15;</p>
+<p>从n个不同元素中取出m(m≤n)个元素的所有组合的个数,叫做从n个不同元素中取出m个元素的组合数.用符号 c(n,m) 表示.c(n,m)=p(n,m)/m!=n!/((n-m)!*m!)。</p>
+<p>这里是从6个里面任取4个的所有组合 共有6!/(（6-4）!<em>4!)=6</em>5<em>4</em>3<em>2</em>1/2<em>1</em>4<em>3</em>2*1=15，所以共有15组。<br>扩展资料：</p>
+<p>重复组合是一种特殊的组合。从n个不同元素中可重复地选取m个元素。不管其顺序合成一组，称为从n个元素中取m个元素的可重复组合。当且仅当所取的元素相同，且同一元素所取的次数相同，则两个重复组合相同。</p>
+<p>排列组合计算方法如下：</p>
+<p>排列A(n,m)=n×（n-1）.（n-m+1）=n!/（n-m）!(n为下标,m为上标,以下同)</p>
+<p>组合C(n,m)=P(n,m)/P(m,m) =n!/m!（n-m）!；</p>
+<p>例如：<br>A(4,2)=4!/2!=4*3=12</p>
+<p>C(4,2)=4!/(2!<em>2!)=4</em>3/(2*1)=6</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-nginx记录" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/10/08/nginx记录/">nginx记录</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/10/08/nginx记录/" class="article-date">
+  <time datetime="2019-10-08T14:36:40.000Z" itemprop="datePublished">2019-10-08</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h3 id="1-nginx-创建一个域名指向-静态资源html"><a href="#1-nginx-创建一个域名指向-静态资源html" class="headerlink" title="1.nginx 创建一个域名指向 静态资源html"></a>1.nginx 创建一个域名指向 静态资源html</h3><p><a href="http://www.test.com/" target="_blank" rel="noopener">http://www.test.com/</a></p>
+<p>需要在nginx头上添加用户组，并且把静态资源的文件夹赋予用户权限</p>
+<p>sudo chown -R root:wheel /Users/zhousteady/Downloads/test/examples</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">user root wheel;</span><br><span class="line">worker_processes  1;</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">      listen 80;</span><br><span class="line">      server_name www.test.com;</span><br><span class="line">      index index.html;</span><br><span class="line">  </span><br><span class="line">      root /Users/zhousteady/Downloads/test/examples/;</span><br><span class="line"></span><br><span class="line">      location / &#123;</span><br><span class="line">        proxy_redirect     off;</span><br><span class="line">        proxy_set_header   Host $host;</span><br><span class="line">        proxy_set_header   X-Forwarded-Host $host;</span><br><span class="line">        proxy_set_header   X-Forwarded-Server $host;</span><br><span class="line"></span><br><span class="line">        proxy_set_header   X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_buffering    on;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      location = /favicon.ico &#123;</span><br><span class="line">        return 204;</span><br><span class="line">        access_log     off;</span><br><span class="line">        log_not_found  off;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      location ~* &quot;(.+)-(\w+)\.\w+$&quot; &#123;</span><br><span class="line">        error_page 404 = @notfound;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      location @notfound &#123;</span><br><span class="line">        rewrite ^(.+)-(\w+)(\.\w+)$ $1$3 break;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="antd-线上静态资源和url-转发"><a href="#antd-线上静态资源和url-转发" class="headerlink" title="antd 线上静态资源和url 转发"></a>antd 线上静态资源和url 转发</h3><p>http请求 静态资源文件，需要让 运维配置 前置的nginx  , 类似：   请注意publicPath: ‘/ued_admin_static/‘, 为webpack静态资源打包前缀</p>
+<pre><code>location ~ ^/ued_admin_static/{
+           add_header Cache-Control &quot;no-cache, max-age=0, must-revalidate&quot;;
+           rewrite ^/ued_admin_static/(.*) /$1 break;
+           proxy_pass http://cd_ued_ftrade_admin;
+        }
+
+
+        location ~ ^/ued_admin/{
+           add_header Cache-Control &quot;no-cache, max-age=0, must-revalidate&quot;;
+           rewrite ^/ued_admin/(.*) /index.html break;
+           index index.html;
+           proxy_pass http://cd_ued_ftrade_admin;
+        }
+</code></pre>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/08/30/vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1/">vue 记录</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/08/30/vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1/" class="article-date">
+  <time datetime="2019-08-29T21:42:00.000Z" itemprop="datePublished">2019-08-30</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="vue中事件修饰符详解-stop-prevent-self-once-capture-passive"><a href="#vue中事件修饰符详解-stop-prevent-self-once-capture-passive" class="headerlink" title="vue中事件修饰符详解(stop, prevent, self, once, capture, passive)"></a>vue中事件修饰符详解(stop, prevent, self, once, capture, passive)</h1><p>.stop 是阻止冒泡行为,不让当前元素的事件继续往外触发,如阻止点击div内部事件,触发div事件</p>
+<p>.prevent 是阻止事件本身行为,如阻止超链接的点击跳转,form表单的点击提交</p>
+<p>.self 是只有是自己触发的自己才会执行,如果接受到内部的冒泡事件传递信号触发,会忽略掉这个信号</p>
+<p>.capture 是改变js默认的事件机制,默认是冒泡,capture功能是将冒泡改为倾听模式</p>
+<p>.once 是将事件设置为只执行一次,如 .click.prevent.once 代表只阻止事件的默认行为一次,当第二次触发的时候事件本身的行为会执行</p>
+<p>.passive 滚动事件的默认行为 (即滚动行为) 将会立即触发，而不会等待 onScroll 完成。这个 .passive 修饰符尤其能够提升移动端的性能。</p>
+<p>————————————————</p>
+<p>.passive 和 .prevent 不能一起使用:<br>.prevent 将会被忽略</p>
+<p>.self 和 .stop 区别:<br>self只响应当前元素自身触发的事件，不会响应经过冒泡触发的事件，并不会阻止冒泡继续向外部触发。<br>stop是从自身开始不向外部发射冒泡信号</p>
+<h1 id="this-set"><a href="#this-set" class="headerlink" title="this.$set"></a>this.$set</h1><p>使用示列：this.$set(arr,  index,  val)。当然，this.$set除了用于操作数组外还可以操作对象，使用示例：this.$set( obj, key, val).</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-nodejs-exports" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/07/23/nodejs-exports/">nodejs exports</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/07/23/nodejs-exports/" class="article-date">
+  <time datetime="2019-07-23T13:29:00.000Z" itemprop="datePublished">2019-07-23</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/steadycate/">steadycate</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="exports-与-module-exports"><a href="#exports-与-module-exports" class="headerlink" title="exports 与 module.exports"></a>exports 与 module.exports</h1><p>为了方便，Node为每个模块提供一个exports变量，指向module.exports。这等同在每个模块头部，有一行这样的命令。</p>
+<p>var exports = module.exports;<br>于是我们可以直接在 exports 对象上添加方法，表示对外输出的接口，如同在module.exports上添加一样。注意，不能直接将exports变量指向一个值，因为这样等于切断了exports与module.exports的联系。</p>
+<h1 id="不同于CommonJS，ES6使用-export-和-import-来导出、导入模块。"><a href="#不同于CommonJS，ES6使用-export-和-import-来导出、导入模块。" class="headerlink" title="不同于CommonJS，ES6使用 export 和 import 来导出、导入模块。"></a>不同于CommonJS，ES6使用 export 和 import 来导出、导入模块。</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// profile.js</span></span><br><span class="line"><span class="keyword">var</span> firstName = <span class="string">'Michael'</span>;</span><br><span class="line"><span class="keyword">var</span> lastName = <span class="string">'Jackson'</span>;</span><br><span class="line"><span class="keyword">var</span> year = <span class="number">1958</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123;firstName, lastName, year&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="两个差异"><a href="#两个差异" class="headerlink" title="两个差异"></a>两个差异</h1><p>CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</p>
+<p>什么是值的拷贝，值的引用？<br>所谓值的拷贝，是在栈内存当中实现的，是一个复制的过程，复制之后两个值互不影响<br>值的引用，是在堆内存当中实现的，当一个引用类型赋值给一个变量时，此时变量拥有指向引用类型的一个指针，当变量发生改变，被引用的值也会发生改变<br>CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</p>
+<p>什么是运行时加载，什么是编译输出？<br>在后端开发当中，只需要做到一次加载，因此在启动服务器中进行加载即可，对于CommonJS的设计当中符合后端的这种开发理念，然后这种效果带来了很大的便利性，在前端开发也是需要模块化加载方式，可是，前端的加载方式跟后端不一致，如果采用CommonJS相同的加载方式，前端性能会大打折扣，比如网页假死，以及难以改变引入模块的变量，因此，在编译阶段，先将模块按需进行处理，生成接口，在引入模块之后进行使用时，可以很方便的调用接口<br>export 与 export default (params表示一个对象)<br>export 输出的时候必须是一个接口，因此export 后面跟的是 { …params} 或则以声明变量的形式 var name = 。。。。或则export function</p>
+<p>export default 中 default 相当于 export 之后的一个接口名称，因此之后可以表达式或则 { …params} 对象</p>
+<p>加载方式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">from</span> ‘./test’</span><br><span class="line"><span class="keyword">import</span> &#123; key, key1, key2 &#125; <span class="keyword">from</span> ‘./test’</span><br><span class="line"></span><br><span class="line">modele.exports 与 exports (params表示一个对象)</span><br><span class="line">modele.exports = &#123;&#125;写法</span><br></pre></td></tr></table></figure>
+<p>exports为var exports = modele.exports，因此exports后面重新赋值会改变指针，故不能为exports重新赋值，例如exports = newObject，只能类似exports.name = ‘hello world’这种方式进行输出 , 实际上输出的是modele.exports = {name: ‘hello world’}</p>
+<p>加载方式</p>
+<p>var common = require(’./test’)</p>
+<p>简单来说就是，在CommonJS规范下，通过require()导入的是模块的一份值拷贝，可以任意修改，且不会影响到原模块的值。修改原模块的值也不会变动当前文件下的值。– 二者在导入那一刻失去了联系。</p>
+<p>在ES6规范下，打入只是和原模块建立连接，当前文件下不允许修改原模块，即只读。修改原模块的值，会在当前文件下也起作用。</p>
+<p>看下面的例子就很清晰了：</p>
+<p>CommonJS规范下值拷贝<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// calculator.js</span></span><br><span class="line"><span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">	count: count,</span><br><span class="line">	add: <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">		count += <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">return</span> a + b;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">var</span> count = <span class="built_in">require</span>(<span class="string">'./calculator.js'</span>).count;</span><br><span class="line"><span class="keyword">var</span> add = <span class="built_in">require</span>(<span class="string">'./callculator.js'</span>).add;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(count); <span class="comment">// 0</span></span><br><span class="line">add(<span class="number">2</span>, <span class="number">3</span>); <span class="comment">// calculator.js中的count会变化</span></span><br><span class="line"><span class="built_in">console</span>.log(count); <span class="comment">// 0，这里的count不受变化</span></span><br><span class="line"></span><br><span class="line">count += <span class="number">1</span>; <span class="comment">// 本地count值可变化</span></span><br><span class="line"><span class="built_in">console</span>.log(count); <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line">ES6规范下动态映射</span><br><span class="line"></span><br><span class="line"><span class="comment">// calculator.js</span></span><br><span class="line"><span class="keyword">let</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">	count += <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> a + b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> &#123; count, add &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; count, add &#125; <span class="keyword">from</span> <span class="string">'./calculator.js'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(count); <span class="comment">// 0</span></span><br><span class="line">add(<span class="number">2</span>, <span class="number">3</span>); <span class="comment">// </span></span><br><span class="line"><span class="built_in">console</span>.log(count); <span class="comment">// 1, 实时反映calculator.js中的count值的变化</span></span><br><span class="line"></span><br><span class="line">count += <span class="number">1</span>; <span class="comment">// 不允许，count是只读的</span></span><br></pre></td></tr></table></figure></p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/steadytag/">steadytag</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+  </article>
+  
+
+  
+  <nav class="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
+  </nav>
+  
+</section>
+</div>
+
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2015-2020
+        Steady
+      </li>
+      <li>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+    <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Steady&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/2019/about.me/index.html">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+      <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+<script src="/js/share.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['面朝大海，春暖花开','愿你一生努力，一生被爱','想要的都拥有，得不到的都释怀'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+<script src="/js/ayer.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+  </div>
+</body>
+
+</html>

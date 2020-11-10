@@ -1,1562 +1,1141 @@
 <!DOCTYPE html>
-<html lang="">
-    <!-- title -->
+<html lang="en">
 
-
-
-
-<!-- keywords -->
-
-
-
-
-<head><meta name="generator" content="Hexo 3.9.0">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="author" content="John Doe">
-    <meta name="renderer" content="webkit">
-    <meta name="copyright" content="John Doe">
+<head>
+  <meta charset="utf-8" />
     
-    <meta name="keywords" content="steady blog,steady-theme,steady-blog">
-    
-    <meta name="description" content>
-    <meta http-equiv="Cache-control" content="no-cache">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Steady&#39;s Blog</title>
-    <style type="text/css">
-    @font-face {
-        font-family: 'Oswald-Regular';
-        src: url("/font/Oswald-Regular.ttf");
-    }
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+     Steady&#39;blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
 
-    body {
-        margin: 0;
-    }
+  
 
-    header,
-    footer,
-    .back-top,
-    .sidebar,
-    .container,
-    .site-intro-meta,
-    .toc-wrapper {
-        display: none;
-    }
+  
 
-    .site-intro {
-        position: relative;
-        z-index: 3;
-        width: 100%;
-        /* height: 50vh; */
-        overflow: hidden;
-    }
-
-    .site-intro-placeholder {
-        position: absolute;
-        z-index: -2;
-        top: 0;
-        left: 0;
-        width: calc(100% + 300px);
-        height: 100%;
-        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
-        background-position: center center;
-        transform: translate3d(-226px, 0, 0);
-        animation: gradient-move 2.5s ease-out 0s infinite;
-    }
-
-    @keyframes gradient-move {
-        0% {
-            transform: translate3d(-226px, 0, 0);
-        }
-        100% {
-            transform: translate3d(0, 0, 0);
-        }
-    }
-
-</style>
-
-    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
-    
-    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
-/* This file is meant as a standalone workflow for
-- testing support for link[rel=preload]
-- enabling async CSS loading in browsers that do not support rel=preload
-- applying rel preload css once loaded, whether supported or not.
-*/ -->
-<script>
-(function( w ){
-	"use strict";
-	// rel=preload support test
-	if( !w.loadCSS ){
-		w.loadCSS = function(){};
-	}
-	// define on the loadCSS obj
-	var rp = loadCSS.relpreload = {};
-	// rel=preload feature support test
-	// runs once and returns a function for compat purposes
-	rp.support = (function(){
-		var ret;
-		try {
-			ret = w.document.createElement( "link" ).relList.supports( "preload" );
-		} catch (e) {
-			ret = false;
-		}
-		return function(){
-			return ret;
-		};
-	})();
-
-	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
-	// then change that media back to its intended value on load
-	rp.bindMediaToggle = function( link ){
-		// remember existing media attr for ultimate state, or default to 'all'
-		var finalMedia = link.media || "all";
-
-		function enableStylesheet(){
-			link.media = finalMedia;
-		}
-
-		// bind load handlers to enable media
-		if( link.addEventListener ){
-			link.addEventListener( "load", enableStylesheet );
-		} else if( link.attachEvent ){
-			link.attachEvent( "onload", enableStylesheet );
-		}
-
-		// Set rel and non-applicable media type to start an async request
-		// note: timeout allows this to happen async to let rendering continue in IE
-		setTimeout(function(){
-			link.rel = "stylesheet";
-			link.media = "only x";
-		});
-		// also enable media after 3 seconds,
-		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
-		setTimeout( enableStylesheet, 3000 );
-	};
-
-	// loop through link elements in DOM
-	rp.poly = function(){
-		// double check this to prevent external calls from running
-		if( rp.support() ){
-			return;
-		}
-		var links = w.document.getElementsByTagName( "link" );
-		for( var i = 0; i < links.length; i++ ){
-			var link = links[ i ];
-			// qualify links to those with rel=preload and as=style attrs
-			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
-				// prevent rerunning on link
-				link.setAttribute( "data-loadcss", true );
-				// bind listeners to toggle media back
-				rp.bindMediaToggle( link );
-			}
-		}
-	};
-
-	// if unsupported, run the polyfill
-	if( !rp.support() ){
-		// run once at least
-		rp.poly();
-
-		// rerun poly on an interval until onload
-		var run = w.setInterval( rp.poly, 500 );
-		if( w.addEventListener ){
-			w.addEventListener( "load", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		} else if( w.attachEvent ){
-			w.attachEvent( "onload", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		}
-	}
-
-
-	// commonjs
-	if( typeof exports !== "undefined" ){
-		exports.loadCSS = loadCSS;
-	}
-	else {
-		w.loadCSS = loadCSS;
-	}
-}( typeof global !== "undefined" ? global : this ) );
-</script>
-
-    <link rel="icon" href="/assets/linke.ico">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
-    <link rel="preload" href="/scripts/main.js" as="script">
-    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
-    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
-    
-    <!-- fancybox -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
-    <!-- 百度统计  -->
-    
-    <!-- 谷歌统计  -->
-    
 </head>
 
-    
-        <body class="home-body">
-    
-    
-<header class="header index-header">
-
-    <div class="read-progress"></div>
-    <div class="header-sidebar-menu">&#xe775;</div>
-    <!-- post页的toggle banner  -->
-    
-    <a class="home-link" href=/>Steady's Blog.</a>
-</header>
-    <div class="wrapper">
-        <div class="site-intro" style="
-
-
-
-
-
-
-
-height:50vh;
-">
-    
-    <!-- 主页  -->
-    
-    
-    <!-- 文章页  -->
-            
-    <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/index-bg.jpg)"></div>
-    <div class="site-intro-meta">
-        <!-- 标题  -->
-        <h1 class="intro-title">
-            <!-- 主页  -->
-            
-            Steady's Blog.
-            <!-- 文章页  -->
-            
-        </h1>
-        <!-- 副标题 -->
-        <p class="intro-subtitle">
-            <!-- 主页副标题  -->
-            
-            
-                If you never try you will never known
-            
-            <!-- 文章页  -->
-            
-        </p>
-        <!-- 文章页meta -->
-        
-    </div>
-</div>
-        <script>
- 
-  // get user agent
-  var browser = {
-    versions: function () {
-      var u = window.navigator.userAgent;
-      return {
-        userAgent: u,
-        trident: u.indexOf('Trident') > -1, //IE内核
-        presto: u.indexOf('Presto') > -1, //opera内核
-        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
-        iPad: u.indexOf('iPad') > -1, //是否为iPad
-        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
-        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
-        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
-      };
-    }()
-  }
-  console.log("userAgent:" + browser.versions.userAgent);
-
-  // callback
-  function fontLoaded() {
-    console.log('font loaded');
-    if (document.getElementsByClassName('site-intro-meta')) {
-      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
-      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
-      var postIntros = document.getElementsByClassName('post-intros')[0]
-      if (postIntros) {
-        postIntros.classList.add('post-fade-in');
-      }
-    }
-  }
-
-  // UC不支持跨域，所以直接显示
-  function asyncCb(){
-    if (browser.versions.uc) {
-      console.log("UCBrowser");
-      fontLoaded();
-    } else {
-      WebFont.load({
-        custom: {
-          families: ['Oswald-Regular']
-        },
-        loading: function () {  //所有字体开始加载
-          // console.log('loading');
-        },
-        active: function () {  //所有字体已渲染
-          fontLoaded();
-        },
-        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
-          console.log('inactive: timeout');
-          fontLoaded();
-        },
-        timeout: 5000 // Set the timeout to two seconds
-      });
-    }
-  }
-
-  function asyncErr(){
-    console.warn('script load from CDN failed, will load local script')
-  }
-
-  // load webfont-loader async, and add callback function
-  function async(u, cb, err) {
-    var d = document, t = 'script',
-      o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
-    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
-  }
-
-  var asyncLoadWithFallBack = function(arr, success, reject) {
-      var currReject = function(){
-        reject()
-        arr.shift()
-        if(arr.length)
-          async(arr[0], success, currReject)
-        }
-
-      async(arr[0], success, currReject)
-  }
-
-  asyncLoadWithFallBack([
-    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
-    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
-    "/lib/webfontloader.min.js"
-  ], asyncCb, asyncErr)
-</script>        
-        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
-        <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/12/22/React-高阶组件-属性代理和反向继承-生命周期调研/" >
-            
-                <span>React 高阶组件 属性代理和反向继承 生命周期调研</span>
-        </a>
-        <div class="abstract-content">
-            1.属性代理12345678910111213141516171819202122232425262728293031323334353637383940class App extends React.Component &#123;  constructor(props) &#123;    super(props);    this.message = &apos;World&apos;;  &#125;  componentWillMount()&#123;        console.log(&quot;属性代理1 willmount&quot;);          &#12...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/12/22</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/12/20/h5-hybird-webview页面兼容性/" >
-            
-                <span>h5 hybird webview页面兼容性</span>
-        </a>
-        <div class="abstract-content">
-            1.在滚动容器上增加滚动 touch 方法将-webkit-overflow-scrolling 值设置为 touch
-.wrapper {    -webkit-overflow-scrolling: touch;}
-2.iOS 上拉边界下拉出现白色空白document.body.addEventListener(‘touchmove’, function(e) {    if(e._isScroller) return;    // 阻止默认事件    e.preventDefault();}, {    passive: false});
-3.软键盘将页面顶起来、收起未回落问题表现...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/12/20</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/12/17/React-16-新特性/" >
-            
-                <span>React 16 新特性</span>
-        </a>
-        <div class="abstract-content">
-            useEffect, useState, useCallback,Suspense12345678910111213141516171819202122232425262728293031323334353637383940414243444546import React, &#123; useState, useCallback, Suspense &#125; from &quot;react&quot;;import ReactDOM from &quot;react-dom&quot;;import &quot;./styles.css&quot;;import Employee...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/12/17</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/12/11/JavaScript-原生dom操作/" >
-            
-                <span>JavaScript 原生dom操作</span>
-        </a>
-        <div class="abstract-content">
-            document.querySelector / document.querySelectorAlldocument.querySelector方法返回文档中与指定选择器或选择器组匹配的第一个 html 元素。 如果找不到匹配项，则返回null。document.querySelectorAll 方法返回与指定的选择器组匹配的文档中的元素列表 (使用深度优先的先序遍历文档的节点)。返回的对象是 NodeList 。// 返回第一个 ul 元素const list = document.querySelector(‘ul’)// 返回所有类名为 info 或者 warning 的 div ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/12/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/12/02/vue生命周期/" >
-            
-                <span>vue生命周期</span>
-        </a>
-        <div class="abstract-content">
-            
-
-beforeCreate:在实例初始化之后，数据观测data observer(props、data、computed) 和 event/watcher 事件配置之前被调用。
-created:实例已经创建完成之后被调用。在这一步，实例已完成以下的配置：数据观测(data observer)，属性和方法的运算， watch/event 事件回调。然而，挂载阶段还没开始，$el 属性目前不可见。
-beforeMount:在挂载开始之前被调用：相关的 render 函数首次被调用。
-mounted: el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。
-beforeUpd...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/12/02</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/11/27/浅谈vue和react的数据流和绑定/" >
-            
-                <span>浅谈vue和react的数据流和绑定</span>
-        </a>
-        <div class="abstract-content">
-            数据流：Vue和React均是单向数据流传递
-单向数据流指只能从一个方向修改数据，姑且我们可以这样理解，如下图所示。一个父组件下有两个子组件1和子组件2，父组件可以向子组件传递数据。假如子组件都获取到了父组件的name，在子组件1中对name重新修改之后，子组件2和父组件中的值并不会发生改变，这正是因为Vue中的机制是单向数据流，子组件不能直接改变父组件的状态。但反过来，如果是父组件中的name修改了，当然两个子组件中的name也就改变了。
-数据的绑定 :Vue是双向绑定和React是单向绑定
-它们俩主要是由MVVM框架实现，在Vue中主要由三个部分组成，View、ViewModel和M...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/11/27</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/11/27/koa800/" >
-            
-                <span>koa800</span>
-        </a>
-        <div class="abstract-content">
-            
-基于koa框架, 可扩展、可配置的中间件集合, 以及快速定制项目结构的脚手架工具
-
-CHANGELOG
-1. 要解决的问题
-脚手架文件太多:
-
-干扰业务代码
-无法方便的进行更新和升级
-随着时间推移, 项目结构和脚手架文件在不同项目中逐渐变得不统一
-
-
-中间件的管理:
-
-相同的中间件需要在不同项目中去引用和配置, 重复的工作量, 重复的代码(违反DRY)
-不便于统一的更新和升级
-
-
-
-
-2. 背景微服务是当前比较流行的系统架构模式, 各个应用的专注于提供特定的服务. 在框架选择上, 轻量级、 支持中间件选配的koa框架是一个不错的选择.
-koa 的使用非常灵活便捷, 它没有提供模板文件,...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/11/27</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/11/18/chrome插件开发教程/" >
-            
-                <span>chrome插件开发教程</span>
-        </a>
-        <div class="abstract-content">
-            相关链接
-代码仓库： git@git.tuan800-inc.com:ued/cd_ued_chrome_extensions.git ，相关开发流程和使用说明在项目的README中均有描述参考
-Chrome扩展及应用开发（首发版），这本书非常实用，配合书中的项目，可以快速上手Chrome扩展开发Chrome扩展程序官方文档，查API就靠它了，非官方中文文档，可以先快速过一遍api这里主要整理了chrome开发技术、cd_ued_chrome_extensions项目的开发环境和打包流程以及Chrome应用商店的使用步骤。
-Chrome开发相关技术扩展程序由HTML、CSS和JavaSc...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/11/18</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/24/Untitled/" >
-            
-                <span>重识排列组合</span>
-        </a>
-        <div class="abstract-content">
-            6位数4位为一组共有多少组
-共有15组。C（6，4）=15。    654321/214321=15;
-从n个不同元素中取出m(m≤n)个元素的所有组合的个数,叫做从n个不同元素中取出m个元素的组合数.用符号 c(n,m) 表示.c(n,m)=p(n,m)/m!=n!/((n-m)!*m!)。
-这里是从6个里面任取4个的所有组合 共有6!/(（6-4）!4!)=654321/21432*1=15，所以共有15组。扩展资料：
-重复组合是一种特殊的组合。从n个不同元素中可重复地选取m个元素。不管其顺序合成一组，称为从n个元素中取m个元素的可重复组合。当且仅当所取的元素相同，且同一元素所取的次...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/24</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/08/nginx记录/" >
-            
-                <span>nginx记录</span>
-        </a>
-        <div class="abstract-content">
-            1.nginx 创建一个域名指向 静态资源htmlhttp://www.test.com/
-需要在nginx头上添加用户组，并且把静态资源的文件夹赋予用户权限
-sudo chown -R root:wheel /Users/zhousteady/Downloads/test/examples
-123456789101112131415161718192021222324252627282930313233343536373839user root wheel;worker_processes  1;...server &#123;      listen 80;      server_...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/08</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    <!-- paginator  -->
-    
-    <nav class="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">NEXT &#62;</a>
-    </nav>
-    
-</main>
-            <!-- profile -->
-            
-            <div class="profile">
-    <img class="profile-avatar" alt="avatar" src= /avatar/steady.jpeg >
-    <div class="profile-name">Steady</div>
-    
-    <div class="profile-signature">
-        god bless me
-    </div>
-    
-    
-    <div class="profile-social">
-        
-    
-        
-            
-                <a href="mailto:steadyevo@gmail.com" class="iconfont-archer email" title=email ></a>
-            
-        
-    
-        
-            
-                <a href="//github.com/steadyzeus" class="iconfont-archer github" target="_blank" title=github></a>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-
-    </div>
-    
-    
-        <div class="friends">
-            <div>FRIENDS</div>
-            
-                
-                    <span>
-                        <a href= //www.baidu.com target="_black">friendA</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href= //www.google.com target="_black">friendB</a>
-                    </span>
-                
-            
-                
-            
-        </div>
-    
-    
-        <div class="about-me">
-            <a href = "/about" >ABOUT ME</a>
-        </div>
-    
-</div>
-            
-        </div>
-        <footer class="footer footer-unloaded">
-    <!-- social  -->
-    
-    <div class="social">
-        
-    
-        
-            
-                <a href="mailto:steadyevo@gmail.com" class="iconfont-archer email" title=email ></a>
-            
-        
-    
-        
-            
-                <a href="//github.com/steadyzeus" class="iconfont-archer github" target="_blank" title=github></a>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-
-    </div>
-    
-    <!-- powered by Hexo  -->
-    <div class="copyright">
-        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
-    </div>
-    <!-- 不蒜子  -->
-    
-    <div class="busuanzi-container">
-    
-     
-    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
-    
-    </div>
-    
-</footer>
-    </div>
-    <!-- toc -->
-    
-    <div class="back-top iconfont-archer">&#xe639;</div>
-    <div class="sidebar sidebar-hide">
-    <ul class="sidebar-tabs sidebar-tabs-active-0">
-        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
-        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
-        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
-    </ul>
-    <div class="sidebar-content sidebar-content-show-archive">
-          <div class="sidebar-panel-archives">
-    <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <div class="total-and-search">
-        <div class="total-archive">
-        Total : 33
-        </div>
-        <!-- search  -->
-        
-    </div>
-    
-    <div class="post-archive">
-    
-    
-    
-    
-    <div class="archive-year"> 2019 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/22</span><a class="archive-post-title" href= "/2019/12/22/React-高阶组件-属性代理和反向继承-生命周期调研/" >React 高阶组件 属性代理和反向继承 生命周期调研</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/20</span><a class="archive-post-title" href= "/2019/12/20/h5-hybird-webview页面兼容性/" >h5 hybird webview页面兼容性</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/17</span><a class="archive-post-title" href= "/2019/12/17/React-16-新特性/" >React 16 新特性</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/11</span><a class="archive-post-title" href= "/2019/12/11/JavaScript-原生dom操作/" >JavaScript 原生dom操作</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/02</span><a class="archive-post-title" href= "/2019/12/02/vue生命周期/" >vue生命周期</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/27</span><a class="archive-post-title" href= "/2019/11/27/koa800/" >koa800</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/27</span><a class="archive-post-title" href= "/2019/11/27/浅谈vue和react的数据流和绑定/" >浅谈vue和react的数据流和绑定</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/18</span><a class="archive-post-title" href= "/2019/11/18/chrome插件开发教程/" >chrome插件开发教程</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/24</span><a class="archive-post-title" href= "/2019/10/24/Untitled/" >重识排列组合</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/nginx记录/" >nginx记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">08/30</span><a class="archive-post-title" href= "/2019/08/30/vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1/" >vue 记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">07/23</span><a class="archive-post-title" href= "/2019/07/23/nodejs-exports/" >nodejs exports</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">07/19</span><a class="archive-post-title" href= "/2019/07/19/JavaScript-二进制-十进制/" >JavaScript 二进制 十进制...</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">06/02</span><a class="archive-post-title" href= "/2019/06/02/dva记录/" >dva记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2019/04/11/微信小程序知识点/" >微信小程序知识点</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2019/02/26/记录package-json字段用处/" >记录package.json字段用处</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2019/02/18/canvas-模拟时钟/" >canvas 模拟时钟</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/13</span><a class="archive-post-title" href= "/2019/02/13/data-xxx-attribute/" >data-xxx ,attribute</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2018/12/21/webpack打包记录/" >webpack打包记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/2018/12/18/linux使用记录/" >linux git 使用记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/29</span><a class="archive-post-title" href= "/2018/11/29/面试题/" >纯手写轮子</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/css3-动画/" >css3 相关(动画,语法)</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/JavaScript-事件冒泡和捕获/" >JavaScript 事件冒泡和捕获</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/页面布局方式/" >页面布局方式</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/JavaScript-原生语法/" >JavaScript 原生语法</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/2018/11/21/react-生命周期/" >react 生命周期</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/2018/11/13/记一次大促页面性能优化/" >记一次大促页面性能优化</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2018/11/12/屏幕height-width-获取/" >屏幕height width 获取</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/09</span><a class="archive-post-title" href= "/2018/11/09/抖动节流函数/" >抖动节流函数</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/09</span><a class="archive-post-title" href= "/2018/11/09/自我评价/" >自我评价</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/08</span><a class="archive-post-title" href= "/2018/11/08/es6语法/" >es6语法</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/2018/11/07/目标/" >目标</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/2018/11/07/hello-world/" >Hello World</a>
-        </li>
-    
-    </div>
-  </div>
-        <div class="sidebar-panel-tags">
-    <div class="sidebar-tags-name">
-    
-        <span class="sidebar-tag-name" data-tags="steadytag"><span class="iconfont-archer">&#xe606;</span>steadytag</span>
-    
-    </div>
-    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
-    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
-    缺失模块。<br/>
-    1、请确保node版本大于6.2<br/>
-    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
-    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
-    3、在根目录_config.yml里添加配置：
-    <pre style="color: #787878; font-size: 0.6rem;">
-jsonContent:
-  meta: false
-  pages: false
-  posts:
-    title: true
-    date: true
-    path: true
-    text: false
-    raw: false
-    content: false
-    slug: false
-    updated: false
-    comments: false
-    link: false
-    permalink: false
-    excerpt: false
-    categories: true
-    tags: true</pre>
-    </div> 
-    <div class="sidebar-tags-list"></div>
-</div>
-        <div class="sidebar-panel-categories">
-    <div class="sidebar-categories-name">
-    
-        <span class="sidebar-category-name" data-categories="css3"><span class="iconfont-archer">&#xe60a;</span>css3</span>
-    
-        <span class="sidebar-category-name" data-categories="es6"><span class="iconfont-archer">&#xe60a;</span>es6</span>
-    
-        <span class="sidebar-category-name" data-categories="steadycate"><span class="iconfont-archer">&#xe60a;</span>steadycate</span>
-    
-    </div>
-    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
-    <div class="sidebar-categories-list"></div>
-</div>
-    </div>
-</div> 
-    <script>
-    var siteMeta = {
-        root: "/",
-        author: "John Doe"
-    }
-</script>
-    <!-- CDN failover -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <script type="text/javascript">
-        if (typeof window.$ === 'undefined')
-        {
-            console.warn('jquery load from jsdelivr failed, will load local script')
-            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
-        }
-    </script>
-    <script src="/scripts/main.js"></script>
-    <!-- algolia -->
-    
-    <!-- busuanzi  -->
-    
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    
-    <!-- CNZZ  -->
-    
-    </div>
-    <!-- async load share.js -->
-     
-    </body>
 </html>
 
+<body>
+  <div id="app">
+    <main class="content">
+      
 
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+
+<div id="main">
+  <section class="outer">
+  <article class="articles">
+    
+    
+    
+    
+    <article id="post-GPU" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/11/03/GPU/">css GPU硬件加速原理</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/11/03/GPU/" class="article-date">
+  <time datetime="2020-11-03T13:55:30.000Z" itemprop="datePublished">2020-11-03</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>满世界的动画性能优化技巧，例如：</p>
+<p>只允许改变transform、opacity，其它属性不要动，避免重新计算布局（reflow）</p>
+<p>对动画元素应用transform: translate3d(0, 0, 0)、will-change: transform等，开启硬件加速</p>
+<p>动画元素尽量用fixed、absolute定位方式，避免reflow</p>
+<p>对动画元素应用高一点的z-index，减少复合层数量</p>
+<p>。。。其它可能有用的规则</p>
+<p>那么问题是：已经小心遵守这些规则了，为什么动画还会卡顿、跳帧？还能优化吗？要从哪里入手？</p>
+<p>一.硬件加速是非规范的<br>The most important thing I’d like to tell you before we dive deep into GPU compositing is this: It’s a giant hack. You won’t find anything (at least for now) in the W3C‘s specifications about how compositing works, about how to explicitly put an element on a compositing layer or even about compositing itself. It’s just an optimization that the browser applies to perform certain tasks and that each browser vendor implements in its own way.</p>
+<p>很多情况下，开启硬件加速确实能带来明显的性能提升，但是，这部分内容是非规范的，W3C并没有相关规范说明其中细节，所以通过一些技巧（例如transform: translate3d(0, 0, 0)）开启硬件加速是规范之外的行为，可能得到性能提升，也可能带来严重的性能问题</p>
+<p>也许在将来会形成规范，依照规范去做肯定能获得性能提升，但在这之前，除了必须遵从各项性能优化原则外，还要考虑实际渲染流程，从原理上解决性能问题</p>
+<p>硬件加速（Hardware Acceleration） 硬件加速在CSS动画上是指GPU合成（GPU compositing），浏览器不直接通过CPU生成图像数据显示出来，而是把相关层数据发送给GPU，而GPU在图像数据运算方面有天生优势，所以算是加速</p>
+<p>那么当硬件加速不可用时，浏览器怎样渲染页面？</p>
+<p>在没有硬件加速的情况下，浏览器通常是依赖于CPU来渲染生成网页的内容，大致的做法是遍历这些层，然后按照顺序把这些层的内容依次绘制在一个内部存储空间上（例如bitmap），最后把这个内部表示显示出来，这种做法就是软件渲染（software rendering）</p>
+<p>二.transform和opacity的特殊性 以前通过改变布局相关属性形成动画，例如：</p>
+<p>@keyframes move { from { left: 30px; } to { left: 100px; } } 对于动画的每一帧，浏览器都要重新计算元素的形状位置（reflow），把新状态渲染出来（repaint），再显示到屏幕上</p>
+<p>整页reflow和repaint想想就觉得很慢，那么如果把动画元素抽出来作为前景，每帧其它部分作为背景不变，只重新渲染动画元素，再把前景背景合成起来，是不是会更快？当然会，因为GPU能快速地进行亚像素级图层合成</p>
+<p>但是这样做的前提是能够按照动的，不动的划分出前景背景层，如果动画元素或者受布局影响，或者动的过程中影响到了布局，就会打破前景背景的界限，这样简单分为2层就有问题。那么，应用position: fixed | absolute是不是就能保证不会影响布局了？</p>
+<p>不行，因为left可以接受百分比值、相对单位（em、vw等等），浏览器不能百分百肯定该属性的变化与布局无关，所以不能简单的分出前景背景层，例如：</p>
+<p>@keyframes move { from { left: 30px; } to { left: 100%; } } 但浏览器能百分百肯定transform和opacity的变化与布局无关，不受布局影响，其变化也不会影响现有布局，所以这两个属性的特殊性是：</p>
+<p>does not affect the document’s flow,</p>
+<p>does not depend on the document’s flow,</p>
+<p>does not cause a repaint.</p>
+<p>如果不影响布局，且不受布局影响，其变化不会导致其它部分需要repaint，那么这个东西肯定可以抽出去单独作为一层，放心交给GPU去处理，享受硬件加速带来的好处；</p>
+<p>细腻（GPU能做到亚像素级精度，且对GPU来说不费劲）</p>
+<p>流畅（不受其它运算密集的JS任务影响，动画交给GPU了，与CPU无关）</p>
+<p>三.GPU合成的代价 It might surprise you, but the GPU is a separate computer. That’s right: An essential part of every modern device is actually a standalone unit with its own processors and its own memory- and data-processing models. And the browser, like any other app or game, has to talk with the GPU as it would with an external device.</p>
+<p>GPU是独立的一部分，有自己的处理器、内存核数据处理模型，那么意味着通过CPU在内存里创建的图像数据无法直接与GPU共享，需要打包发送给GPU，GPU收到后才能执行我们期望的一系列操作，这个过程需要时间，而打包数据需要内存</p>
+<p>需要的内存取决于：</p>
+<p>复合层的数量</p>
+<p>复合层的大小</p>
+<p>相对于数量，复合层的大小影响更大一些，例如：</p>
+<p>.rect { width: 320px; height: 240px; background: #f00; } 这个红块如果要发送给GPU的话，需要的存储空间是：320 × 240 × 3 = 230400B = 225KB（rgb需要3个字节），如果图像含有透明部分，就需要320 × 240 × 4 = 307200B = 300KB</p>
+<p>这样一个不起眼的小红块就需要2、300KB，页面动辄几十上百个元素，占全屏半屏的元素也不少，如果都作为复合层，交给GPU，内存消耗可想而知，所以一些很极端的硬件加速场景性能非常差：</p>
+<p>技术分享</p>
+<p>gpu compositing issue</p>
+<p>对于1GB RAM的设备，去掉系统和后台进程的1/3，再去掉浏览器和当前页面的1/3，实际能用的只有200到300MB，如果复合层太多太大，内存会被迅速消耗，然后掉帧（卡顿、闪烁）现象，甚至浏览器/应用崩溃也就很合理了</p>
+<p>P.S.详细见CSS3硬件加速也有坑！！！</p>
+<p>四.创建复合层 浏览器在一些情况下会创建复合层，例如：</p>
+<p>3D transforms: translate3d, translateZ and so on;</p>
+<p>, and <iframe> elements;</iframe></p>
+<p>animation of transform and opacity via Element.animate();</p>
+<p>animation of transform and opacity via СSS transitions and animations;</p>
+<p>position: fixed;</p>
+<p>will-change;</p>
+<p>filter;</p>
+<p>。。。</p>
+<p>还有很多，详细见CompositingReasons.h中定义的常量，分为几类：</p>
+<p>这些大多是我们期望的，算是显式创建的复合层，而另一些情况也会创建复合层：</p>
+<p>位于复合层之上的元素会被创建复合层（B的z-index大于A，对A做动画，B也会被**独立的复合层）</p>
+<p>很容易理解，A在动画过程中可能会与B产生重叠，被B遮住，那么GPU需要每帧对A图层做动画，然后再与B图层合成，才能得到正确结果，所以B无论如何都要被**复合层，连同A一起交给GPU</p>
+<p>隐式创建复合层主要出于重叠考虑，如果浏览器不确定会不会发生重叠，那么就要把不确定的东西都**复合层，所以，从这个角度看，高z-index原则是有道理的</p>
+<p>五.硬件加速的优缺点 优点 动画非常流畅，能达到60fps</p>
+<p>动画执行过程在独立线程里，不受计算密集的JS任务影响</p>
+<p>缺点 把元素**复合层时需要额外重绘，有时很慢（可能需要整页重绘）</p>
+<p>复合层数据传递给GPU有额外时耗，取决于复合层的数量和大小，这在中低端设备可能会导致闪烁</p>
+<p>每个复合层都要消耗一部分内存，移动设备上内存很贵，过多占用会导致浏览器/应用崩溃</p>
+<p>存在隐式复合层的问题，不注意的话内存飙升</p>
+<p>文字模糊，元素有时会变形</p>
+<p>最主要的问题集中在内存消耗和repaint上，所以动画性能优化目标是降低内存消耗，减少repaint</p>
+<p>六.性能优化技巧 1.尽量避免隐式复合层 复合层直接影响repaint、内存消耗：动画开始时创建复合层、结束时删除复合层，都会引起repaint，而动画开始时必须把图层数据发送给GPU，内存消耗集中在这里。两条建议：</p>
+<p>给动画元素应用高z-index，最好直接作为body的子元素，对于嵌套很深的动画元素，可以复制一个到body下，仅用于实现动画效果</p>
+<p>给动画元素应用will-change，浏览器会提前把这些元素**复合层，可以让动画开始/结束时更流畅些，但不能滥用，在不需要的时候赶紧去掉，减少内存消耗</p>
+<p>2.只改变transform和opacity 能用transform、opacity优先用，不能用的话想办法用，比如背景色渐变，可以用盖在上面的伪元素背景色opacity动画模拟；box-shadow动画可以用铺在下面的伪元素opacity动画模拟，这些曲折的实现方式能带来显著性能提升</p>
+<p>3.减少复合层的大小 小元素放大展示，减小width、height，减少传递给GPU的数据，由GPU做scale放大展示，视觉效果无差异（多用于纯色背景元素，对不太重要的图片也可以进行5%到10%的宽高压缩），例如：</p>
+<p><style> #a, #b { will-change: transform; background-color: #f00; } #a { width: 100px; height: 100px; } #b { width: 10px; height: 10px; transform: scale(10); } </style><br>最终显示的两个红色块在视觉上没有差异，但减小了90%的内存消耗</p>
+<p>4.考虑对子元素动画与容器动画 容器动画可能存在不必要的内存消耗，比如子元素之间的空隙，也会被当做有效数据发送给GPU，如果对各个子元素分别应用动画，就能避免这部分的内存消耗</p>
+<p>例如12道太阳光线旋转，转容器就把容器整张图都发送给GPU，单独转12道光线就去掉了光线之间的11条空隙，能够节省一半内存</p>
+<p>5.早早关注复合层的数量和大小 从一开始就关注复合层，尤其是隐式创建的复合层，避免后期优化影响布局</p>
+<p>复合层的大小比数量影响更大，但浏览器会做一些优化操作，把几个复合层整合成一个，叫Layer Squashing，但有时一个大复合层比几个小复合层消耗的内存更多，有必要的话可以手动去掉这种优化：</p>
+<p>// 给每个元素应用不同的translateZ translateZ(0.0001px), translateZ(0.0002px) 6.不要滥用硬件加速 没事不要乱加transform: translateZ(0)、will-change: transform等强制开启硬件加速的属性，GPU合成存在缺点和不足，而且是非标准的行为，最好情况能带来显著性能提升，最坏情况可能会让浏览器崩溃</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-react-组件" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/11/03/react-组件/">如何封装react 组件</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/11/03/react-组件/" class="article-date">
+  <time datetime="2020-11-03T12:43:27.000Z" itemprop="datePublished">2020-11-03</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>由于公司需要一套自己的前端UI公共组件，所以有这次分享</p>
+<p>本篇文章重点阐述 SRP，即单一职责原则。<br>React组件式开发方式。你可以将复杂的用户界面分割为一个个组件，利用组件的可重用性和抽象的DOM操作。<br>基于组件的开发是高效的：一个复杂的系统是由专门的、易于管理的组件构建的。然而，只有设计良好的组件才能确保组合和复用的好处。<br>尽管应用程序很复杂，但为了满足最后期限和意外变化的需求，你必须不断地走在架构正确性的细线上。你必须将组件分离为专注于单个任务，并经过良好测试。<br>不幸的是，遵循错误的路径总是更加容易：编写具有许多职责的大型组件、紧密耦合组件、忘记单元测试。这些增加了技术债务，使得修改现有功能或创建新功能变得越来越困难。<br>编写React应用程序时，经常问自己：<br>• 如何正确构造组件？<br>• 在什么时候，一个大的组件应该拆分成更小的组件？<br>• 如何设计防止紧密耦合的组件之间的通信？<br>幸运的是，可靠的组件具有共同的特性。让我们来研究以下有用的标准，并将其详细到案例研究中。</p>
+<h1 id="单一职责"><a href="#单一职责" class="headerlink" title="单一职责"></a>单一职责</h1><p>当一个组件只有一个改变的原因时，它有一个单一的职责。<br>编写React组件时要考虑的基本准则是单一职责原则。单一职责原则(缩写：SRP)要求组件有一个且只有一个变更的原因。<br>组件的职责可以是呈现列表，或者显示日期选择器，或者发出 HTTP 请求，或者绘制图表，或者延迟加载图像等。你的组件应该只选择一个职责并实现它。当你修改组件实现其职责的方式（例如，更改渲染的列表的数量限制），它有一个更改的原因。<br>为什么只有一个理由可以改变很重要？因为这样组件的修改隔离并且受控。单一职责原则制了组件的大小，使其集中在一件事情上。集中在一件事情上的组件便于编码、修改、重用和测试。<br>下面我们来举几个例子<br>实例1：一个组件获取远程数据，相应地，当获取逻辑更改时，它有一个更改的原因。<br>发生变化的原因是：<br>• 修改服务器URL<br>• 修改响应格式<br>• 要使用其他HTTP请求库<br>• 或仅与获取逻辑相关的任何修改。<br>示例2：表组件将数据数组映射到行组件列表，因此在映射逻辑更改时有一个原因需要更改。<br>发生变化的原因是：<br>• 你需要限制渲染行组件的数量（例如，最多显示25行）<br>• 当没有要显示的项目时，要求显示提示信息“列表为空”<br>• 或仅与数组到行组件的映射相关的任何修改。<br>你的组件有很多职责吗？如果答案是“是”，则按每个单独的职责将组件分成若干块。<br>如果您发现SRP有点模糊，请阅读本文。<br>在项目早期阶段编写的单元将经常更改，直到达到发布阶段。这些更改通常要求组件在隔离状态下易于修改：这也是 SRP 的目标。</p>
+<h2 id="1-1-多重职责陷阱"><a href="#1-1-多重职责陷阱" class="headerlink" title="1.1 多重职责陷阱"></a>1.1 多重职责陷阱</h2><p>当一个组件有多个职责时，就会发生一个常见的问题。乍一看，这种做法似乎是无害的，并且工作量较少：<br>• 你立即开始编码：无需识别职责并相应地规划结构<br>• 一个大的组件可以做到这一切：不需要为每个职责创建组成部分<br>• 无拆分-无开销：无需为拆分组件之间的通信创建 props 和 callbacks<br>这种幼稚的结构在开始时很容易编码。但是随着应用程序的增加和变得复杂，在以后的修改中会出现困难。同时实现多个职责的组件有许多更改的原因。现在出现的主要问题是：出于某种原因更改组件会无意中影响同一组件实现的其它职责。<br>不要关闭电灯开关，因为它同样作用于电梯。<br>这种设计很脆弱。意外的副作用是很难预测和控制的。<br>例如，<chartandform> 同时有两个职责，绘制图表，并处理为该图表提供数据的表单。<chartandform> 就会有两个更改原因：绘制图表和处理表单。<br>当你更改表单字段（例如，将 <input> 修改为 <select> 时，你无意中中断图表的渲染。此外，图表实现是不可重用的，因为它与表单细节耦合在一起。<br>解决多重责任问题需要将 <chartandform> 分割为两个组件：<chart> 和<form>。每个组件只有一个职责：绘制图表或处理表单。组件之间的通信是通过props 实现。<br>多重责任问题的最坏情况是所谓的上帝组件（上帝对象的类比）。上帝组件倾向于了解并做所有事情。你可能会看到它名为 <application>、<manager> 、<bigcontainer> 或 <page>，代码超过500行。<br>在组合的帮助下使其符合SRP，从而分解上帝组件。(组合（composition）是一种通过将各组件联合在一起以创建更大组件的方式。组合是 React 的核心。)</page></bigcontainer></manager></application></form></chart></chartandform></select></chartandform></chartandform></p>
+<h2 id="1-2-案例研究：使组件只有一个职责"><a href="#1-2-案例研究：使组件只有一个职责" class="headerlink" title="1.2 案例研究：使组件只有一个职责"></a>1.2 案例研究：使组件只有一个职责</h2><p>设想一个组件向一个专门的服务器发出 HTTP 请求，以获取当前天气。成功获取数据时，该组件使用响应来展示天气信息：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span>;</span><br><span class="line"><span class="comment">// 问题: 一个组件有多个职责</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Weather</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123; <span class="attr">temperature</span>: <span class="string">'N/A'</span>, <span class="attr">windSpeed</span>: <span class="string">'N/A'</span> &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; temperature, windSpeed &#125; = <span class="keyword">this</span>.state;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div className=<span class="string">"weather"</span>&gt;</span><br><span class="line">                &lt;div&gt;Temperature: &#123;temperature&#125;°C&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">                &lt;div&gt;Wind: &#123;windSpeed&#125;km/</span>h&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>div&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        axios.get(<span class="string">'http://weather.com/api'</span>).then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">const</span> &#123; current &#125; = response.data;</span><br><span class="line">            <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">                temperature: current.temperature,</span><br><span class="line">                windSpeed: current.windSpeed</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在处理类似的情况时，问问自己：是否必须将组件拆分为更小的组件？通过确定组件可能会如何根据其职责进行更改，可以最好地回答这个问题。<br>这个天气组件有两个改变原因：</p>
+<ol>
+<li>componentDidMount() 中的 fetch 逻辑：服务器URL或响应格式可能会改变。</li>
+<li>render() 中的天气展示：组件显示天气的方式可以多次更改。<br>解决方案是将 <weather> 分为两个组件：每个组件只有一个职责。命名为 <weatherfetch> 和 <weatherinfo>。<br><weatherfetch> 组件负责获取天气、提取响应数据并将其保存到 state 中。它改变原因只有一个就是获取数据逻辑改变。</weatherfetch></weatherinfo></weatherfetch></weather></li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span>;</span><br><span class="line"><span class="comment">// 解决措施: 组件只有一个职责就是请求数据</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeatherFetch</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123; <span class="attr">temperature</span>: <span class="string">'N/A'</span>, <span class="attr">windSpeed</span>: <span class="string">'N/A'</span> &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; temperature, windSpeed &#125; = <span class="keyword">this</span>.state;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;WeatherInfo temperature=&#123;temperature&#125; windSpeed=&#123;windSpeed&#125; /&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        axios.get(<span class="string">'http://weather.com/api'</span>).then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">const</span> &#123; current &#125; = response.data;</span><br><span class="line">            <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">                temperature: current.temperature,</span><br><span class="line">                windSpeed: current.windSpeed</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种结构有什么好处？<br>例如，你想要使用 async/await 语法来替代 promise 去服务器获取响应。更改原因：修改获取逻辑<br>// 改变原因: 使用 async/await 语法<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeatherFetch</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ..... //</span></span><br><span class="line">    <span class="keyword">async</span> componentDidMount() &#123;</span><br><span class="line">        <span class="keyword">const</span> response = <span class="keyword">await</span> axios.get(<span class="string">'http://weather.com/api'</span>);</span><br><span class="line">        <span class="keyword">const</span> &#123; current &#125; = response.data;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            temperature: current.temperature,</span><br><span class="line">            windSpeed: current.windSpeed</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>因为 <weatherfetch> 只有一个更改原因：修改 fetch 逻辑，所以对该组件的任何修改都是隔离的。使用 async/await 不会直接影响天气的显示。</weatherfetch></p>
+<p><weatherfetch> 渲染 <weatherinfo>。后者只负责显示天气，改变原因只可能是视觉显示改变。<br>// 解决方案: 组件只有一个职责，就是显示天气</weatherinfo></weatherfetch></p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">WeatherInfo</span>(<span class="params">&#123; temperature, windSpeed &#125;</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div className=<span class="string">"weather"</span>&gt;</span><br><span class="line">            &lt;div&gt;Temperature: &#123;temperature&#125;°C&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">            &lt;div&gt;Wind: &#123;windSpeed&#125; km/</span>h&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>让我们更改<weatherinfo>，如不显示 “wind:0 km/h” 而是显示 “wind:calm”。这就是天气视觉显示发生变化的原因：<br>// 改变原因: 无风时的显示<br>  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">WeatherInfo</span>(<span class="params">&#123; temperature, windSpeed &#125;</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> windInfo = windSpeed === <span class="number">0</span> ? <span class="string">'calm'</span> : <span class="string">`<span class="subst">$&#123;windSpeed&#125;</span> km/h`</span>;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div className=<span class="string">"weather"</span>&gt;</span><br><span class="line">            &lt;div&gt;Temperature: &#123;temperature&#125;°C&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">            &lt;div&gt;Wind: &#123;windInfo&#125;&lt;/</span>div&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></weatherinfo></p>
+<p>同样，对 <weatherinfo> 的修改是隔离的，不会影响 <weatherfetch> 组件。</weatherfetch></weatherinfo></p>
+<p><weatherfetch> 和 <weatherinfo> 有各自的职责。一种组件的变化对另一种组件的影响很小。这就是单一职责原则的作用：修改隔离，对系统的其他组件产生影响很轻微并且可预测。</weatherinfo></weatherfetch></p>
+<h2 id="1-3-案例研究：HOC-偏好单一责任原则"><a href="#1-3-案例研究：HOC-偏好单一责任原则" class="headerlink" title="1.3 案例研究：HOC 偏好单一责任原则"></a>1.3 案例研究：HOC 偏好单一责任原则</h2><p>按职责使用分块组件的组合并不总是有助于遵循单一责任原则。另外一种有效实践是高阶组件(缩写为 HOC)<br>高阶组件是一个接受一个组件并返回一个新组件的函数。<br>HOC 的一个常见用法是为封装的组件增加新属性或修改现有的属性值。这种技术称为属性代理：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">withNewFunctionality</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">NewFunctionality</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">        render() &#123;</span><br><span class="line">            <span class="keyword">const</span> newProp = <span class="string">'Value'</span>;</span><br><span class="line">            <span class="keyword">const</span> propsProxy = &#123;</span><br><span class="line">                ...this.props,</span><br><span class="line">                <span class="comment">// 修改现有属性:</span></span><br><span class="line">                ownProp: <span class="keyword">this</span>.props.ownProp + <span class="string">' was modified'</span>,</span><br><span class="line">                <span class="comment">// 增加新属性:</span></span><br><span class="line">                newProp</span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="keyword">return</span> &lt;WrappedComponent &#123;...propsProxy&#125; /&gt;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">const MyNewComponent = withNewFunctionality(MyComponent);</span><br></pre></td></tr></table></figure></p>
+<p>你还可以通过控制输入组件的渲染过程从而控制渲染结果。这种 HOC 技术被称为渲染劫持：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">withModifiedChildren</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">ModifiedChildren</span> <span class="keyword">extends</span> <span class="title">WrappedComponent</span> </span>&#123;</span><br><span class="line">        render() &#123;</span><br><span class="line">            <span class="keyword">const</span> rootElement = <span class="keyword">super</span>.render();</span><br><span class="line">            <span class="keyword">const</span> newChildren = [</span><br><span class="line">                ...rootElement.props.children,</span><br><span class="line">                <span class="comment">// 插入一个元素</span></span><br><span class="line">                &lt;div&gt;New child&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">            ];</span></span><br><span class="line"><span class="regexp">            return cloneElement(</span></span><br><span class="line"><span class="regexp">                rootElement,</span></span><br><span class="line"><span class="regexp">                rootElement.props,</span></span><br><span class="line"><span class="regexp">                newChildren</span></span><br><span class="line"><span class="regexp">            );</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">const MyNewComponent = withModifiedChildren(MyComponent);</span></span><br></pre></td></tr></table></figure></p>
+<p>如果您想深入了解HOCS实践，我建议您阅读“深入响应高阶组件”。<br>让我们通过一个例子来看看HOC的属性代理技术如何帮助分离职责。<br>组件 <persistentform> 由 input 输入框和按钮 save to storage 组成。更改输入值后，点击 save to storage 按钮将其写入到 localStorage 中。<br>input 的状态在 handlechange(event) 方法中更新。点击按钮，值将保存到本地存储，在 handleclick() 中处理：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PersistentForm</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123; <span class="attr">inputValue</span>: localStorage.getItem(<span class="string">'inputValue'</span>) &#125;;</span><br><span class="line">        <span class="keyword">this</span>.handleChange = <span class="keyword">this</span>.handleChange.bind(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">this</span>.handleClick = <span class="keyword">this</span>.handleClick.bind(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; inputValue &#125; = <span class="keyword">this</span>.state;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div className=<span class="string">"persistent-form"</span>&gt;</span><br><span class="line">                &lt;input type=<span class="string">"text"</span> value=&#123;inputValue&#125;</span><br><span class="line">                    onChange=&#123;<span class="keyword">this</span>.handleChange&#125; /&gt;</span><br><span class="line">                &lt;button onClick=&#123;<span class="keyword">this</span>.handleClick&#125;&gt;Save to storage&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>div&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">    handleChange(event) &#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            inputValue: event.target.value</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    handleClick() &#123;</span><br><span class="line">        localStorage.setItem(<span class="string">'inputValue'</span>, <span class="keyword">this</span>.state.inputValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></persistentform></p>
+<p>遗憾的是： <persistentform> 有2个职责：管理表单字段；将输入只保存中 localStorage。<br>让我们重构一下 <persistentform> 组件，使其只有一个职责：展示表单字段和附加的事件处理程序。它不应该知道如何直接使用存储：<br>  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PersistentForm</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123; <span class="attr">inputValue</span>: props.initialValue &#125;;</span><br><span class="line">        <span class="keyword">this</span>.handleChange = <span class="keyword">this</span>.handleChange.bind(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">this</span>.handleClick = <span class="keyword">this</span>.handleClick.bind(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; inputValue &#125; = <span class="keyword">this</span>.state;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div className=<span class="string">"persistent-form"</span>&gt;</span><br><span class="line">                &lt;input type=<span class="string">"text"</span> value=&#123;inputValue&#125;</span><br><span class="line">                    onChange=&#123;<span class="keyword">this</span>.handleChange&#125; /&gt;</span><br><span class="line">                &lt;button onClick=&#123;<span class="keyword">this</span>.handleClick&#125;&gt;Save to storage&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>div&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">    handleChange(event) &#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            inputValue: event.target.value</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    handleClick() &#123;</span><br><span class="line">        <span class="keyword">this</span>.props.saveValue(<span class="keyword">this</span>.state.inputValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></persistentform></persistentform></p>
+<p>组件从属性初始值接收存储的输入值，并使用属性函数 saveValue(newValue) 来保存输入值。这些props 由使用属性代理技术的 withpersistence() HOC提供。<br>现在 <persistentform> 符合 SRP。更改的唯一原因是修改表单字段。<br>查询和保存到本地存储的职责由 withPersistence() HOC承担：<br>  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">withPersistence</span>(<span class="params">storageKey, storage</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">PersistentComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">            <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">                <span class="keyword">super</span>(props);</span><br><span class="line">                <span class="keyword">this</span>.state = &#123; <span class="attr">initialValue</span>: storage.getItem(storageKey) &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            render() &#123;</span><br><span class="line">                <span class="keyword">return</span> (</span><br><span class="line">                    &lt;WrappedComponent</span><br><span class="line">                        initialValue=&#123;<span class="keyword">this</span>.state.initialValue&#125;</span><br><span class="line">                        saveValue=&#123;<span class="keyword">this</span>.saveValue&#125;</span><br><span class="line">                        &#123;...this.props&#125;</span><br><span class="line">                    /&gt;</span><br><span class="line">                );</span><br><span class="line">            &#125;</span><br><span class="line">            saveValue(value) &#123;</span><br><span class="line">                storage.setItem(storageKey, value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></persistentform></p>
+<p>withPersistence()是一个 HOC，其职责是持久的。它不知道有关表单域的任何详细信息。它只聚焦一个工作：为传入的组件提供 initialValue 字符串和 saveValue() 函数。<br>将 <persistentform> 和 withpersistence() 一起使用可以创建一个新组件<localstoragepersistentform>。它与本地存储相连，可以在应用程序中使用：<br>const LocalStoragePersistentForm<br>    = withPersistence(‘key’, localStorage)(PersistentForm);<br>const instance = <localstoragepersistentform>;<br>只要 <persistentform> 正确使用 initialValue 和 saveValue()属性，对该组件的任何修改都不能破坏 withPersistence() 保存到存储的逻辑。<br>反之亦然：只要 withPersistence() 提供正确的 initialValue 和 saveValue()，对 HOC 的任何修改都不能破坏处理表单字段的方式。<br>SRP的效率再次显现出来：修改隔离，从而减少对系统其他部分的影响。<br>此外，代码的可重用性也会增加。你可以将任何其他表单 <myotherform> 连接到本地存储：<br>const LocalStorageMyOtherForm<br>    = withPersistence(‘key’, localStorage)(MyOtherForm);<br>const instance = <localstoragemyotherform>;<br>你可以轻松地将存储类型更改为 session storage：<br>const SessionStoragePersistentForm<br>    = withPersistence(‘key’, sessionStorage)(PersistentForm);<br>const instance = <sessionstoragepersistentform>;<br>初始版本 <persistentform> 没有隔离修改和可重用性好处，因为它错误地具有多个职责。<br>在不好分块组合的情况下，属性代理和渲染劫持的 HOC 技术可以使得组件只有一个职责。</persistentform></sessionstoragepersistentform></localstoragemyotherform></myotherform></persistentform></localstoragepersistentform></localstoragepersistentform></persistentform></p>
+<h1 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h1><p>一个封装组件提供 props 控制其行为而不是暴露其内部结构。<br>耦合是决定组件之间依赖程度的系统特性。根据组件的依赖程度，可区分两种耦合类型：<br>• 当应用程序组件对其他组件知之甚少或一无所知时，就会发生松耦合。<br>• 当应用程序组件知道彼此的许多详细信息时，就会发生紧耦合。<br>松耦合是我们设计应用结构和组件之间关系的目标。<br>松耦合应用(封装组件)<br>松耦合会带来以下好处：<br>• 可以在不影响应用其它部分的情况下对某一块进行修改。、<br>• 任何组件都可以替换为另一种实现<br>• 在整个应用程序中实现组件复用，从而避免重复代码<br>• 独立组件更容易测试，增加了测试覆盖率<br>相反，紧耦合的系统会失去上面描述的好处。主要缺点是很难修改高度依赖于其他组件的组件。即使是一处修改，也可能导致一系列的依赖组件需要修改。<br>紧耦合应用(组件无封装)<br>封装 或 信息隐藏 是如何设计组件的基本原则，也是松耦合的关键。</p>
+<h2 id="信息隐藏"><a href="#信息隐藏" class="headerlink" title="信息隐藏"></a>信息隐藏</h2><p>封装良好的组件隐藏其内部结构，并提供一组属性来控制其行为。<br>隐藏内部结构是必要的。其他组件没必要知道或也不依赖组件的内部结构或实现细节。<br>React 组件可能是函数组件或类组件、定义实例方法、设置 ref、拥有 state 或使用生命周期方法。这些实现细节被封装在组件内部，其他组件不应该知道这些细节。<br>隐藏内部结构的组件彼此之间的依赖性较小，而降低依赖度会带来松耦合的好处。</p>
+<h2 id="通信"><a href="#通信" class="headerlink" title="通信"></a>通信</h2><p>细节隐藏是隔离组件的关键。此时，你需要一种组件通信的方法：props。porps 是组件的输入。<br>建议 prop 的类型为基本数据（例如，string 、 number 、boolean）：</p>
+<p><message text="Hello world!" modal="{false}">;<br>必要时，使用复杂的数据结构，如对象或数组：</message></p>
+<p>&lt;MoviesList items={[‘Batman Begins’, ‘Blade Runner’]} /&gt;<br>prop 可以是一个事件处理函数和异步函数：</p>
+<p><input type="text" onchange="{handleChange}"><br>prop 甚至可以是一个组件构造函数。组件可以处理其他组件的实例化：<br>function If({ component: Component, condition }) {<br>    return condition ? <component> : null;<br>}</component></p>
+<p><if condition="{false}" component="{LazyComponent}"><br>为了避免破坏封装，请注意通过 props 传递的内容。给子组件设置 props 的父组件不应该暴露其内部结构的任何细节。例如，使用 props 传输整个组件实例或 refs 都是一个不好的做法。<br>访问全局变量同样也会对封装产生负面影响。</if></p>
+<h2 id="案例研究：封装修复"><a href="#案例研究：封装修复" class="headerlink" title="案例研究：封装修复"></a>案例研究：封装修复</h2><p>组件的实例和状态对象是封装在组件内部的实现细节。因此，将状态管理的父组件实例传递给子组件会破坏封装。<br>我们来研究一下这种情况。<br>一个简单的应用程序显示一个数字和两个按钮。第一个按钮增加数值，第二个按钮减少数值：<br>这个应用由两个组件组成：<app> 和 <controls>.<br>number 是 <app> 的 state 对象，<app> 负责 将这个数字渲染到页面。<br>// 问题: 封装被破坏<br>  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123; <span class="attr">number</span>: <span class="number">0</span> &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div className=<span class="string">"app"</span>&gt;</span><br><span class="line">                &lt;span className=<span class="string">"number"</span>&gt;&#123;<span class="keyword">this</span>.state.number&#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">                &lt;Controls parent=&#123;this&#125; /</span>&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></app></app></controls></app></p>
+<p><controls> 负责渲染按钮，并为其设置事件处理函数，当用户点击按钮时，父组件的状态将会被更新：number 加1或者减1((updateNumber()方法`)<br>// 问题: 使用父组件的内部结构<br>  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Controls</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div className=<span class="string">"controls"</span>&gt;</span><br><span class="line">                &lt;button onClick=&#123;() =&gt; <span class="keyword">this</span>.updateNumber(+<span class="number">1</span>)&#125;&gt;</span><br><span class="line">                    Increase</span><br><span class="line">          &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">                &lt;button onClick=&#123;() =&gt; this.updateNumber(-1)&#125;&gt;</span></span><br><span class="line"><span class="regexp">                    Decrease</span></span><br><span class="line"><span class="regexp">          &lt;/</span>button&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">    updateNumber(toAdd) &#123;</span></span><br><span class="line"><span class="regexp">        this.props.parent.setState(prevState =&gt; (&#123;</span></span><br><span class="line"><span class="regexp">            number: prevState.number + toAdd</span></span><br><span class="line"><span class="regexp">        &#125;));</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></controls></p>
+<p>当前的实现有什么问题？<br>• 第一个问题是： <app> 的封装被破坏，因为它的内部结构在应用中传递。<app> 错误地允许 <controls> 直接去修改其 state。<br>• 第二个问题是: 子组件 Controls 知道了太多父组件 <app> 的内部细节，它可以访问父组件的实例，知道父组件是一个有状态组件，知道父组件的 state 对象的细节(知道 number 是父组件 state 的属性)，并且知道怎么去更新父组件的 state.<br>一个麻烦的结果是： <controls> 将很难测试和重用。对 <app> 结构的细微修改会导致需要对 <controls> 进行修改（对于更大的应用程序，也会导致类似耦合的组件需要修改）。<br>解决方案是设计一个方便的通信接口，考虑到松耦合和封装。让我们改进两个组件的结构和属性，以便恢复封装。<br>只有组件本身应该知道它的状态结构。<app> 的状态管理应该从 <controls>（updateNumber()方法）移到正确的位置：即 <app> 组件中。</app></controls></app></controls></app></controls></app></controls></app></app></p>
+<p><app> 被修改为 <controls> 设置属性 onIncrease 和 onDecrease。这些是更新 <app> 状态的回调函数:<br>// 解决: 恢复封装<br>  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123; <span class="attr">number</span>: <span class="number">0</span> &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div className=<span class="string">"app"</span>&gt;</span><br><span class="line">                &lt;span className=<span class="string">"number"</span>&gt;&#123;<span class="keyword">this</span>.state.number&#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">                &lt;Controls</span></span><br><span class="line"><span class="regexp">                    onIncrease=&#123;() =&gt; this.updateNumber(+1)&#125;</span></span><br><span class="line"><span class="regexp">                    onDecrease=&#123;() =&gt; this.updateNumber(-1)&#125;</span></span><br><span class="line"><span class="regexp">                /</span>&gt;</span><br><span class="line">            &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">        );</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">    updateNumber(toAdd) &#123;</span></span><br><span class="line"><span class="regexp">        this.setState(prevState =&gt; (&#123;</span></span><br><span class="line"><span class="regexp">            number: prevState.number + toAdd</span></span><br><span class="line"><span class="regexp">        &#125;));</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></app></controls></app></p>
+<p>现在，<controls> 接收用于增加和减少数值的回调，注意解耦和封装恢复时：<controls> 不再需要访问父组件实例。也不会直接去修改父组件的状态。<br>而且，<controls> 被修改为了一个函数式组件:<br>// 解决方案: 使用回调函数去更新父组件的状态<br>              <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Controls</span>(<span class="params">&#123; onIncrease, onDecrease &#125;</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div className=<span class="string">"controls"</span>&gt;</span><br><span class="line">            &lt;button onClick=&#123;onIncrease&#125;&gt;Increase&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">            &lt;button onClick=&#123;onDecrease&#125;&gt;Decrease&lt;/</span>button&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></controls></controls></controls></p>
+<p><app> 组件的封装已经恢复，状态由其本身管理，也应该如此。<br>此外，<controls> 不在依赖 <app> 的实现细节，onIncrease 和 onDecrease 在按钮被点击的时候调用，<controls> 不知道(也不应该知道)这些回调的内部实现。</controls></app></controls></app></p>
+<p><controls> 组件的可重用性和可测试性显著增加。</controls></p>
+<p><controls> 的复用变得很容易，因为它除了需要回调，没有其它依赖。测试也变得简单，只需验证单击按钮时，回调是否执行。</controls></p>
+<h1 id="组成结构和权威组成部分。只需将它们分成较小的块，然后使用合成将整个背面粘合在一起，即可使复杂的过程变得简单。"><a href="#组成结构和权威组成部分。只需将它们分成较小的块，然后使用合成将整个背面粘合在一起，即可使复杂的过程变得简单。" class="headerlink" title="组成结构和权威组成部分。只需将它们分成较小的块，然后使用合成将整个背面粘合在一起，即可使复杂的过程变得简单。"></a>组成结构和权威组成部分。只需将它们分成较小的块，然后使用合成将整个背面粘合在一起，即可使复杂的过程变得简单。</h1><h2 id="单一责任"><a href="#单一责任" class="headerlink" title="单一责任"></a>单一责任</h2><p>组成的一个重要方面是能够由较小的专用组件组成复杂的组件。这种分而治之的方法有助于授权机构遵循单一责任原则。<br>回顾以前的代码片段。<application>负责呈现页眉，页脚，侧边栏和主要区域。<br>有意义的划分这个责任为四个子的责任，每个由专门的组件来实现<header>，<sidebar>，<content>和<footer>。后来的合成<application>从这些专用组件重新粘合。<br>现在带来好处。组合<application>通过允许其子级执行子职责而使其遵循单一职责原则。</application></application></footer></content></sidebar></header></application></p>
+<h2 id="可重用性"><a href="#可重用性" class="headerlink" title="可重用性"></a>可重用性</h2><p>使用组合的组件可以重用通用逻辑。这就是可重用性的好处。<br>例如，组件<composed1>和<composed2>共享通用代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> instance1 = (</span><br><span class="line">  &lt;Composed1&gt;</span><br><span class="line">    <span class="comment">/* Specific to Composed1 code... */</span></span><br><span class="line">    <span class="comment">/* Common code... */</span></span><br><span class="line">  &lt;<span class="regexp">/Composed1&gt;</span></span><br><span class="line"><span class="regexp">);</span></span><br><span class="line"><span class="regexp">const instance2 = (</span></span><br><span class="line"><span class="regexp">  &lt;Composed2&gt;</span></span><br><span class="line"><span class="regexp">    /</span>* Common code... *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">    /</span>* Specific to Composed2 code... *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">  &lt;/</span>Composed2&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure></composed2></composed1></p>
+<p>由于重复代码是一种不好的做法，因此如何使组件重用通用代码？<br>首先，将通用代码封装在一个新组件中<common>。其次，<composed1>并<composed2>应使用组成包括<common>，修复代码重复：<br>  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> instance1 = (</span><br><span class="line">  &lt;Composed1&gt;</span><br><span class="line">    &lt;Piece1 /&gt;</span><br><span class="line">    &lt;Common /&gt;</span><br><span class="line">  &lt;<span class="regexp">/Composed1&gt;</span></span><br><span class="line"><span class="regexp">);</span></span><br><span class="line"><span class="regexp">const instance2 = (</span></span><br><span class="line"><span class="regexp">  &lt;Composed2&gt;</span></span><br><span class="line"><span class="regexp">    &lt;Common /</span>&gt;</span><br><span class="line">    &lt;Piece2 /&gt;</span><br><span class="line">  &lt;<span class="regexp">/Composed2&gt;</span></span><br><span class="line"><span class="regexp">);</span></span><br></pre></td></tr></table></figure></common></composed2></composed1></common></p>
+<p>可重用组件有利于“不要重复自己（DRY）”原则。这种有益的做法节省了精力和时间。</p>
+<h1 id="可重用的组件是设计良好的系统的结果。尽可能重复使用代码，以避免重复。"><a href="#可重用的组件是设计良好的系统的结果。尽可能重复使用代码，以避免重复。" class="headerlink" title="可重用的组件是设计良好的系统的结果。尽可能重复使用代码，以避免重复。"></a>可重用的组件是设计良好的系统的结果。尽可能重复使用代码，以避免重复。</h1><p>一个可重用的组件写入一次，但多次使用。<br>想象一个幻想世界，其中软件开发主要是在重新发明轮子。<br>编码时，不能使用任何现有的库或实用程序。即使在整个应用程序中，您也无法使用已经编写的代码。<br>在这种环境下，是否可以在合理的时间内编写应用程序？当然不。<br>欢迎重用。使事情起作用，而不是重新发明它们的工作方式。</p>
+<h2 id="4-1跨应用程序重用"><a href="#4-1跨应用程序重用" class="headerlink" title="4.1跨应用程序重用"></a>4.1跨应用程序重用</h2><p>根据“不要重复自己（DRY）”原则，每条知识在系统中必须具有唯一，明确，权威的表示形式。该原则建议避免重复。<br>代码重复会增加复杂性和维护工作，而不会增加重大价值。逻辑的更新迫使您修改应用程序中的所有克隆。<br>重复性问题通过可重用的组件解决。一次编写，多次使用：高效省时的策略。<br>但是，您不会免费获得可重用性属性。如果组件符合单一职责原则并具有正确的封装，则可以重用。<br>遵守单一责任至关重要：<br>重用组件实际上意味着重用其责任实现。<br>仅负责一项的组件最容易重用。<br>但是，当一个组件错误地承担多个职责时，其重用会增加沉重的开销。您只想重用一个职责实施，还可以获取不适当的职责不必要的实施。<br>您想要一个香蕉，就得到一个香蕉，再加上所有的丛林。<br>正确的封装会创建一个不依赖于依赖项的组件。隐藏的内部结构和集中的支柱使组件可以很好地适合要重用的多个位置。</p>
+<h2 id="4-2重用第三方库"><a href="#4-2重用第三方库" class="headerlink" title="4.2重用第三方库"></a>4.2重用第三方库</h2><p>一个正常的工作日。您已经阅读了向应用程序添加新功能的任务。启动文本编辑器之前，请等待几分钟……<br>您开始解决的问题很有可能已经解决。由于React的受欢迎程度和强大的开源社区，值得寻找现有的解决方案。<br>请查看brillout / awesome-react-components存储库，该存储库具有可重用组件的已编译列表。<br>好的图书馆会对架构决策产生积极影响，并倡导最佳实践。以我的经验，最有影响力的人物是react-router和redux。<br>react-router使用声明性路由来构建单页应用程序。<br>使用将URL路径与您的组件相关联<route>。然后，当用户访问匹配的URL时，路由器将为您呈现该组件。<br>redux和react-redux HOC引入了单向和可预测的应用程序状态管理。它从组件中提取异步和不纯净的代码（例如HTTP请求），支持单一职责原则并创建纯净或几乎纯净的组件。</route></p>
+<h1 id="诸如网络请求或全局变量之类的副作用使组件取决于环境。通过为相同的prop值返回相同的输出来使其纯净。"><a href="#诸如网络请求或全局变量之类的副作用使组件取决于环境。通过为相同的prop值返回相同的输出来使其纯净。" class="headerlink" title="诸如网络请求或全局变量之类的副作用使组件取决于环境。通过为相同的prop值返回相同的输出来使其纯净。"></a>诸如网络请求或全局变量之类的副作用使组件取决于环境。通过为相同的prop值返回相同的输出来使其纯净。</h1><p>甚至认为使用Redux都需要其他构造，例如动作，减速器和Sagas，它有助于使<fetchweather>纯净。<br>让我们进行修改<weatherfetch>以与Redux一起使用：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; connect &#125; <span class="keyword">from</span> <span class="string">'react-redux'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; fetch &#125; <span class="keyword">from</span> <span class="string">'./action'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">WeatherFetch</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">   render() &#123;</span><br><span class="line">     <span class="keyword">const</span> &#123; temperature, windSpeed &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">     <span class="keyword">return</span> (</span><br><span class="line">       &lt;WeatherInfo temperature=&#123;temperature&#125; windSpeed=&#123;windSpeed&#125; /&gt;</span><br><span class="line">     );</span><br><span class="line">   &#125;</span><br><span class="line">   componentDidMount() &#123;</span><br><span class="line">     <span class="keyword">this</span>.props.fetch();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mapStateToProps</span>(<span class="params">state</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    temperature: state.temperate,</span><br><span class="line">    windSpeed: state.windSpeed</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> connect(mapStateToProps, &#123; fetch &#125;);</span><br><span class="line">connect(mapStateToProps, &#123; fetch &#125;)HOC包装&lt;WeatherFetch&gt;。</span><br></pre></td></tr></table></figure></weatherfetch></fetchweather></p>
+<h1 id="有意义的组件命名和表达性代码是可读性的关键。您的代码必须易于理解并且欢迎阅读。"><a href="#有意义的组件命名和表达性代码是可读性的关键。您的代码必须易于理解并且欢迎阅读。" class="headerlink" title="有意义的组件命名和表达性代码是可读性的关键。您的代码必须易于理解并且欢迎阅读。"></a>有意义的组件命名和表达性代码是可读性的关键。您的代码必须易于理解并且欢迎阅读。</h1><p>一个有意义的组件很容易理解它的作用。<br>很难低估可读代码的重要性。您多少次被代码遮住了？您看到字符，但看不到含义。<br>开发人员花费大量时间阅读和理解代码，而不是实际编写代码。编码活动占75％的时间理解代码，20％的时间修改现有代码和5％的代码编写新代码（源）。<br>花一点时间在可读性上会减少以后对队友和您自己的理解时间。随着应用程序的增长，命名实践变得很重要，因为理解的努力会随着代码量的增加而增加。<br>读取有意义的代码很容易。但是，有意义地编写代码需要简洁的代码实践和不断的努力以清晰地表达自己。</p>
+<h2 id="帕斯卡案"><a href="#帕斯卡案" class="headerlink" title="帕斯卡案"></a>帕斯卡案</h2><p>组件名称是在pascal情况下一个或多个单词（主要是名词）的串联。例如<datepicker>，<griditem>，<application>，<header>。</header></application></griditem></datepicker></p>
+<h2 id="专业化"><a href="#专业化" class="headerlink" title="专业化"></a>专业化</h2><p>组件越特殊，其名称可能包含的单词越多。<br>名为的组件<headermenu>建议在标题中显示菜单。名称<sidebarmenuitem>表示位于侧栏中的菜单项。<br>当名称有意义地暗示意图时，组件很容易理解。为此，通常必须使用冗长的名称。很好：冗长多于清晰。<br>假设您浏览一些项目文件并确定2个组件：<authors>和<authorslist>。仅根据名称，您能得出它们之间的区别吗？很有可能不会。<br>要获取详细信息，您必须打开<authors>源文件并浏览代码。完成此操作后，您将意识到<authors>从服务器获取作者列表并呈现<authorslist>表示性组件。<br>使用更专业的名称代替<authors>不会导致这种情况。更好的名称<fetchauthors>，<authorscontainer>或<authorspage>。<br>简洁胜于简洁。</authorspage></authorscontainer></fetchauthors></authors></authorslist></authors></authors></authorslist></authors></sidebarmenuitem></headermenu></p>
+<h2 id="一个字-一个概念"><a href="#一个字-一个概念" class="headerlink" title="一个字-一个概念"></a>一个字-一个概念</h2><p>一个词代表一个概念。例如，呈现项目概念的集合由列表词表示。<br>每个概念选择一个词，然后在整个应用程序中保持关系的一致性。结果是可预测的单词心理映射-您已经习惯了概念。<br>当同一概念由许多单词表示时，可读性会受到影响。例如，您定义一个呈现订单列表的组件，<orderslist>另一个定义呈现费用列表的组件<expensestable>。<br>呈现项目集合的相同概念由两个不同的词表示：list和table。没有理由为同一概念使用不同的词。它增加了混乱并破坏了命名的一致性。<br>命名组件<orderslist>和<expenseslist>（使用列表词）或<orderstable>和<expensestable>（使用表词）。使用您认为更好的任何单词，只要保持一致即可。<br>测试不仅是自动检测错误的方法。如果您发现难以测试的组件，则很可能是设计错误的组件。</expensestable></orderstable></expenseslist></orderslist></expensestable></orderslist></p>
+<h1 id="在封装一个组件的时候应该先思考什么"><a href="#在封装一个组件的时候应该先思考什么" class="headerlink" title="在封装一个组件的时候应该先思考什么?"></a>在封装一个组件的时候应该先思考什么?</h1><p>这个组件应该是做什么的<br>这个组件应该至少需要知道那些信息<br>这个组件会反馈什么东西<br>在设计一个组件的时候我们不应该仅限于实现当前的需求，<br>设计出一个只适用于单一项目的组件，而是应该是一个可以适应大部分同种需求的通用组件。<br>所以我们在碰到一个需求的时候应该首先对需求进行抽象，而不是看到设计稿就撸着袖子上。<br>例如碰到一个轮播图组件的需求的时候，我们拆分以下这个需求，可以得到：<br>（1） 这个组件要做什么：<br>可以展示多张图片<br>可以向左向右翻页，或者是可以是上下翻页<br>PageControl的状态会根据图片的滚动而相应改变 还有可能有一些隐藏的需求，类似于：<br>应该支持左右两侧或者上下无限循环滚动<br>可以选择的是否自动轮播<br>支持手动滑动切换图片<br>图片有点击事件，可以点击来进行相关的事件反应<br>（2）这个组件至少应该知道什么信息<br>一个好的组件应该是要像存在魔法一样，只需要极其少数的参数和条件就可以得到期望的效果。就像这个轮播图组件一样，组件应该至少知道的信息有：<br>图片的url地址数组<br>当图片不存在时候的占位图<br>其他可以知道也可以不知道的信息可以有：<br>是否开启自动轮播，默认是开启或者不开启<br>图片滚动是左右还是上下，默认是左右<br>等等 ………………………………<br>（3）这个组件会反馈什么<br>一个可用的轮播图效果</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-react-hooks" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/08/25/react-hooks/">react hooks</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/08/25/react-hooks/" class="article-date">
+  <time datetime="2020-08-25T07:25:12.000Z" itemprop="datePublished">2020-08-25</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="1-userContext123"><a href="#1-userContext123" class="headerlink" title="1.userContext123"></a>1.userContext123</h1><p>关于React Hooks中使用useContext 进行父子组件传值（父子组件不在同一个文件中）<br>1、封装的公共文件<br>// createContext.js文件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createContext &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">const</span> myContext = createContext(<span class="literal">null</span>);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> myContext;</span><br></pre></td></tr></table></figure></p>
+<p>2、父组件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState&#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> Counter <span class="keyword">from</span> <span class="string">'./Counter'</span></span><br><span class="line"><span class="keyword">import</span> myContext <span class="keyword">from</span> <span class="string">'./createContext'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;h4&gt;我是父组件&lt;<span class="regexp">/h4&gt;</span></span><br><span class="line"><span class="regexp">      &lt;p&gt;点击了 &#123;count&#125; 次!&lt;/</span>p&gt;</span><br><span class="line">      &lt;button</span><br><span class="line">        onClick=&#123;() =&gt; &#123;</span><br><span class="line">          setCount(count + <span class="number">1</span>);</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      &gt;</span><br><span class="line">        点我</span><br><span class="line">      &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">      &#123;/</span>* 关键代码 *<span class="regexp">/&#125;</span></span><br><span class="line"><span class="regexp">      &#123;/</span>* 提供器 *<span class="regexp">/&#125;</span></span><br><span class="line"><span class="regexp">      &lt;myContext.Provider value=&#123;count&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;Counter /</span>&gt;</span><br><span class="line">      &lt;<span class="regexp">/myContext.Provider&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> App;</span><br></pre></td></tr></table></figure></p>
+<p>3、子组件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useContext&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> myContext <span class="keyword">from</span> <span class="string">'./createContext'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 关键代码</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Counter</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> count = useContext(myContext);  <span class="comment">// 得到父组件传的值</span></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;h4&gt;我是子组件&lt;<span class="regexp">/h4&gt;</span></span><br><span class="line"><span class="regexp">            &lt;p&gt;这是父组件传过来的值：&#123;count&#125;&lt;/</span>p&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default Counter;</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="2-useCallback"><a href="#2-useCallback" class="headerlink" title="2.useCallback"></a>2.useCallback</h1><p>它会返回相同的引用，避免子组件进行无意义的重复渲染：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> memoizedHandleClick = useCallback(</span><br><span class="line">    () =&gt; <span class="built_in">console</span>.log(<span class="string">`Click happened with dependency: <span class="subst">$&#123;count&#125;</span>`</span>), [count],</span><br><span class="line">  ); </span><br><span class="line">  <span class="keyword">return</span> &lt;Button onClick=&#123;memoizedHandleClick&#125;&gt;Click Me&lt;/Button&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="3-useMemo-、-React-memo"><a href="#3-useMemo-、-React-memo" class="headerlink" title="3.useMemo 、 React.memo"></a>3.useMemo 、 React.memo</h1><p>useCallback缓存的是方法的引用，而useMemo缓存的则是方法的返回值。使用场景是减少不必要的子组件渲染：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params">&#123; a, b &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 当 a 改变时才会重新渲染</span></span><br><span class="line">  <span class="keyword">const</span> child1 = useMemo(<span class="function"><span class="params">()</span> =&gt;</span> &lt;Child1 a=&#123;a&#125; /&gt;, [a]);</span><br><span class="line">  <span class="comment">// 当 b 改变时才会重新渲染</span></span><br><span class="line">  <span class="keyword">const</span> child2 = useMemo(<span class="function"><span class="params">()</span> =&gt;</span> &lt;Child2 b=&#123;b&#125; /&gt;, [b]);</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &#123;child1&#125;</span><br><span class="line">      &#123;child2&#125;</span><br><span class="line">    &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>如果想实现Class Component的shouldComponentUpdate方法，可以使用React.memo方法，区别是它只能比较 props，不会比较 state：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Parent = React.memo(<span class="function">(<span class="params">&#123; a, b &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 当 a 改变时才会重新渲染</span></span><br><span class="line">  <span class="keyword">const</span> child1 = useMemo(<span class="function"><span class="params">()</span> =&gt;</span> &lt;Child1 a=&#123;a&#125; /&gt;, [a]);</span><br><span class="line">  <span class="comment">// 当 b 改变时才会重新渲染</span></span><br><span class="line">  <span class="keyword">const</span> child2 = useMemo(<span class="function"><span class="params">()</span> =&gt;</span> &lt;Child2 b=&#123;b&#125; /&gt;, [b]);</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &#123;child1&#125;</span><br><span class="line">      &#123;child2&#125;</span><br><span class="line">    &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;);</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="封装自定义-usePrevious"><a href="#封装自定义-usePrevious" class="headerlink" title="封装自定义 usePrevious"></a>封装自定义 usePrevious</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> usePrevious = <span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> ref = useRef();</span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    ref.current = value;</span><br><span class="line">  &#125;, [value]);</span><br><span class="line">  <span class="keyword">return</span> ref.current;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Counter</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> prevCountRef = usePrevious(count);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">0</span>);</span><br><span class="line">  <span class="comment">// useEffect(() =&gt; &#123;</span></span><br><span class="line">  <span class="comment">//   console.log(1);</span></span><br><span class="line">  <span class="comment">//   prevCountRef.current = count;</span></span><br><span class="line">  <span class="comment">// &#125;);</span></span><br><span class="line">  <span class="keyword">const</span> prevCount = prevCountRef;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;h1&gt;</span><br><span class="line">        Now: &#123;count&#125;, <span class="attr">before</span>: &#123;prevCount&#125;</span><br><span class="line">      &lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;() =&gt; setCount(count + 1)&#125;&gt;click here&lt;/</span>button&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-Chrome-time-分析" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/03/Chrome-time-分析/">Chrome time 分析</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/07/03/Chrome-time-分析/" class="article-date">
+  <time datetime="2020-07-03T02:18:39.000Z" itemprop="datePublished">2020-07-03</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="Stalled（阻塞）"><a href="#Stalled（阻塞）" class="headerlink" title="Stalled（阻塞）"></a>Stalled（阻塞）</h1><p>　　浏览器对同一个主机域名的并发连接数有限制，因此如果当前的连接数已经超过上限，那么其余请求就会被阻塞，等待新的可用连接；此外脚本也会阻塞其他组件的下载；</p>
+<p>　　优化措施：</p>
+<p>　　1、将资源合理分布到多台主机上，可以提高并发数，但是增加并行下载数量也会增大开销，这取决于带宽和CPU速度，过多的并行下载会降低性能；</p>
+<p>　　2、脚本置于页面底部；</p>
+<h1 id="DNS-Lookup（域名解析）"><a href="#DNS-Lookup（域名解析）" class="headerlink" title="DNS Lookup（域名解析）"></a>DNS Lookup（域名解析）</h1><p>　　请求某域名下的资源，浏览器需要先通过DNS解析器得到该域名服务器的IP地址。在DNS查找完成之前，浏览器不能从主机名那里下载到任何东西。</p>
+<p>　　优化措施：</p>
+<p>　　1、利用DNS缓存（设置TTL时间）；</p>
+<p>　　2、利用Connection:keep-alive特性建立持久连接，可以在当前连接上进行多个请求，无需再进行域名解析；</p>
+<h1 id="Initial-connection（初始化连接）"><a href="#Initial-connection（初始化连接）" class="headerlink" title="Initial connection（初始化连接）"></a>Initial connection（初始化连接）</h1><p>　　TCP建立连接的三次握手时间</p>
+<h1 id="SSL（包含于HTTPS连接中）"><a href="#SSL（包含于HTTPS连接中）" class="headerlink" title="SSL（包含于HTTPS连接中）"></a>SSL（包含于HTTPS连接中）</h1><p>　　http是超文本传输协议，以明文方式发送内容，不提供任何方式的数据加密，如果被不法分子截取浏览器和服务器之间的传输报文，会获取其中的信息。</p>
+<p>　　https 是安全套接字层超文本传输协议，就是在HTTP的基础上加入了SSL协议，SSL依靠证书来验证服务器的身份，并为浏览器和服务器之间的通信加密。</p>
+<p>　　因此建立HTTPS连接的时间相当于三次握手的时间+SSL时间。</p>
+<h1 id="Request-sent（发送请求）"><a href="#Request-sent（发送请求）" class="headerlink" title="Request sent（发送请求）"></a>Request sent（发送请求）</h1><p>　　发送HTTP请求的时间（从第一个bit到最后一个bit）</p>
+<p>　　优化措施：</p>
+<p>　　1、减少HTTP请求，可以使用CSS Sprites、内联图片、合并脚本和样式表等；</p>
+<p>　　2、对不常变化的组件添加长久的Expires头（相当于设置久远的过期时间），在后续的页面浏览中可以避免不必要的HTTP请求；</p>
+<h1 id="Waiting（等待响应）"><a href="#Waiting（等待响应）" class="headerlink" title="Waiting（等待响应）"></a>Waiting（等待响应）</h1><p>　　通常是耗费时间最长的。从发送请求到收到响应之间的空隙，会受到线路、服务器距离等因素的影响。</p>
+<p>　　优化措施：</p>
+<p>　　1、使用CDN，将用户的访问指向距离最近的工作正常的缓存服务器上，由缓存服务器直接响应用户请求，提高响应速度；</p>
+<h1 id="Content-Download（下载）"><a href="#Content-Download（下载）" class="headerlink" title="Content Download（下载）"></a>Content Download（下载）</h1><p>　　下载HTTP响应的时间（包含头部和响应体）</p>
+<p>　　优化措施：</p>
+<p>　　1、通过条件Get请求，对比If-Modified-Since和Last-Modified时间，确定是否使用缓存中的组件，服务器会返回“304 Not Modified”状态码，减小响应的大小；</p>
+<p>　　2、移除重复脚本，精简和压缩代码，如借助自动化构建工具grunt、gulp等；</p>
+<p>　　3、压缩响应内容，服务器端启用gzip压缩，可以减少下载时间</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-nodejs相关记录" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/30/nodejs相关记录/">nodejs相关记录</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/30/nodejs相关记录/" class="article-date">
+  <time datetime="2020-06-30T08:09:28.000Z" itemprop="datePublished">2020-06-30</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="nvm管理node-版本号"><a href="#nvm管理node-版本号" class="headerlink" title="nvm管理node 版本号"></a>nvm管理node 版本号</h1><p>在mac和liunx系统里边  nvm use 切换的是当次版本   下次打开终端  还是之前的node版本</p>
+<p>要想永久切换   使用nvm alias default （版本号）</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-React-HOC-ref-用法" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/04/React-HOC-ref-用法/">React HOC ref 用法</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/04/React-HOC-ref-用法/" class="article-date">
+  <time datetime="2020-06-04T02:26:11.000Z" itemprop="datePublished">2020-06-04</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>昨天参加面试被问到hoc 父组件的static 方法的传递</p>
+<p>关键点就是React.forwardRef的API中ref必须指向dom元素而不是React组件。</p>
+<p>一、React.forwardRef使用示例<br>下面就是应用到React组件的错误示例：</p>
+<p>const A=React.forwardRef((props,ref)=&gt;<b {...props}="" ref="{ref}/">)<br>这就是我之前经常犯的错误， 这里的ref是无法生效的。</b></p>
+<p>前面提到ref必须指向dom元素，那么正确方法就应用而生：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span>  A=React.forwardRef(<span class="function">(<span class="params">props,ref</span>)=&gt;</span>(</span><br><span class="line">&lt;div ref=&#123;ref&#125;&gt;</span><br><span class="line">&lt;B &#123;...props&#125; /&gt;</span><br><span class="line">&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">))</span></span><br></pre></td></tr></table></figure></p>
+<p>二、React.forwardRef应用到高阶组件中<br>2.1. withComponent类型的高阶组件【1】<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;</span><br><span class="line">import A from &apos;./a.jsx&apos;</span><br><span class="line">import PropTypes from &apos;prop-types&apos;;</span><br><span class="line"></span><br><span class="line">function withA(Component)&#123;</span><br><span class="line">    const ForWardedComponent = React.forwardRef((props, ref) =&gt; &lt;div ref=&#123;ref&#125;&gt;</span><br><span class="line">               &lt;Component &#123;...props&#125; /&gt;</span><br><span class="line">           &lt;/div&gt;);</span><br><span class="line">     class MidComponent extends React.Component &#123;</span><br><span class="line">        render() &#123;</span><br><span class="line">            const props = this.props</span><br><span class="line">            return (</span><br><span class="line">                &lt;A &#123;...props&#125;&gt;</span><br><span class="line">                  &lt;ForWardedComponent  ref=&#123;props.forwardedRef&#125; &#123;...props&#125;/&gt;</span><br><span class="line">            &lt;/A&gt;</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //对MidComponent组件属性进行类型经查 </span><br><span class="line">    MidComponent.propTypes = &#123;</span><br><span class="line">        forwardedRef: PropTypes.object,</span><br><span class="line">    &#125;</span><br><span class="line">    return  MidComponent</span><br><span class="line">&#125;</span><br><span class="line">exports.withA=withA</span><br><span class="line">这样，在上述示例的组件A中，A的周期componentDidMount() 调用 this.props.forwardedRef.current ,指向的就是上述示例中ForWardedComponent对应的dom元素。</span><br><span class="line">是B组件对应的dom的父元素，而不是该dom</span><br><span class="line">在a.jsx中某处:</span><br><span class="line"></span><br><span class="line">    componentDidMount()&#123;</span><br><span class="line">     console.log(this.props.forwardedRef.current)</span><br><span class="line">    &#125;</span><br><span class="line">最后应用实例：</span><br><span class="line"></span><br><span class="line">import React from &apos;react&apos;</span><br><span class="line">import ReactDOM from  &apos;react-dom&apos;</span><br><span class="line">//假设withA存储于withA.js文件。</span><br><span class="line">import &#123;withA&#125;   from  &apos;./withA.js&apos;  </span><br><span class="line"> const B=()=&gt;&lt;h2&gt;hello world&lt;/h2&gt;</span><br><span class="line">const B2=withA(B)</span><br><span class="line">class App extends React.Component &#123;</span><br><span class="line">      constructor(props) &#123;</span><br><span class="line">        super(props)</span><br><span class="line">        this.forwardedRef=React.creactRef()        </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        render() &#123;</span><br><span class="line">           return  &lt;div&gt;</span><br><span class="line">               &lt;B2  forwardedRef=&#123;this.forwardedRef&#125;/&gt;</span><br><span class="line">           &lt;/div&gt;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;App/&gt;,document.getElementById(&apos;app&apos;))</span><br><span class="line">     </span><br><span class="line">2.2 纯粹的高阶组件（Parent-Child）</span><br><span class="line">【1】中并不是React组件，只是一个React组件为参数的函数，调用以后才成为React组件。那么直接写入一个Parent组件又该如何呢？</span><br><span class="line"></span><br><span class="line">import React from &apos;react&apos;</span><br><span class="line">import A from &apos;./a.jsx&apos;</span><br><span class="line">import PropTypes from &apos;prop-types&apos;;</span><br><span class="line"></span><br><span class="line">function AasParent(props)&#123;</span><br><span class="line">    const ForWardedComponent = React.forwardRef((props, ref) =&gt; &lt;div ref=&#123;ref&#125;&gt;</span><br><span class="line">               &#123;props.children&#125;</span><br><span class="line">           &lt;/div&gt;);</span><br><span class="line">      return (</span><br><span class="line">                &lt;A &#123;...props&#125;&gt;</span><br><span class="line">                  &lt;ForWardedComponent  ref=&#123;props.forwardedRef&#125; &#123;...props&#125;/&gt;</span><br><span class="line">            &lt;/A&gt;)</span><br><span class="line">&#125;</span><br><span class="line">AasParent.propTypes = &#123;</span><br><span class="line">        forwardedRef: PropTypes.object,</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">module.exports=AasParent</span><br><span class="line">最后应用实例：</span><br><span class="line"></span><br><span class="line">import React from &apos;react&apos;</span><br><span class="line">import ReactDOM from  &apos;react-dom&apos;</span><br><span class="line">//假设AasParent存储于AasParent.jsx文件。注意与【1】中的区别</span><br><span class="line">import AasParent   from  &apos;./AasParent.jsx&apos;  </span><br><span class="line"> const B=(props)=&gt;&lt;h2&gt;&#123;props.greetings&#125;&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">class App extends React.Component &#123;</span><br><span class="line">      constructor(props) &#123;</span><br><span class="line">        super(props)</span><br><span class="line">        this.forwardedRef=React.creactRef()        </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        render() &#123;</span><br><span class="line">           return  &lt;AasParent forwardedRef=&#123;this.forwardedRef&#125;&gt;</span><br><span class="line">               &lt;B2  greetings=&quot;你好，Melo&quot;/&gt;</span><br><span class="line">           &lt;/AasParent&gt;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;App/&gt;,document.getElementById(&apos;app&apos;))</span><br></pre></td></tr></table></figure></p>
+<p>三、总结<br>1.React.forwardRef的API中ref必须指向dom元素而不是React组件。<br>2.在【1】的组件A中，A的周期componentDidMount() 调用 this.props.forwardedRef.current ,指向的就是【1】中ForWardedComponent对应的dom元素。是【1】中B组件对应的dom的父dom元素，而不是该dom。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-Http协议相关" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/12/Http协议相关/">Http协议相关</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/12/Http协议相关/" class="article-date">
+  <time datetime="2020-05-12T09:16:40.000Z" itemprop="datePublished">2020-05-12</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>1.强缓存离不开两个响应头Expires与Cache-Control</p>
+<p>Expires：Expires是http1.0提出的一个表示资源过期时间的header，它描述的是一个绝对时间，由服务器返回，Expires 受限于本地时间，如果修改了本地时间，可能会造成缓存失效<br>Expires: Wed, 11 May 2018 07:20:00 GMT</p>
+<p>Cache-Control: Cache-Control 出现于 HTTP / 1.1，优先级高于 Expires ,表示的是相对时间<br>Cache-Control: max-age=315360000</p>
+<p>2.协商缓存<br>协商缓存就是强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程，主要有以下两种情况：</p>
+<p>协商缓存生效，返回304和Not Modified<br>协商缓存失效，返回200和请求结果</p>
+<p>协商缓存可以通过设置两种 HTTP Header 实现：Last-Modified 和 ETag 。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-V2Ray断流异常" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/03/15/V2Ray断流异常/">V2Ray断流异常</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/03/15/V2Ray断流异常/" class="article-date">
+  <time datetime="2020-03-15T15:54:38.000Z" itemprop="datePublished">2020-03-15</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <ol>
+<li><p>问题描述<br>最近一段时间发现，代理十分不稳定，经常出现“断流”，具体表现为：打开需要代理的站点，需要访问两次，第一次访问失败，需要再刷新一次。<br>查看错误日志内容：</p>
+</li>
+<li><p>Proxy|HTTP: failed to read response from r16—sn-ni57dn7z.gvt1.com &gt; io: read/write on closed pipe</p>
+</li>
+<li><p>问题原因<br>后翻阅issue检查发现，我的代理服务器时间比客户端慢了3分钟，两端时间不一致。</p>
+</li>
+<li><p>解决办法<br>同步服务器时间</p>
+</li>
+</ol>
+<p>查看当前服务当前时间</p>
+<ol>
+<li>date -R</li>
+<li>timedatectl set-ntp no</li>
+<li>timedatectl set-time ‘23:51:00’</li>
+</ol>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-React-高阶组件-属性代理和反向继承-生命周期调研" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/React-高阶组件-属性代理和反向继承-生命周期调研/">React 高阶组件 属性代理和反向继承 生命周期调研</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/12/22/React-高阶组件-属性代理和反向继承-生命周期调研/" class="article-date">
+  <time datetime="2019-12-21T17:43:58.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="属性代理-Props-Proxy-：-HOC-对传给-WrappedComponent-W-的-porps-进行操作，反向继承-Inheritance-Inversion-：-HOC-继承-WrappedComponent-W。"><a href="#属性代理-Props-Proxy-：-HOC-对传给-WrappedComponent-W-的-porps-进行操作，反向继承-Inheritance-Inversion-：-HOC-继承-WrappedComponent-W。" class="headerlink" title="属性代理(Props Proxy)： HOC 对传给 WrappedComponent W 的 porps 进行操作，反向继承(Inheritance Inversion)： HOC 继承 WrappedComponent W。"></a>属性代理(Props Proxy)： HOC 对传给 WrappedComponent W 的 porps 进行操作，反向继承(Inheritance Inversion)： HOC 继承 WrappedComponent W。</h2><h3 id="1-属性代理"><a href="#1-属性代理" class="headerlink" title="1.属性代理"></a>1.属性代理</h3><p>使用 Props Proxy 可以做什么？</p>
+<p>操作 props<br>通过 Refs 访问到组件实例<br>提取 state<br>用其他元素包裹 WrappedComponent<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.message = <span class="string">'World'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  componentWillMount()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"属性代理1 willmount"</span>);  </span><br><span class="line">        &#125;</span><br><span class="line">        componentDidMount()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"属性代理1 didmount"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (&lt;h1&gt;Hello &#123;this.message&#125;&lt;/h1&gt;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> MyContainer = <span class="function">(<span class="params">WrappedComponent</span>) =&gt;</span> </span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">        componentWillMount()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"HOC属性代理1 willmount"</span>);  </span><br><span class="line">        &#125;</span><br><span class="line">        componentDidMount()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"HOC属性代理1 didmount"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      </span><br><span class="line">        render()&#123;</span><br><span class="line">            <span class="keyword">return</span> &lt;WrappedComponent &#123;...this.props&#125; /&gt;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">const Hocfirst=MyContainer(App);</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;Hocfirst/&gt;, window.root);</span><br><span class="line"></span><br><span class="line">\\\</span><br><span class="line"></span><br><span class="line">"HOC属性代理1 willmount"</span><br><span class="line">"属性代理1 willmount"</span><br><span class="line">"属性代理1 didmount"</span><br><span class="line">"HOC属性代理1 didmount"</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-反向继承"><a href="#2-反向继承" class="headerlink" title="2.反向继承"></a>2.反向继承</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">replacer</span>(<span class="params">key, value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">'function'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`function <span class="subst">$&#123;value.name&#125;</span>() &#123;...&#125;`</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stringify</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">JSON</span>.stringify(value, replacer, <span class="number">2</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// II debug example</span></span><br><span class="line"><span class="comment">// We are using the Inheritance Inversion technique to display</span></span><br><span class="line"><span class="comment">// the current state and props of the WrappedComponent (the component you want to debug).</span></span><br><span class="line"><span class="comment">// This is based on the technique that Mickael Jackson and Ryan Florence recommend</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">IIHOC</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">II</span> <span class="keyword">extends</span> <span class="title">WrappedComponent</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">      <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">          &lt;h2&gt;</span><br><span class="line">            HOC Debugger Component</span><br><span class="line">          &lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">          &lt;p&gt;</span></span><br><span class="line"><span class="regexp">            Props</span></span><br><span class="line"><span class="regexp">          &lt;/</span>p&gt;</span><br><span class="line">          &lt;pre&gt;&#123;stringify(<span class="keyword">this</span>.props)&#125;&lt;<span class="regexp">/pre&gt;</span></span><br><span class="line"><span class="regexp">          &lt;p&gt;</span></span><br><span class="line"><span class="regexp">            State</span></span><br><span class="line"><span class="regexp">          &lt;/</span>p&gt;</span><br><span class="line">          &lt;pre&gt;&#123;stringify(<span class="keyword">this</span>.state)&#125;&lt;<span class="regexp">/pre&gt;</span></span><br><span class="line"><span class="regexp">          &#123;super.render()&#125;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Example</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      name: <span class="string">'fran'</span>,</span><br><span class="line">      email: <span class="string">'franleplant@gmail.com'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h2&gt;</span><br><span class="line">          Wrapped Component</span><br><span class="line">        &lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">        &lt;p&gt;Im a wrapped component&lt;/</span>p&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">const EnhancedExample = IIHOC(Example)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">ReactDOM.render(&lt;EnhancedExample date=&#123;(new Date).toISOString()&#125; callback=&#123;function test() &#123;&#125;&#125;/</span>&gt;, <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">E2：</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ComponentChild</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      num: <span class="number">2019</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"child component Did Mount"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  clickComponent() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Component click"</span>)</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> ( &lt;div &gt; &#123;</span><br><span class="line">        this.state.num</span><br><span class="line">      &#125; &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> iihoc = <span class="function">(<span class="params">WrapComponet</span>) =&gt;</span> <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">WrapComponet</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">super</span>(props)</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">this</span>.state = &#123;</span><br><span class="line"> </span><br><span class="line">          num: <span class="number">2000</span></span><br><span class="line"> </span><br><span class="line">      &#125;</span><br><span class="line"> </span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line"> </span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'iihoc componentDidMount'</span>)</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">this</span>.clickComponent()</span><br><span class="line"> </span><br><span class="line">  &#125;</span><br><span class="line">render()&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line"> </span><br><span class="line">    &lt;div&gt;</span><br><span class="line"> </span><br><span class="line">        &lt;div onClick=&#123;<span class="keyword">this</span>.clickComponent&#125;&gt;iiHoc 点击&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp">       &#123;/</span>* &lt;div&gt;&lt;WrapComponet /&gt;&lt;/div&gt; *<span class="regexp">/&#125;/</span><span class="regexp">/用的是父组件的state；</span></span><br><span class="line"><span class="regexp">       &lt;div&gt;&#123;super.render()&#125;&lt;/</span>div&gt;<span class="comment">//反向继承，用的是子组件的state；并且会劫持父组件的生命周期钩子函数componentDidMount，不会执行父组件的componentDidMount</span></span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp">)</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp">var App = iihoc(ComponentChild)</span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp">ReactDOM.render(&lt;App/</span>&gt;, <span class="built_in">window</span>.root);</span><br></pre></td></tr></table></figure>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-h5-hybird-webview页面兼容性" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/20/h5-hybird-webview页面兼容性/">h5 hybird webview页面兼容性</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/12/20/h5-hybird-webview页面兼容性/" class="article-date">
+  <time datetime="2019-12-20T14:53:07.000Z" itemprop="datePublished">2019-12-20</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>1.在滚动容器上增加滚动 touch 方法<br>将-webkit-overflow-scrolling 值设置为 touch</p>
+<p>.wrapper {<br>    -webkit-overflow-scrolling: touch;<br>}</p>
+<p>2.iOS 上拉边界下拉出现白色空白<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'touchmove'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(e._isScroller) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">// 阻止默认事件</span></span><br><span class="line">    e.preventDefault();</span><br><span class="line">&#125;, &#123;</span><br><span class="line">    passive: <span class="literal">false</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>3.软键盘将页面顶起来、收起未回落问题<br>表现<br>Android 手机中，点击 input 框时，键盘弹出，将页面顶起来，导致页面样式错乱。<br>移开焦点时，键盘收起，键盘区域空白，未回落。<br>产生原因<br>我们在app 布局中会有个固定的底部。安卓一些版本中，输入弹窗出来，会将解压 absolute 和 fixed 定位的元素。导致可视区域变小，布局错乱。<br>原理与解决方案<br>软键盘将页面顶起来的解决方案，主要是通过监听页面高度变化，强制恢复成弹出前的高度。<br>// 记录原有的视口高度<br>const originalHeight = document.body.clientHeight || document.documentElement.clientHeight;</p>
+<p>window.onresize = function(){<br>  var resizeHeight = document.documentElement.clientHeight || document.body.clientHeight;<br>  if(resizeHeight &lt; originalHeight ){<br>    document.body.clientHeight = originalHeight;<br>  }<br>}<br>复制代码键盘不能回落问题出现在 iOS 12+ 和 wechat 6.7.4+ 中，而在微信 H5 开发中是比较常见的 Bug。<br>兼容原理，1.判断版本类型 2.更改滚动的可视区域<br>const isWechat = window.navigator.userAgent.match(/MicroMessenger\/([\d.]+)/i);<br>if (!isWechat) return;<br>const wechatVersion = wechatInfo[1];<br>const version = (navigator.appVersion).match(/OS (\d+)<em>(\d+)</em>?(\d+)?/);</p>
+<p> // 如果设备类型为iOS 12+ 和wechat 6.7.4+，恢复成原来的视口<br>if (+wechatVersion.replace(/./g, ‘’) &gt;= 674 &amp;&amp; +version[1] &gt;= 12) {<br>  window.scrollTo(0, Math.max(document.body.clientHeight, document.documentElement.clientHeight));<br>}<br>复制代码<br>window.scrollTo(x-coord, y-coord)，其中window.scrollTo(0, clientHeight)恢复成原来的视口</p>
+<p>4.微信公众号分享问题<br>表现<br>在微信公众号 H5 开发中，页面内部点击分享按钮调用 SDK，方法不生效。<br>解决方案<br>解决方法：添加一层蒙层，做分享引导。<br>因为页面内部点击分享按钮无法直接调用，而分享功能需要点击右上角更多来操作。<br>然后用户可能不知道通过右上角小标里面的功能分享。又想引导用户分享，这时应该怎么做呢？<br>技术无法实现的，从产品出发。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+  </article>
+  
+
+  
+  <nav class="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+  </nav>
+  
+</section>
+</div>
+
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2015-2020
+        Steady
+      </li>
+      <li>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+    <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Steady&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/2019/about.me/index.html">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+      <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+<script src="/js/share.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['面朝大海，春暖花开','愿你一生努力，一生被爱','想要的都拥有，得不到的都释怀'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+<script src="/js/ayer.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+  </div>
+</body>
+
+</html>

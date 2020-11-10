@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steady&#39;blog</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2020-11-06T08:33:08.709Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>Steady</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>css GPU硬件加速原理</title>
+    <link href="http://yoursite.com/2020/11/03/GPU/"/>
+    <id>http://yoursite.com/2020/11/03/GPU/</id>
+    <published>2020-11-03T13:55:30.000Z</published>
+    <updated>2020-11-06T08:33:08.709Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;满世界的动画性能优化技巧，例如：&lt;/p&gt;
+&lt;p&gt;只允许改变transform、opacity，其它属性不要动，避免重新计算布局（reflow）&lt;/p&gt;
+&lt;p&gt;对动画元素应用transform: translate3d(0, 0, 0)、will-change:
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>如何封装react 组件</title>
+    <link href="http://yoursite.com/2020/11/03/react-%E7%BB%84%E4%BB%B6/"/>
+    <id>http://yoursite.com/2020/11/03/react-组件/</id>
+    <published>2020-11-03T12:43:27.000Z</published>
+    <updated>2020-11-06T08:29:41.495Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;由于公司需要一套自己的前端UI公共组件，所以有这次分享&lt;/p&gt;
+&lt;p&gt;本篇文章重点阐述
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>react hooks</title>
+    <link href="http://yoursite.com/2020/08/25/react-hooks/"/>
+    <id>http://yoursite.com/2020/08/25/react-hooks/</id>
+    <published>2020-08-25T07:25:12.000Z</published>
+    <updated>2020-11-03T12:44:39.574Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;1-userContext123&quot;&gt;&lt;a href=&quot;#1-userContext123&quot; class=&quot;headerlink&quot; title=&quot;1.userContext123&quot;&gt;&lt;/a&gt;1.userContext123&lt;/h1&gt;&lt;p&gt;关于React
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Chrome time 分析</title>
+    <link href="http://yoursite.com/2020/07/03/Chrome-time-%E5%88%86%E6%9E%90/"/>
+    <id>http://yoursite.com/2020/07/03/Chrome-time-分析/</id>
+    <published>2020-07-03T02:18:39.000Z</published>
+    <updated>2020-07-03T02:19:22.148Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Stalled（阻塞）&quot;&gt;&lt;a href=&quot;#Stalled（阻塞）&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>nodejs相关记录</title>
+    <link href="http://yoursite.com/2020/06/30/nodejs%E7%9B%B8%E5%85%B3%E8%AE%B0%E5%BD%95/"/>
+    <id>http://yoursite.com/2020/06/30/nodejs相关记录/</id>
+    <published>2020-06-30T08:09:28.000Z</published>
+    <updated>2020-06-30T08:09:58.625Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;nvm管理node-版本号&quot;&gt;&lt;a href=&quot;#nvm管理node-版本号&quot; class=&quot;headerlink&quot; title=&quot;nvm管理node 版本号&quot;&gt;&lt;/a&gt;nvm管理node 版本号&lt;/h1&gt;&lt;p&gt;在mac和liunx系统里边  nvm use
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>React HOC ref 用法</title>
+    <link href="http://yoursite.com/2020/06/04/React-HOC-ref-%E7%94%A8%E6%B3%95/"/>
+    <id>http://yoursite.com/2020/06/04/React-HOC-ref-用法/</id>
+    <published>2020-06-04T02:26:11.000Z</published>
+    <updated>2020-06-04T02:27:51.603Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;昨天参加面试被问到hoc 父组件的static
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Http协议相关</title>
+    <link href="http://yoursite.com/2020/05/12/Http%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3/"/>
+    <id>http://yoursite.com/2020/05/12/Http协议相关/</id>
+    <published>2020-05-12T09:16:40.000Z</published>
+    <updated>2020-05-30T09:50:55.325Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;1.强缓存离不开两个响应头Expires与Cache-Control&lt;/p&gt;
+&lt;p&gt;Expires：Expires是http1.0提出的一个表示资源过期时间的header，它描述的是一个绝对时间，由服务器返回，Expires
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>V2Ray断流异常</title>
+    <link href="http://yoursite.com/2020/03/15/V2Ray%E6%96%AD%E6%B5%81%E5%BC%82%E5%B8%B8/"/>
+    <id>http://yoursite.com/2020/03/15/V2Ray断流异常/</id>
+    <published>2020-03-15T15:54:38.000Z</published>
+    <updated>2020-03-15T15:56:19.993Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;ol&gt;
+&lt;li&gt;&lt;p&gt;问题描述&lt;br&gt;最近一段时间发现，代理十分不稳定，经常出现“断流”，具体表现为：打开需要代理的站点，需要访问两次，第一次访问失败，需要再刷新一次。&lt;br&gt;查看错误日志内容：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Proxy|HTTP: failed to
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>React 高阶组件 属性代理和反向继承 生命周期调研</title>
+    <link href="http://yoursite.com/2019/12/22/React-%E9%AB%98%E9%98%B6%E7%BB%84%E4%BB%B6-%E5%B1%9E%E6%80%A7%E4%BB%A3%E7%90%86%E5%92%8C%E5%8F%8D%E5%90%91%E7%BB%A7%E6%89%BF-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E8%B0%83%E7%A0%94/"/>
+    <id>http://yoursite.com/2019/12/22/React-高阶组件-属性代理和反向继承-生命周期调研/</id>
+    <published>2019-12-21T17:43:58.000Z</published>
+    <updated>2020-05-27T02:59:56.755Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;属性代理-Props-Proxy-：-HOC-对传给-WrappedComponent-W-的-porps-进行操作，反向继承-Inheritance-Inversion-：-HOC-继承-WrappedComponent-W。&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>h5 hybird webview页面兼容性</title>
+    <link href="http://yoursite.com/2019/12/20/h5-hybird-webview%E9%A1%B5%E9%9D%A2%E5%85%BC%E5%AE%B9%E6%80%A7/"/>
+    <id>http://yoursite.com/2019/12/20/h5-hybird-webview页面兼容性/</id>
+    <published>2019-12-20T14:53:07.000Z</published>
+    <updated>2020-05-07T09:22:02.759Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;1.在滚动容器上增加滚动 touch 方法&lt;br&gt;将-webkit-overflow-scrolling 值设置为 touch&lt;/p&gt;
+&lt;p&gt;.wrapper {&lt;br&gt;    -webkit-overflow-scrolling:
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>React 16 新特性</title>
+    <link href="http://yoursite.com/2019/12/17/React-16-%E6%96%B0%E7%89%B9%E6%80%A7/"/>
+    <id>http://yoursite.com/2019/12/17/React-16-新特性/</id>
+    <published>2019-12-17T00:28:14.000Z</published>
+    <updated>2020-05-07T09:22:58.287Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;useEffect-useState-useCallback-Suspense&quot;&gt;&lt;a href=&quot;#useEffect-useState-useCallback-Suspense&quot; class=&quot;headerlink&quot; title=&quot;useEffect,
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript 原生dom操作</title>
+    <link href="http://yoursite.com/2019/12/11/JavaScript-%E5%8E%9F%E7%94%9Fdom%E6%93%8D%E4%BD%9C/"/>
+    <id>http://yoursite.com/2019/12/11/JavaScript-原生dom操作/</id>
+    <published>2019-12-11T14:52:35.000Z</published>
+    <updated>2020-02-16T07:56:55.407Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;document-querySelector-document-querySelectorAll&quot;&gt;&lt;a href=&quot;#document-querySelector-document-querySelectorAll&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>vue生命周期</title>
+    <link href="http://yoursite.com/2019/12/02/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"/>
+    <id>http://yoursite.com/2019/12/02/vue生命周期/</id>
+    <published>2019-12-01T18:05:07.000Z</published>
+    <updated>2020-02-16T07:56:55.410Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;/images/pasted-8.png&quot; alt=&quot;upload successful&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/pasted-9.png&quot; alt=&quot;upload
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>浅谈vue和react的数据流和绑定</title>
+    <link href="http://yoursite.com/2019/11/27/%E6%B5%85%E8%B0%88vue%E5%92%8Creact%E7%9A%84%E6%95%B0%E6%8D%AE%E6%B5%81%E5%92%8C%E7%BB%91%E5%AE%9A/"/>
+    <id>http://yoursite.com/2019/11/27/浅谈vue和react的数据流和绑定/</id>
+    <published>2019-11-26T19:48:41.000Z</published>
+    <updated>2020-02-16T07:56:55.411Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;数据流：&lt;br&gt;Vue和React均是单向数据流传递&lt;/p&gt;
+&lt;p&gt;单向数据流指只能从一个方向修改数据，姑且我们可以这样理解，如下图所示。一个父组件下有两个子组件1和子组件2，父组件可以向子组件传递数据。假如子组件都获取到了父组件的name，在子组件1中对name重新修改之
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>koa800</title>
+    <link href="http://yoursite.com/2019/11/27/koa800/"/>
+    <id>http://yoursite.com/2019/11/27/koa800/</id>
+    <published>2019-11-26T19:11:48.000Z</published>
+    <updated>2020-02-16T07:56:55.409Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;基于koa框架, 可扩展、可配置的中间件集合, 以及快速定制项目结构的脚手架工具&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>chrome插件开发教程</title>
+    <link href="http://yoursite.com/2019/11/18/chrome%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E6%95%99%E7%A8%8B/"/>
+    <id>http://yoursite.com/2019/11/18/chrome插件开发教程/</id>
+    <published>2019-11-17T18:58:35.000Z</published>
+    <updated>2020-02-16T07:56:55.407Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;相关链接&lt;/p&gt;
+&lt;p&gt;代码仓库： &lt;a href=&quot;mailto:git@git.tuan800-inc.com&quot; target=&quot;_blank&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>重识排列组合</title>
+    <link href="http://yoursite.com/2019/10/24/Untitled/"/>
+    <id>http://yoursite.com/2019/10/24/Untitled/</id>
+    <published>2019-10-23T16:25:00.000Z</published>
+    <updated>2020-02-16T07:56:55.407Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;6位数4位为一组共有多少组&lt;/p&gt;
+&lt;p&gt;共有15组。C（6，4）=15。   
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>nginx记录</title>
+    <link href="http://yoursite.com/2019/10/08/nginx%E8%AE%B0%E5%BD%95/"/>
+    <id>http://yoursite.com/2019/10/08/nginx记录/</id>
+    <published>2019-10-08T14:36:40.000Z</published>
+    <updated>2020-02-16T07:56:55.409Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;1-nginx-创建一个域名指向-静态资源html&quot;&gt;&lt;a href=&quot;#1-nginx-创建一个域名指向-静态资源html&quot; class=&quot;headerlink&quot; title=&quot;1.nginx 创建一个域名指向 静态资源html&quot;&gt;&lt;/a&gt;1.nginx
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>vue 记录</title>
+    <link href="http://yoursite.com/2019/08/30/vue%E4%B8%AD%E4%BA%8B%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6%E8%AF%A6%E8%A7%A3-stop-prevent-self-once-capture-passive-1/"/>
+    <id>http://yoursite.com/2019/08/30/vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1/</id>
+    <published>2019-08-29T21:42:00.000Z</published>
+    <updated>2020-02-16T07:56:55.410Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;vue中事件修饰符详解-stop-prevent-self-once-capture-passive&quot;&gt;&lt;a href=&quot;#vue中事件修饰符详解-stop-prevent-self-once-capture-passive&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>nodejs exports</title>
+    <link href="http://yoursite.com/2019/07/23/nodejs-exports/"/>
+    <id>http://yoursite.com/2019/07/23/nodejs-exports/</id>
+    <published>2019-07-23T13:29:00.000Z</published>
+    <updated>2020-05-07T09:24:34.938Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;exports-与-module-exports&quot;&gt;&lt;a href=&quot;#exports-与-module-exports&quot; class=&quot;headerlink&quot; title=&quot;exports 与 module.exports&quot;&gt;&lt;/a&gt;exports 与
+        
+      
+    
+    </summary>
+    
+      <category term="steadycate" scheme="http://yoursite.com/categories/steadycate/"/>
+    
+    
+      <category term="steadytag" scheme="http://yoursite.com/tags/steadytag/"/>
+    
+  </entry>
+  
+</feed>

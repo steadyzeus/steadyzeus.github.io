@@ -1,1314 +1,562 @@
 <!DOCTYPE html>
-<html lang="">
-    <!-- title -->
+<html lang="en">
 
-
-
-
-<!-- keywords -->
-
-
-
-
-<head><meta name="generator" content="Hexo 3.9.0">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="author" content="John Doe">
-    <meta name="renderer" content="webkit">
-    <meta name="copyright" content="John Doe">
+<head>
+  <meta charset="utf-8" />
     
-    <meta name="keywords" content="steady blog,steady-theme,steady-blog">
-    
-    <meta name="description" content>
-    <meta http-equiv="Cache-control" content="no-cache">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>纯手写轮子 · Steady&#39;s Blog</title>
-    <style type="text/css">
-    @font-face {
-        font-family: 'Oswald-Regular';
-        src: url("/font/Oswald-Regular.ttf");
-    }
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    纯手写轮子 |  Steady&#39;blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
 
-    body {
-        margin: 0;
-    }
+  
 
-    header,
-    footer,
-    .back-top,
-    .sidebar,
-    .container,
-    .site-intro-meta,
-    .toc-wrapper {
-        display: none;
-    }
+  
 
-    .site-intro {
-        position: relative;
-        z-index: 3;
-        width: 100%;
-        /* height: 50vh; */
-        overflow: hidden;
-    }
-
-    .site-intro-placeholder {
-        position: absolute;
-        z-index: -2;
-        top: 0;
-        left: 0;
-        width: calc(100% + 300px);
-        height: 100%;
-        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
-        background-position: center center;
-        transform: translate3d(-226px, 0, 0);
-        animation: gradient-move 2.5s ease-out 0s infinite;
-    }
-
-    @keyframes gradient-move {
-        0% {
-            transform: translate3d(-226px, 0, 0);
-        }
-        100% {
-            transform: translate3d(0, 0, 0);
-        }
-    }
-
-</style>
-
-    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
-    
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    
-    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
-/* This file is meant as a standalone workflow for
-- testing support for link[rel=preload]
-- enabling async CSS loading in browsers that do not support rel=preload
-- applying rel preload css once loaded, whether supported or not.
-*/ -->
-<script>
-(function( w ){
-	"use strict";
-	// rel=preload support test
-	if( !w.loadCSS ){
-		w.loadCSS = function(){};
-	}
-	// define on the loadCSS obj
-	var rp = loadCSS.relpreload = {};
-	// rel=preload feature support test
-	// runs once and returns a function for compat purposes
-	rp.support = (function(){
-		var ret;
-		try {
-			ret = w.document.createElement( "link" ).relList.supports( "preload" );
-		} catch (e) {
-			ret = false;
-		}
-		return function(){
-			return ret;
-		};
-	})();
-
-	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
-	// then change that media back to its intended value on load
-	rp.bindMediaToggle = function( link ){
-		// remember existing media attr for ultimate state, or default to 'all'
-		var finalMedia = link.media || "all";
-
-		function enableStylesheet(){
-			link.media = finalMedia;
-		}
-
-		// bind load handlers to enable media
-		if( link.addEventListener ){
-			link.addEventListener( "load", enableStylesheet );
-		} else if( link.attachEvent ){
-			link.attachEvent( "onload", enableStylesheet );
-		}
-
-		// Set rel and non-applicable media type to start an async request
-		// note: timeout allows this to happen async to let rendering continue in IE
-		setTimeout(function(){
-			link.rel = "stylesheet";
-			link.media = "only x";
-		});
-		// also enable media after 3 seconds,
-		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
-		setTimeout( enableStylesheet, 3000 );
-	};
-
-	// loop through link elements in DOM
-	rp.poly = function(){
-		// double check this to prevent external calls from running
-		if( rp.support() ){
-			return;
-		}
-		var links = w.document.getElementsByTagName( "link" );
-		for( var i = 0; i < links.length; i++ ){
-			var link = links[ i ];
-			// qualify links to those with rel=preload and as=style attrs
-			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
-				// prevent rerunning on link
-				link.setAttribute( "data-loadcss", true );
-				// bind listeners to toggle media back
-				rp.bindMediaToggle( link );
-			}
-		}
-	};
-
-	// if unsupported, run the polyfill
-	if( !rp.support() ){
-		// run once at least
-		rp.poly();
-
-		// rerun poly on an interval until onload
-		var run = w.setInterval( rp.poly, 500 );
-		if( w.addEventListener ){
-			w.addEventListener( "load", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		} else if( w.attachEvent ){
-			w.attachEvent( "onload", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		}
-	}
-
-
-	// commonjs
-	if( typeof exports !== "undefined" ){
-		exports.loadCSS = loadCSS;
-	}
-	else {
-		w.loadCSS = loadCSS;
-	}
-}( typeof global !== "undefined" ? global : this ) );
-</script>
-
-    <link rel="icon" href="/assets/linke.ico">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
-    <link rel="preload" href="/scripts/main.js" as="script">
-    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
-    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
-    
-    <!-- fancybox -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
-    <!-- 百度统计  -->
-    
-    <!-- 谷歌统计  -->
-    
 </head>
 
-    
-        <body class="post-body">
-    
-    
-<header class="header">
+</html>
 
-    <div class="read-progress"></div>
-    <div class="header-sidebar-menu">&#xe775;</div>
-    <!-- post页的toggle banner  -->
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-面试题" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
     
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >Steady&#39;s Blog.</a>
-            </div>
-            <div class="post-title">
-                <a href="#" class="post-name">纯手写轮子</a>
-            </div>
-    </div>
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  纯手写轮子
+</h1>
+  
+
+    </header>
     
-    <a class="home-link" href=/>Steady's Blog.</a>
-</header>
-    <div class="wrapper">
-        <div class="site-intro" style="
 
-
-
-
-
-
-
-height:50vh;
-">
     
-    <!-- 主页  -->
-    
-    
-    <!-- 404页  -->
-            
-    <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
-    <div class="site-intro-meta">
-        <!-- 标题  -->
-        <h1 class="intro-title">
-            <!-- 主页  -->
-            
-            纯手写轮子
-            <!-- 404 -->
-            
-        </h1>
-        <!-- 副标题 -->
-        <p class="intro-subtitle">
-            <!-- 主页副标题  -->
-            
-            
-            <!-- 404 -->
-            
-        </p>
-        <!-- 文章页meta -->
-        
-            <div class="post-intros">
-                <!-- 文章页标签  -->
-                
-                
-                    <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1.3k</span>阅读时长: <span class="post-count reading-time">6 min</span></span>
-                    </div>
-                
-                <div class="post-intro-meta">
-                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2018/11/29</span>
-                    
-                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
-                        <span class="iconfont-archer">&#xe602;</span>
-                        <span id="busuanzi_value_page_pv"></span>
-                    </span>
-                    
-                    <span class="shareWrapper">
-                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
-                        <span class="shareText">Share</span>
-                        <ul class="shareList">
-                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
-                                <div class="share-qrcode"></div>
-                            </li>
-                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
-                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
-                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
-                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
-                        </ul>
-                    </span>
-                </div>
-            </div>
-        
-    </div>
+    <div class="article-meta">
+      <a href="/2018/11/29/面试题/" class="article-date">
+  <time datetime="2018-11-28T21:19:40.000Z" itemprop="datePublished">2018-11-29</time>
+</a>
+      
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.3k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">6分钟</span>
+        </span>
+    </span>
 </div>
-        <script>
- 
-  // get user agent
-  var browser = {
-    versions: function () {
-      var u = window.navigator.userAgent;
-      return {
-        userAgent: u,
-        trident: u.indexOf('Trident') > -1, //IE内核
-        presto: u.indexOf('Presto') > -1, //opera内核
-        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
-        iPad: u.indexOf('iPad') > -1, //是否为iPad
-        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
-        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
-        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
-      };
-    }()
-  }
-  console.log("userAgent:" + browser.versions.userAgent);
 
-  // callback
-  function fontLoaded() {
-    console.log('font loaded');
-    if (document.getElementsByClassName('site-intro-meta')) {
-      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
-      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
-      var postIntros = document.getElementsByClassName('post-intros')[0]
-      if (postIntros) {
-        postIntros.classList.add('post-fade-in');
-      }
-    }
-  }
+      
+    </div>
+    
 
-  // UC不支持跨域，所以直接显示
-  function asyncCb(){
-    if (browser.versions.uc) {
-      console.log("UCBrowser");
-      fontLoaded();
-    } else {
-      WebFont.load({
-        custom: {
-          families: ['Oswald-Regular']
-        },
-        loading: function () {  //所有字体开始加载
-          // console.log('loading');
-        },
-        active: function () {  //所有字体已渲染
-          fontLoaded();
-        },
-        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
-          console.log('inactive: timeout');
-          fontLoaded();
-        },
-        timeout: 5000 // Set the timeout to two seconds
-      });
-    }
-  }
+    
+    
 
-  function asyncErr(){
-    console.warn('script load from CDN failed, will load local script')
-  }
 
-  // load webfont-loader async, and add callback function
-  function async(u, cb, err) {
-    var d = document, t = 'script',
-      o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
-    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
-  }
 
-  var asyncLoadWithFallBack = function(arr, success, reject) {
-      var currReject = function(){
-        reject()
-        arr.shift()
-        if(arr.length)
-          async(arr[0], success, currReject)
-        }
 
-      async(arr[0], success, currReject)
-  }
+    
 
-  asyncLoadWithFallBack([
-    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
-    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
-    "/lib/webfontloader.min.js"
-  ], asyncCb, asyncErr)
-</script>        
-        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
-        <div class="container container-unloaded">
-            <main class="main post-page">
-    <article class="article-entry">
-        <ol>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <ol>
 <li>从URL输入到页面展现到底发生什么？ #24<br><a href="https://github.com/ljianshu/Blog/issues/24" target="_blank" rel="noopener">https://github.com/ljianshu/Blog/issues/24</a></li>
 </ol>
-<p>2.高级curry化实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function curry(func)&#123;</span><br><span class="line">    return function curried(...args)&#123;</span><br><span class="line">       if(args.length&gt;=func.length)&#123;</span><br><span class="line">          return func.apply(this,args);</span><br><span class="line">       &#125;else&#123;</span><br><span class="line">          return funciton(...args2)&#123;</span><br><span class="line">            </span><br><span class="line">               return curried.apply(this,args.concact(args2));</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.高级curry化实现<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span>(<span class="params">func</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">curried</span>(<span class="params">...args</span>)</span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(args.length&gt;=func.length)&#123;</span><br><span class="line">          <span class="keyword">return</span> func.apply(<span class="keyword">this</span>,args);</span><br><span class="line">       &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">...args2</span>)</span>&#123;</span><br><span class="line">            </span><br><span class="line">               <span class="keyword">return</span> curried.apply(<span class="keyword">this</span>,args.concat(args2));</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>运用递归的方式，</p>
 <p>3.手写一个深拷贝</p>
 <p><img src="/images/pasted-10.png" alt="upload successful"></p>
 <p>4.手写一个防抖,节流函数</p>
-<p><img src="/images/pasted-11.png" alt="upload successful"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">    function debunce(func,wait)&#123;</span><br><span class="line">        let timeOut=&quot;&quot;;</span><br><span class="line">        return function(...args)&#123;</span><br><span class="line">        let context=this;</span><br><span class="line">          if(timeOut)&#123;</span><br><span class="line">            clearTimeout(timeOut);</span><br><span class="line">          &#125;else&#123;</span><br><span class="line">            timeOut=setTimeout(()=&gt;&#123;</span><br><span class="line">              func.apply(context,args);</span><br><span class="line">            &#125;</span><br><span class="line">            ,</span><br><span class="line">            wait);</span><br><span class="line">          &#125;</span><br><span class="line">        </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    现在一起实现一个 throttle：</span><br><span class="line"></span><br><span class="line">// fn是我们需要包装的事件回调, interval是时间间隔的阈值</span><br><span class="line">function throttle(fn, interval) &#123;</span><br><span class="line">  // last为上一次触发回调的时间</span><br><span class="line">  let last = 0</span><br><span class="line">  </span><br><span class="line">  // 将throttle处理结果当作函数返回</span><br><span class="line">  return function () &#123;</span><br><span class="line">      // 保留调用时的this上下文</span><br><span class="line">      let context = this</span><br><span class="line">      // 保留调用时传入的参数</span><br><span class="line">      let args = arguments</span><br><span class="line">      // 记录本次触发回调的时间</span><br><span class="line">      let now = +new Date()</span><br><span class="line">      </span><br><span class="line">      // 判断上次触发的时间和本次触发的时间差是否小于时间间隔的阈值</span><br><span class="line">      if (now - last &gt;= interval) &#123;</span><br><span class="line">      // 如果时间间隔大于我们设定的时间间隔阈值，则执行回调</span><br><span class="line">          last = now;</span><br><span class="line">          fn.apply(context, args);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>5.es5 继承 和es6 class extends 继承<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">function SuperType(name)&#123;</span><br><span class="line">     this.name=name;</span><br><span class="line">     this.color=[&quot;red&quot;,&quot;blue&quot;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SuperType.prototype.sayName=function()&#123;</span><br><span class="line">  alert(this.name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function SubType(name,age)&#123;</span><br><span class="line">     SuperType.call(this,name); //就是把this 传到父类执行了构造函数。所以this变化了。但this的地址是 subtype的</span><br><span class="line">     this.age=age;</span><br><span class="line">&#125;</span><br><span class="line">SubType.prototype=new SuperType();</span><br><span class="line">SubType.prototype.constructor=SubType;</span><br><span class="line"></span><br><span class="line">val s1=new SubType(”ren“)</span><br><span class="line">s1.sayName();</span><br><span class="line">console.log(sl.color);</span><br><span class="line"></span><br><span class="line">-----</span><br><span class="line"></span><br><span class="line">class SuperType&#123;</span><br><span class="line">    constructor()&#123;</span><br><span class="line">       this.name=name;</span><br><span class="line">       this.color=[&apos;red&apos;,&apos;blue&apos;];</span><br><span class="line">    &#125;</span><br><span class="line">    sayName()&#123;</span><br><span class="line">    alert(this.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class SubType extends SuperType&#123;</span><br><span class="line">     constructor(name,age)&#123;</span><br><span class="line">        super(name);//相当于SuperType.call(this,name);</span><br><span class="line">        this.age=age;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var s1=new SubType(&apos;ren&apos;,19);</span><br><span class="line">s1.sayName();</span><br><span class="line">console.log(s1.color);</span><br></pre></td></tr></table></figure></p>
-<p>6.//实现一个eventemitter<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">class Emitter &#123;</span><br><span class="line">  constructor()&#123;</span><br><span class="line">    super(this);</span><br><span class="line">    this.list=&#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  constructor()&#123;</span><br><span class="line">    super(this);</span><br><span class="line">  &#125;</span><br><span class="line">  on(e,f)&#123;</span><br><span class="line">    var callback=this.list[e]?this.list[e]:[];</span><br><span class="line">    callback.push(f);</span><br><span class="line">    this.list[e]=callback;</span><br><span class="line">  &#125;</span><br><span class="line">  emit(e,...params)&#123;</span><br><span class="line">    if(this.list[e])&#123;</span><br><span class="line">      this.list[e].map(function(item,index)&#123;</span><br><span class="line">        item(...params);</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  off(e,f)&#123;</span><br><span class="line">    if(this.list.hasOwnProperty(e))&#123;</span><br><span class="line">      const callback=this.list[e];</span><br><span class="line">      let index=callback.indexOf(f);</span><br><span class="line">      callback.split(index,1);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  once(e,f)&#123;</span><br><span class="line">    let newFunc=(...args)=&gt;&#123;</span><br><span class="line">      f.apply(this,args);</span><br><span class="line">      this.off(e,newFunc);</span><br><span class="line">    &#125;</span><br><span class="line">    this.on(e,newFunc)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>7.//实现一个jsonp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">(function (window,document) &#123;</span><br><span class="line">    &quot;use strict&quot;;</span><br><span class="line">    var jsonp = function (url,data,callback) &#123;</span><br><span class="line"></span><br><span class="line">        // 1.将传入的data数据转化为url字符串形式</span><br><span class="line">        // &#123;id:1,name:&apos;jack&apos;&#125; =&gt; id=1&amp;name=jack</span><br><span class="line">        var dataString = url.indexof(&apos;?&apos;) == -1? &apos;?&apos;: &apos;&amp;&apos;;</span><br><span class="line">        for(var key in data)&#123;</span><br><span class="line">            dataString += key + &apos;=&apos; + data[key] + &apos;&amp;&apos;;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        // 2 处理url中的回调函数</span><br><span class="line">        // cbFuncName回调函数的名字 ：my_json_cb_名字的前缀 + 随机数（把小数点去掉）</span><br><span class="line">        var cbFuncName = &apos;my_json_cb_&apos; + Math.random().toString().replace(&apos;.&apos;,&apos;&apos;);</span><br><span class="line">        dataString += &apos;callback=&apos; + cbFuncName;</span><br><span class="line"></span><br><span class="line">        // 3.创建一个script标签并插入到页面中</span><br><span class="line">        var scriptEle = document.createElement(&apos;script&apos;);</span><br><span class="line">        scriptEle.src = url + dataString;</span><br><span class="line"></span><br><span class="line">        // 4.挂载回调函数</span><br><span class="line">        window[cbFuncName] = function (data) &#123;</span><br><span class="line">            callback(data);</span><br><span class="line">            // 处理完回调函数的数据之后，删除jsonp的script标签</span><br><span class="line">            document.body.removeChild(scriptEle);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        document.body.appendChild(scriptEle);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    window.$jsonp = jsonp;</span><br><span class="line"></span><br><span class="line">&#125;)(window,document)</span><br></pre></td></tr></table></figure></p>
-<p>8.co库实现原理，就是利用产出值的done的状态，去判断是否需要再次递归执行next方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function co(it)&#123;</span><br><span class="line">    return new Promise(function(resolve,reject)&#123;</span><br><span class="line">        function next(data)&#123;</span><br><span class="line">            let &#123;value,done&#125;= it.next(data);</span><br><span class="line">            if(!done)&#123;</span><br><span class="line">                value.then(res=&gt;&#123;</span><br><span class="line">                    next(res);</span><br><span class="line">                &#125;,reject)</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                resolve(value)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        next();</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/pasted-11.png" alt="upload successful"><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">debunce</span>(<span class="params">func,wait</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> timeOut=<span class="string">""</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context=<span class="keyword">this</span>;</span><br><span class="line">          <span class="keyword">if</span>(timeOut)&#123;</span><br><span class="line">            clearTimeout(timeOut);</span><br><span class="line">          &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            timeOut=setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">              func.apply(context,args);</span><br><span class="line">            &#125;</span><br><span class="line">            ,</span><br><span class="line">            wait);</span><br><span class="line">          &#125;</span><br><span class="line">        </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    现在一起实现一个 throttle：</span><br><span class="line"></span><br><span class="line"><span class="comment">// fn是我们需要包装的事件回调, interval是时间间隔的阈值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fn, interval</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// last为上一次触发回调的时间</span></span><br><span class="line">  <span class="keyword">let</span> last = <span class="number">0</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 将throttle处理结果当作函数返回</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 保留调用时的this上下文</span></span><br><span class="line">      <span class="keyword">let</span> context = <span class="keyword">this</span></span><br><span class="line">      <span class="comment">// 保留调用时传入的参数</span></span><br><span class="line">      <span class="keyword">let</span> args = <span class="built_in">arguments</span></span><br><span class="line">      <span class="comment">// 记录本次触发回调的时间</span></span><br><span class="line">      <span class="keyword">let</span> now = +<span class="keyword">new</span> <span class="built_in">Date</span>()</span><br><span class="line">      </span><br><span class="line">      <span class="comment">// 判断上次触发的时间和本次触发的时间差是否小于时间间隔的阈值</span></span><br><span class="line">      <span class="keyword">if</span> (now - last &gt;= interval) &#123;</span><br><span class="line">      <span class="comment">// 如果时间间隔大于我们设定的时间间隔阈值，则执行回调</span></span><br><span class="line">          last = now;</span><br><span class="line">          fn.apply(context, args);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>5.es5 继承 和es6 class extends 继承<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">     <span class="keyword">this</span>.name=name;</span><br><span class="line">     <span class="keyword">this</span>.color=[<span class="string">"red"</span>,<span class="string">"blue"</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SuperType.prototype.sayName=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  alert(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params">name,age</span>)</span>&#123;</span><br><span class="line">     SuperType.call(<span class="keyword">this</span>,name); <span class="comment">//就是把this 传到父类执行了构造函数。所以this变化了。但this的地址是 subtype的</span></span><br><span class="line">     <span class="keyword">this</span>.age=age;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment"> 1. 这一步不用Child.prototype =Parent.prototype的原因是怕共享内存，修改父类原型对象就会影响子类</span></span><br><span class="line"><span class="comment"> 2. 不用Child.prototype = new Parent()的原因是会调用2次父类的构造方法（另一次是call），会存在一份多余的父类实例属性</span></span><br><span class="line"><span class="comment">3. Object.create是创建了父类原型的副本，与父类原型完全隔离</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">SubType.prototype=<span class="built_in">Object</span>.create(SuperType.prototype);</span><br><span class="line">SubType.prototype.constructor=SubType;</span><br><span class="line"></span><br><span class="line">val s1=<span class="keyword">new</span> SubType(”ren“)</span><br><span class="line">s1.sayName();</span><br><span class="line"><span class="built_in">console</span>.log(sl.color);</span><br><span class="line"></span><br><span class="line">-----</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SuperType</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>()&#123;</span><br><span class="line">       <span class="keyword">this</span>.name=name;</span><br><span class="line">       <span class="keyword">this</span>.color=[<span class="string">'red'</span>,<span class="string">'blue'</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    sayName()&#123;</span><br><span class="line">    alert(<span class="keyword">this</span>.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubType</span> <span class="keyword">extends</span> <span class="title">SuperType</span></span>&#123;</span><br><span class="line">     <span class="keyword">constructor</span>(name,age)&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);<span class="comment">//相当于SuperType.call(this,name);</span></span><br><span class="line">        <span class="keyword">this</span>.age=age;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> s1=<span class="keyword">new</span> SubType(<span class="string">'ren'</span>,<span class="number">19</span>);</span><br><span class="line">s1.sayName();</span><br><span class="line"><span class="built_in">console</span>.log(s1.color);</span><br></pre></td></tr></table></figure></p>
+<p>6.//实现一个eventemitter<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Emitter</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>()&#123;</span><br><span class="line">    <span class="keyword">super</span>(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">this</span>.list=&#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">constructor</span>()&#123;</span><br><span class="line">    <span class="keyword">super</span>(<span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  on(e,f)&#123;</span><br><span class="line">    <span class="keyword">var</span> callback=<span class="keyword">this</span>.list[e]?<span class="keyword">this</span>.list[e]:[];</span><br><span class="line">    callback.push(f);</span><br><span class="line">    <span class="keyword">this</span>.list[e]=callback;</span><br><span class="line">  &#125;</span><br><span class="line">  emit(e,...params)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.list[e])&#123;</span><br><span class="line">      <span class="keyword">this</span>.list[e].map(<span class="function"><span class="keyword">function</span>(<span class="params">item,index</span>)</span>&#123;</span><br><span class="line">        item(...params);</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  off(e,f)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.list.hasOwnProperty(e))&#123;</span><br><span class="line">      <span class="keyword">const</span> callback=<span class="keyword">this</span>.list[e];</span><br><span class="line">      <span class="keyword">let</span> index=callback.indexOf(f);</span><br><span class="line">      callback.splice(index,<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  once(e,f)&#123;</span><br><span class="line">    <span class="keyword">let</span> newFunc=<span class="function">(<span class="params">...args</span>)=&gt;</span>&#123;</span><br><span class="line">      f.apply(<span class="keyword">this</span>,args);</span><br><span class="line">      <span class="keyword">this</span>.off(e,newFunc);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.on(e,newFunc)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>7.//实现一个jsonp<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">window,document</span>) </span>&#123;</span><br><span class="line"><span class="meta">    "use strict"</span>;</span><br><span class="line">    <span class="keyword">var</span> jsonp = <span class="function"><span class="keyword">function</span> (<span class="params">url,data,callback</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1.将传入的data数据转化为url字符串形式</span></span><br><span class="line">        <span class="comment">// &#123;id:1,name:'jack'&#125; =&gt; id=1&amp;name=jack</span></span><br><span class="line">        <span class="keyword">var</span> dataString = url.indexof(<span class="string">'?'</span>) == <span class="number">-1</span>? <span class="string">'?'</span>: <span class="string">'&amp;'</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> data)&#123;</span><br><span class="line">            dataString += key + <span class="string">'='</span> + data[key] + <span class="string">'&amp;'</span>;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 处理url中的回调函数</span></span><br><span class="line">        <span class="comment">// cbFuncName回调函数的名字 ：my_json_cb_名字的前缀 + 随机数（把小数点去掉）</span></span><br><span class="line">        <span class="keyword">var</span> cbFuncName = <span class="string">'my_json_cb_'</span> + <span class="built_in">Math</span>.random().toString().replace(<span class="string">'.'</span>,<span class="string">''</span>);</span><br><span class="line">        dataString += <span class="string">'callback='</span> + cbFuncName;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3.创建一个script标签并插入到页面中</span></span><br><span class="line">        <span class="keyword">var</span> scriptEle = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">        scriptEle.src = url + dataString;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4.挂载回调函数</span></span><br><span class="line">        <span class="built_in">window</span>[cbFuncName] = <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">            callback(data);</span><br><span class="line">            <span class="comment">// 处理完回调函数的数据之后，删除jsonp的script标签</span></span><br><span class="line">            <span class="built_in">document</span>.body.removeChild(scriptEle);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">document</span>.body.appendChild(scriptEle);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">window</span>.$jsonp = jsonp;</span><br><span class="line"></span><br><span class="line">&#125;)(<span class="built_in">window</span>,<span class="built_in">document</span>)</span><br></pre></td></tr></table></figure></p>
+<p>8.co库实现原理，就是利用产出值的done的状态，去判断是否需要再次递归执行next方法。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">co</span>(<span class="params">it</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">next</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">let</span> &#123;value,done&#125;= it.next(data);</span><br><span class="line">            <span class="keyword">if</span>(!done)&#123;</span><br><span class="line">                value.then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">                    next(res);</span><br><span class="line">                &#125;,reject)</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                resolve(value)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        next();</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <ol start="9">
 <li><p>使用co 遍历generator </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">const co=require(&apos;co&apos;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function* testco()&#123;</span><br><span class="line">    let a=yield promisA();</span><br><span class="line">    console.log(a);</span><br><span class="line">    let b=yield promisA();</span><br><span class="line">    let c=yield promisA();</span><br><span class="line">    return 10;</span><br><span class="line">&#125;</span><br><span class="line">function promisA()&#123;</span><br><span class="line">    return new Promise((resolve,reject)=&gt;&#123;</span><br><span class="line"></span><br><span class="line">        setTimeout(function()&#123;</span><br><span class="line">            resolve(99);</span><br><span class="line">        &#125;,1000)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let newtestco=testco();</span><br><span class="line"></span><br><span class="line">co(newtestco).then(data=&gt;&#123;console.log(data)&#125;)</span><br><span class="line"></span><br><span class="line">日志</span><br><span class="line">99</span><br><span class="line">10</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> co=<span class="built_in">require</span>(<span class="string">'co'</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">testco</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> a=<span class="keyword">yield</span> promisA();</span><br><span class="line">    <span class="built_in">console</span>.log(a);</span><br><span class="line">    <span class="keyword">let</span> b=<span class="keyword">yield</span> promisA();</span><br><span class="line">    <span class="keyword">let</span> c=<span class="keyword">yield</span> promisA();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">promisA</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            resolve(<span class="number">99</span>);</span><br><span class="line">        &#125;,<span class="number">1000</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> newtestco=testco();</span><br><span class="line"></span><br><span class="line">co(newtestco).then(<span class="function"><span class="params">data</span>=&gt;</span>&#123;<span class="built_in">console</span>.log(data)&#125;)</span><br><span class="line"></span><br><span class="line">日志</span><br><span class="line"><span class="number">99</span></span><br><span class="line"><span class="number">10</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>执行下面promise ，日志为test(10)   10! ,err,undefined </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">function test(res) &#123;</span><br><span class="line">    return Promise.resolve(res)</span><br><span class="line">        .then(res =&gt; &#123;</span><br><span class="line">            console.log(res += &apos;!&apos;);</span><br><span class="line">            return Promise.reject(&apos;err&apos;);</span><br><span class="line">        &#125;)</span><br><span class="line">        .then(res =&gt; &#123;</span><br><span class="line">            </span><br><span class="line">            return new Promise((resolve,reject)=&gt;&#123;</span><br><span class="line">         setTimeout(()=&gt;resolve(10),5000);</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line">&#125;)</span><br><span class="line">           //return Promise.reject(&quot;end&quot;); //此处返回了一个新的promise </span><br><span class="line">.catch(res =&gt; &#123;</span><br><span class="line">            console.log(res);</span><br><span class="line">            </span><br><span class="line">        &#125;)</span><br><span class="line">        .then(res =&gt; &#123;</span><br><span class="line">            console.log(res += &apos;!&apos;);  //肯定会执行了</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">res</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(res)</span><br><span class="line">        .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(res += <span class="string">'!'</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(<span class="string">'err'</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">        .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">         setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>resolve(<span class="number">10</span>),<span class="number">5000</span>);</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line">&#125;)</span><br><span class="line">           <span class="comment">//return Promise.reject("end"); //此处返回了一个新的promise </span></span><br><span class="line">.catch(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(res);</span><br><span class="line">            </span><br><span class="line">        &#125;)</span><br><span class="line">        .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(res += <span class="string">'!'</span>);  <span class="comment">//肯定会执行了</span></span><br><span class="line">        &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>10.手写一个简单promise</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">function myPromise(constructor) &#123;</span><br><span class="line">    let self = this;</span><br><span class="line">    self.status = &quot;pending&quot;</span><br><span class="line">        //定义状态改变前的初始状态</span><br><span class="line">    self.value = undefined;</span><br><span class="line">    //定义状态为resolved的时候的状态</span><br><span class="line">    self.reason = undefined;</span><br><span class="line">    //定义状态为rejected的时候的状态</span><br><span class="line">    function resolve(value) &#123;</span><br><span class="line">        //两个===&quot;pending&quot;，保证了状态的改变是不可逆的</span><br><span class="line">        if (self.status === &quot;pending&quot;) &#123;</span><br><span class="line">            self.value = value;</span><br><span class="line">            self.status = &quot;resolved&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    function reject(reason) &#123;</span><br><span class="line">        //两个===&quot;pending&quot;，保证了状态的改变是不可逆的</span><br><span class="line">        if (self.status === &quot;pending&quot;) &#123;</span><br><span class="line">            self.reason = reason;</span><br><span class="line">            self.status = &quot;rejected&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    //捕获构造异常</span><br><span class="line">    try &#123;</span><br><span class="line">        constructor(resolve, reject);</span><br><span class="line">    &#125; catch (e) &#123;</span><br><span class="line">        reject(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">//同时，需要在 myPromise的原型上定义链式调用的 then方法：</span><br><span class="line">myPromise.prototype.then = function(onFullfilled, onRejected) &#123;</span><br><span class="line">    let self = this;</span><br><span class="line">    switch (self.status) &#123;</span><br><span class="line">        case &quot;resolved&quot;:</span><br><span class="line">            onFullfilled(self.value);</span><br><span class="line">            break;</span><br><span class="line">        case &quot;rejected&quot;:</span><br><span class="line">            onRejected(self.reason);</span><br><span class="line">            break;</span><br><span class="line">        default:</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">//测试一下：</span><br><span class="line">var p = new myPromise(function(resolve, reject) &#123;</span><br><span class="line">    resolve(1)</span><br><span class="line">&#125;);</span><br><span class="line">p.then(function(x) &#123;</span><br><span class="line">    console.log(x)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-    </article>
-    <!-- license  -->
-    
-    <!-- paginator  -->
-    <ul class="post-paginator">
-        <li class="next">
-            
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2018/12/18/linux使用记录/" title= "linux git 使用记录">
-                    <div class="nextTitle">linux git 使用记录</div>
-                </a>
-            
-        </li>
-        <li class="previous">
-            
-                <div class="prevSlogan">Previous Post</div>
-                <a href= "/2018/11/23/css3-动画/" title= "css3 相关(动画,语法)">
-                    <div class="prevTitle">css3 相关(动画,语法)</div>
-                </a>
-            
-        </li>
-    </ul>
-    <!-- 评论插件 -->
-    <!-- 来必力City版安装代码 -->
-
-<!-- City版安装代码已完成 -->
-    
-    
-    <!-- partial('_partial/comment/changyan') -->
-    <!--PC版-->
-
-
-    
-    
-
-    <!-- 评论 -->
-</main>
-            <!-- profile -->
-            
-        </div>
-        <footer class="footer footer-unloaded">
-    <!-- social  -->
-    
-    <div class="social">
-        
-    
-        
-            
-                <a href="mailto:steadyevo@gmail.com" class="iconfont-archer email" title=email ></a>
-            
-        
-    
-        
-            
-                <a href="//github.com/steadyzeus" class="iconfont-archer github" target="_blank" title=github></a>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-
+<p>11.手写一个简单promise</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myPromise</span>(<span class="params">constructor</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> self = <span class="keyword">this</span>;</span><br><span class="line">    self.status = <span class="string">"pending"</span></span><br><span class="line">        <span class="comment">//定义状态改变前的初始状态</span></span><br><span class="line">    self.value = <span class="literal">undefined</span>;</span><br><span class="line">    <span class="comment">//定义状态为resolved的时候的状态</span></span><br><span class="line">    self.reason = <span class="literal">undefined</span>;</span><br><span class="line">    <span class="comment">//定义状态为rejected的时候的状态</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">resolve</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">        <span class="comment">//两个==="pending"，保证了状态的改变是不可逆的</span></span><br><span class="line">        <span class="keyword">if</span> (self.status === <span class="string">"pending"</span>) &#123;</span><br><span class="line">            self.value = value;</span><br><span class="line">            self.status = <span class="string">"resolved"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">reject</span>(<span class="params">reason</span>) </span>&#123;</span><br><span class="line">        <span class="comment">//两个==="pending"，保证了状态的改变是不可逆的</span></span><br><span class="line">        <span class="keyword">if</span> (self.status === <span class="string">"pending"</span>) &#123;</span><br><span class="line">            self.reason = reason;</span><br><span class="line">            self.status = <span class="string">"rejected"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//捕获构造异常</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">constructor</span>(resolve, reject);</span><br><span class="line">    &#125; catch (e) &#123;</span><br><span class="line">        reject(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//同时，需要在 myPromise的原型上定义链式调用的 then方法：</span></span><br><span class="line">myPromise.prototype.then = <span class="function"><span class="keyword">function</span>(<span class="params">onFullfilled, onRejected</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> self = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">switch</span> (self.status) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"resolved"</span>:</span><br><span class="line">            onFullfilled(self.value);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"rejected"</span>:</span><br><span class="line">            onRejected(self.reason);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//测试一下：</span></span><br><span class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> myPromise(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    resolve(<span class="number">1</span>)</span><br><span class="line">&#125;);</span><br><span class="line">p.then(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(x)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>12.看到一个很有意思的数组去重</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">2</span>].filter(<span class="function">(<span class="params">item, index, arr</span>) =&gt;</span> arr.indexOf(item) === index)</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
     </div>
     
-    <!-- powered by Hexo  -->
-    <div class="copyright">
-        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
-    </div>
-    <!-- 不蒜子  -->
     
-    <div class="busuanzi-container">
-    
-     
-    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
-    
-    </div>
-    
-</footer>
-    </div>
-    <!-- toc -->
-    
-    <div class="toc-wrapper" style=
-    
-
-
-
-
-
-
-
-top:50vh;
-
-    >
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
         </div>
         
-    </div>
-    
-    <div class="back-top iconfont-archer">&#xe639;</div>
-    <div class="sidebar sidebar-hide">
-    <ul class="sidebar-tabs sidebar-tabs-active-0">
-        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
-        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
-        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
-    </ul>
-    <div class="sidebar-content sidebar-content-show-archive">
-          <div class="sidebar-panel-archives">
-    <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <div class="total-and-search">
-        <div class="total-archive">
-        Total : 33
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
         </div>
-        <!-- search  -->
-        
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2018/11/29/面试题/" alt="微信分享二维码">
     </div>
-    
-    <div class="post-archive">
-    
-    
-    
-    
-    <div class="archive-year"> 2019 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/22</span><a class="archive-post-title" href= "/2019/12/22/React-高阶组件-属性代理和反向继承-生命周期调研/" >React 高阶组件 属性代理和反向继承 生命周期调研</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/20</span><a class="archive-post-title" href= "/2019/12/20/h5-hybird-webview页面兼容性/" >h5 hybird webview页面兼容性</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/17</span><a class="archive-post-title" href= "/2019/12/17/React-16-新特性/" >React 16 新特性</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/11</span><a class="archive-post-title" href= "/2019/12/11/JavaScript-原生dom操作/" >JavaScript 原生dom操作</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/02</span><a class="archive-post-title" href= "/2019/12/02/vue生命周期/" >vue生命周期</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/27</span><a class="archive-post-title" href= "/2019/11/27/koa800/" >koa800</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/27</span><a class="archive-post-title" href= "/2019/11/27/浅谈vue和react的数据流和绑定/" >浅谈vue和react的数据流和绑定</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/18</span><a class="archive-post-title" href= "/2019/11/18/chrome插件开发教程/" >chrome插件开发教程</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/24</span><a class="archive-post-title" href= "/2019/10/24/Untitled/" >重识排列组合</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/nginx记录/" >nginx记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">08/30</span><a class="archive-post-title" href= "/2019/08/30/vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1/" >vue 记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">07/23</span><a class="archive-post-title" href= "/2019/07/23/nodejs-exports/" >nodejs exports</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">07/19</span><a class="archive-post-title" href= "/2019/07/19/JavaScript-二进制-十进制/" >JavaScript 二进制 十进制...</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">06/02</span><a class="archive-post-title" href= "/2019/06/02/dva记录/" >dva记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2019/04/11/微信小程序知识点/" >微信小程序知识点</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2019/02/26/记录package-json字段用处/" >记录package.json字段用处</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2019/02/18/canvas-模拟时钟/" >canvas 模拟时钟</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/13</span><a class="archive-post-title" href= "/2019/02/13/data-xxx-attribute/" >data-xxx ,attribute</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2018/12/21/webpack打包记录/" >webpack打包记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/2018/12/18/linux使用记录/" >linux git 使用记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/29</span><a class="archive-post-title" href= "/2018/11/29/面试题/" >纯手写轮子</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/css3-动画/" >css3 相关(动画,语法)</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/JavaScript-事件冒泡和捕获/" >JavaScript 事件冒泡和捕获</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/页面布局方式/" >页面布局方式</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/JavaScript-原生语法/" >JavaScript 原生语法</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/2018/11/21/react-生命周期/" >react 生命周期</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/2018/11/13/记一次大促页面性能优化/" >记一次大促页面性能优化</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2018/11/12/屏幕height-width-获取/" >屏幕height width 获取</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/09</span><a class="archive-post-title" href= "/2018/11/09/抖动节流函数/" >抖动节流函数</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/09</span><a class="archive-post-title" href= "/2018/11/09/自我评价/" >自我评价</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/08</span><a class="archive-post-title" href= "/2018/11/08/es6语法/" >es6语法</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/2018/11/07/目标/" >目标</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/2018/11/07/hello-world/" >Hello World</a>
-        </li>
-    
-    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+
+    </footer>
+
   </div>
-        <div class="sidebar-panel-tags">
-    <div class="sidebar-tags-name">
+
+  
+  
+  <nav class="article-nav">
     
-        <span class="sidebar-tag-name" data-tags="steadytag"><span class="iconfont-archer">&#xe606;</span>steadytag</span>
+      <a href="/2018/12/18/linux使用记录/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            linux git 使用记录
+          
+        </div>
+      </a>
     
+    
+      <a href="/2018/11/23/css3-动画/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">css3 相关(动画,语法)</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
     </div>
-    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
-    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
-    缺失模块。<br/>
-    1、请确保node版本大于6.2<br/>
-    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
-    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
-    3、在根目录_config.yml里添加配置：
-    <pre style="color: #787878; font-size: 0.6rem;">
-jsonContent:
-  meta: false
-  pages: false
-  posts:
-    title: true
-    date: true
-    path: true
-    text: false
-    raw: false
-    content: false
-    slug: false
-    updated: false
-    comments: false
-    link: false
-    permalink: false
-    excerpt: false
-    categories: true
-    tags: true</pre>
-    </div> 
-    <div class="sidebar-tags-list"></div>
 </div>
-        <div class="sidebar-panel-categories">
-    <div class="sidebar-categories-name">
-    
-        <span class="sidebar-category-name" data-categories="css3"><span class="iconfont-archer">&#xe60a;</span>css3</span>
-    
-        <span class="sidebar-category-name" data-categories="es6"><span class="iconfont-archer">&#xe60a;</span>es6</span>
-    
-        <span class="sidebar-category-name" data-categories="steadycate"><span class="iconfont-archer">&#xe60a;</span>steadycate</span>
-    
-    </div>
-    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
-    <div class="sidebar-categories-list"></div>
-</div>
-    </div>
-</div> 
-    <script>
-    var siteMeta = {
-        root: "/",
-        author: "John Doe"
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
     }
 </script>
-    <!-- CDN failover -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <script type="text/javascript">
-        if (typeof window.$ === 'undefined')
-        {
-            console.warn('jquery load from jsdelivr failed, will load local script')
-            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
         }
-    </script>
-    <script src="/scripts/main.js"></script>
-    <!-- algolia -->
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2015-2020
+        Steady
+      </li>
+      <li>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+    <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Steady&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
     
-    <!-- busuanzi  -->
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
     
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
     
-    <!-- CNZZ  -->
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
     
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/2019/about.me/index.html">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
     </div>
-    <!-- async load share.js -->
     
-        <script src="/scripts/share.js" async></script>    
-     
-    </body>
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+      <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+<script src="/js/share.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['面朝大海，春暖花开','愿你一生努力，一生被爱','想要的都拥有，得不到的都释怀'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+<script src="/js/tocbot.min.js"></script>
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+<script src="/js/ayer.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+  </div>
+</body>
+
 </html>
-
-
