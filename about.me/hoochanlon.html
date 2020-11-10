@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<title>About myself</title>
+		<meta name="keywords" content="简介,诗">
+    <meta name="description" content="模拟终端的简介面板">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+        <script src="./typing/typing.js"></script>
+        <link rel="stylesheet" href="./typing/typing.css">
+        <link rel="stylesheet" href="./font-awesome/css/font-awesome.css">
+	</head>
+    <style>
+        body {
+
+            /**
+		配色参考
+		https://www.omegaxyz.com/2018/07/01/javascript-terminal/
+		*/
+            background:black;
+            color: #00FF02;
+            font-size: 18px;
+            font-family:courier;
+            }
+            blink{
+                display:inline;
+            }
+            /* #source{display:none;} */
+            </style>
+
+	<body>
+        <div id="source">
+          Waiting...<br>
+          Connecting to my gh-page - About myself<br>
+          Connection Established.<br>
+          repo: https://github.com/steadyzeus/about.me<br>
+          Guest Logined,Access Is Granted. Welcome To My Site<br>
+          <br>
+          > 自我介绍一下，我的用户名是Steady，毕业于成都信息工程大学，曾在折800(www.zhe800.com)担任前端主管，目前在大数金科(bdfint.com)担任前端架构师+电商项目经理
+          <br>
+          <p>> 兴趣爱好方面:</p>
+          <ul>
+            <li>足球</li>
+            <li>常阅览博客、知乎，以及闲暇时读书</li>
+            <li>电子产品发烧友</li>
+            <li>听歌看番剧</li>
+          </ul>
+          > <i class="fa fa-github" aria-hidden="true"></i>
+          个人主页：<a href="http://github.com/steadyzeus">github.com/steadyzeus</a><br>
+          > <i class="fa fa-envelope" aria-hidden="true"></i>
+          联系邮箱：<a href="mailto:steadyevo@gmail.com">steadyevo@gmail.com</a><br>
+          <pre>
+            ____  _  _   __   __ _  __ _  ____
+            (_  _)/ )( \ / _\ (  ( \(  / )/ ___)
+              )(  ) __ (/    \/    / )  ( \___ \
+             (__) \_)(_/\_/\_/\_)__)(__\_)(____/
+          </pre>
+	> <i>谢谢您在百忙之中阅览我的self-introduction，期待有机会能与您共事 </i> :)
+        </div>
+        <div id="output-wrap">
+            <span id="output"></span>
+            <span class="typing-cursor">■</span>
+          </div>
+        <script>
+            var typing = new Typing({
+              source: document.getElementById('source'),
+              output: document.getElementById('output'),
+              delay: 50,
+              done: function() {} //完成打印后的回调事件
+            });
+            typing.start();
+          </script>
+      <div>
+        <script type="text/javascript">
+        　document.documentElement.style.fontSize = document.documentElement.clientWidth / 640*100 + 'px';
+          setTimeout("javascript:location.href='index.html'", 300000);
+          </script>
+	</body>
+	</html>
+
+
+

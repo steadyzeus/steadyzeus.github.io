@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+<html lang="">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="John Doe">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="John Doe">
+    
+    <meta name="keywords" content="steady blog,steady-theme,steady-blog">
+    
+    <meta name="description" content>
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>koa800 · Steady&#39;s Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/linke.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Steady&#39;s Blog.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">koa800</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Steady's Blog.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            koa800
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.3k</span>阅读时长: <span class="post-count reading-time">12 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/11/27</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <blockquote>
+<p>基于koa框架, 可扩展、可配置的中间件集合, 以及快速定制项目结构的脚手架工具</p>
+</blockquote>
+<p><a href="http://git.tuan800-inc.com/ruby_cd/cd-ruby-common_package_source/blob/master/node/koa800/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a></p>
+<h2 id="1-要解决的问题"><a href="#1-要解决的问题" class="headerlink" title="1. 要解决的问题"></a>1. 要解决的问题</h2><ol>
+<li><p>脚手架文件太多:</p>
+<ul>
+<li>干扰业务代码</li>
+<li>无法方便的进行更新和升级</li>
+<li>随着时间推移, 项目结构和脚手架文件在不同项目中逐渐变得不统一</li>
+</ul>
+</li>
+<li><p>中间件的管理:</p>
+<ul>
+<li>相同的中间件需要在不同项目中去引用和配置, 重复的工作量, 重复的代码(违反DRY)</li>
+<li>不便于统一的更新和升级</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="2-背景"><a href="#2-背景" class="headerlink" title="2. 背景"></a>2. 背景</h2><p>微服务是当前比较流行的系统架构模式, 各个应用的专注于提供特定的服务. 在框架选择上, 轻量级、 支持中间件选配的koa框架是一个不错的选择.</p>
+<p>koa 的使用非常灵活便捷, 它没有提供模板文件, 也没有要求项目结构标准, 这让开发者有很大的自由度; 不过对于同一个团队下的多个koa应用来说, 这会是一个问题: 多个项目在脚手架结构上的不统一, 将会对跨项目维护、中间件升级等造成麻烦.</p>
+<p>解决以上问题, 有的团队会采用代码规范/项目结构规范来作为约束, 对于生命周期较长的多应用系统, 规范不一定有很好的效果, 规范毕竟是靠人来执行.</p>
+<p>koa800提供另外一种方案: 将各项目的结构标准、共用的中间件依赖等, 提取到npm包中, 对于那些部分项目使用的中间件, 也将其提取到npm包中, 使用者可以对这部分特性进行简单的声明选择. 这样一来, 项目结构和中间件都在koa800中进行控制和装配, 实现了强制的项目标准.</p>
+<p>同时, koa800还提供了项目脚手架的创建和更新功能.</p>
+<hr>
+<h2 id="3-Koa800-介绍"><a href="#3-Koa800-介绍" class="headerlink" title="3. Koa800 介绍"></a>3. Koa800 介绍</h2><p>koa800提供了2个功能:</p>
+<ol>
+<li>Scaffold Generator: 创建、更新项目脚手架, 可配置需要特性. 发生在执行setup脚本时.</li>
+<li>Runtime Koa Wrapper: 统一管理项目中间件, 可配置需要特性. 发生在项目运行时.</li>
+</ol>
+<p>Scaffold Generator和Koa Wrapper都是通过<a href="TODO">Feature</a>进行管理.</p>
+<hr>
+<h3 id="3-1-Scaffold-Generator"><a href="#3-1-Scaffold-Generator" class="headerlink" title="3.1 Scaffold Generator"></a>3.1 Scaffold Generator</h3><p>让我们用koa800来初始化一个新项目:</p>
+<blockquote>
+<p>% mkdir koa800_demo<br>% cd koa800_demo</p>
+</blockquote>
+<p>然后用<code>npm init</code>创建项目package.json</p>
+<p>现在你需要做的是将<code>koa800</code>加入项目依赖:</p>
+<blockquote>
+<p>% npm install koa800 –save</p>
+</blockquote>
+<p>现在该项目的package.json大概是这个样子的:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"koa800_demo"</span>,</span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="string">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"koa800"</span>: <span class="string">"^1.0.0"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行koa800提供的setup脚本更新项目脚手架:</p>
+<blockquote>
+<p>% ./node_modules/.bin/setup</p>
+</blockquote>
+<p>执行完毕后, 将创建类似如下的项目结构:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">├── app/</span><br><span class="line">│   └── controllers/</span><br><span class="line">├── app.js</span><br><span class="line">├── bin/</span><br><span class="line">│   └── www</span><br><span class="line">├── config/</span><br><span class="line">│   ├── environments/</span><br><span class="line">│   │   ├── development.js</span><br><span class="line">│   │   └── production.js</span><br><span class="line">│   ├── errors.js</span><br><span class="line">│   ├── routes/</span><br><span class="line">│   │   └── index.js</span><br><span class="line">│   └── settings.js</span><br><span class="line">└── package.json</span><br></pre></td></tr></table></figure>
+<p>此时查看<code>package.json</code>, 内容也有更新, 内容大概如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"koa800_demo"</span>,</span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="string">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"koa800"</span>: <span class="string">"^1.0.0"</span>,</span><br><span class="line">    <span class="string">"zhe800_cd_node_imago"</span>: <span class="string">"^1.0.0"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"start"</span>: <span class="string">"node ./bin/www"</span>,</span><br><span class="line">    <span class="string">"c"</span>: <span class="string">"node ./node_modules/.bin/c"</span>,</span><br><span class="line">    <span class="string">"setup"</span>: <span class="string">"node ./node_modules/.bin/setup"</span>,</span><br><span class="line">    <span class="string">"imago"</span>: <span class="string">"node -e \"require('zhe800_cd_node_imago')\""</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"koa800Config"</span>: &#123;</span><br><span class="line">    <span class="string">"eslint"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"jsonp"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"tingyun"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"memcached"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"redis"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"prepare_commit_msg"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"auto_routes"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"loom"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"docker"</span>: <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中, koa800Config是用于声明可选feature的属性, 默认情况下, 这里列出了所有可选的features, 但设为了false, 表示不启用, 用户可以根据项目实际需要对某些feature进行开启.</p>
+<p>在每次修改了koa800Config中的feature设置后, 需要再次执行如上的setup脚本, setup脚本会根据koa800Config中的配置去调整当前项目的脚手架和中间件.</p>
+<hr>
+<h3 id="3-2-Runtime-Koa-Wrapper"><a href="#3-2-Runtime-Koa-Wrapper" class="headerlink" title="3.2 Runtime Koa Wrapper"></a>3.2 Runtime Koa Wrapper</h3><p>在上一小节中, 通过setup生成的项目入口文件是app.js, 该文件内容如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"><span class="keyword">let</span> app = <span class="built_in">require</span>(<span class="string">'koa800'</span>)();</span><br><span class="line"><span class="built_in">module</span>.exports = app;</span><br></pre></td></tr></table></figure>
+<p>可以看到, 项目本身没有直接依赖和使用<code>koa</code>, 而是使用的<code>koa800</code>, <code>koa800</code>作为一个包裹器, 引用了<code>koa</code>, 同时引入并正确配置了其他一些依赖的中间件. 同脚手架生成器一样, 用户也可以在package.json的koa800Config属性中去配置需要的依赖feature.</p>
+<hr>
+<h2 id="4-约定"><a href="#4-约定" class="headerlink" title="4. 约定"></a>4. 约定</h2><p>koa800 的主要目的是减少项目之间的重复的项目结构代码, 保证项目的规范和统一, 并能在今后方便的进行整体调整. koa800想要避免的重复代码包括:</p>
+<ul>
+<li>项目组织和加载的代码</li>
+<li>对相同中间件的引用和配置的代码</li>
+<li>CI类, 工具类, 编译打包部署等代码</li>
+</ul>
+<p>koa800创建的脚手架有如下约定:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">├── app/</span><br><span class="line">│   └── controllers/       控制器代码</span><br><span class="line">├── app.js                 app的入口文件</span><br><span class="line">├── bin/</span><br><span class="line">│   └── www                项目启动文件</span><br><span class="line">├── config/                项目配置文件目录</span><br><span class="line">│   ├── environments/          具体环境的个性配置文件目录</span><br><span class="line">│   │   ├── development.js</span><br><span class="line">│   │   └── production.js</span><br><span class="line">│   ├── errors.js</span><br><span class="line">│   ├── routes/            路由目录</span><br><span class="line">│   │   ├── index.js       任意域名路由</span><br><span class="line">│   │   └── search.js      子域名路由, 子域名和文件名一致</span><br><span class="line">│   └── settings.js        基础配置文件, 低优先级</span><br><span class="line">│   └── settings.local.js  全局特殊配置文件, 高优先级</span><br><span class="line">└── package.json</span><br></pre></td></tr></table></figure></p>
+<p>这些约定是由各feature的setup流程进行控制的.</p>
+<hr>
+<h2 id="5-Feature"><a href="#5-Feature" class="headerlink" title="5. Feature"></a>5. Feature</h2><p>Feature 是脚手架构建和中间件装配的基本单元, Feature分为Required和Optional2个类别, 目前的Feature如下:</p>
+<table>
+<thead>
+<tr>
+<th>Required Features</th>
+<th>描述</th>
+<th>Scaffold Generator</th>
+<th>Runtime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>base</td>
+<td>基础特性</td>
+<td>生成项目基础脚手架, 引入基础依赖</td>
+<td>引入并配置项目基本的中间件</td>
+</tr>
+<tr>
+<td>tingyun</td>
+<td>引入tingyun APM监控</td>
+<td>生成tingyun.json.exampl模板文件, 引入依赖</td>
+<td>封装app.monitor.noticeError</td>
+</tr>
+<tr>
+<td>controllers</td>
+<td>控制器</td>
+<td>生成控制器目录app/controllers/</td>
+<td>加载控制器, 挂载到app.controllers</td>
+</tr>
+<tr>
+<td>errors</td>
+<td>错误列表</td>
+<td>生成错误列表模块config/errors.js</td>
+<td>加载错误列表, 挂载到app.errors</td>
+</tr>
+<tr>
+<td>imago</td>
+<td>接入统一配置中心</td>
+<td>引入imago依赖,生成config/imago_conf.js</td>
+<td>将imago配置挂载到app.settings.imago_conf</td>
+</tr>
+<tr>
+<td>settings</td>
+<td>项目配置管理</td>
+<td>生成多级配置管理文件</td>
+<td>按照优先级解析settings, 挂载到app.settings</td>
+</tr>
+<tr>
+<td>start_hooks</td>
+<td>应用启动的前置注册管理</td>
+<td>不涉及</td>
+<td>处理app.start的前置操作</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Optional Features</th>
+<th>描述</th>
+<th>Scaffold Generator</th>
+<th>Runtime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>auto_routes</td>
+<td>自动路由配置</td>
+<td>引入路由和子域名的依赖</td>
+<td>加载config/routes/中的路由, 并自动匹配子域名</td>
+</tr>
+<tr>
+<td>data_service</td>
+<td>接入data service</td>
+<td>引入data service依赖和配置</td>
+<td>配置data service</td>
+</tr>
+<tr>
+<td>docker</td>
+<td>提供dockerfile</td>
+<td>将dockerfile写入images目录</td>
+<td>不涉及</td>
+</tr>
+<tr>
+<td>eslint</td>
+<td>引入eslint</td>
+<td>将.git/hook/pre-commit链接到指定脚本</td>
+<td>不涉及</td>
+</tr>
+<tr>
+<td>jsonp</td>
+<td>引入jsonp支持</td>
+<td>引入jsonp依赖, 并提供check referer</td>
+<td>加载jsonp中间件</td>
+</tr>
+<tr>
+<td>loom</td>
+<td>接入服务治理平台</td>
+<td>引入config/thrift_conf.js</td>
+<td>在app.start前执行app.loom.init</td>
+</tr>
+<tr>
+<td>memcached</td>
+<td>引入memcached</td>
+<td>引入memcached依赖</td>
+<td>将memcached链接挂载到app.settings.memcached</td>
+</tr>
+<tr>
+<td>prepare_commit_msg</td>
+<td>在git commit消息中自动集成分支信息</td>
+<td>将.git/hooks/prepare-commit-ms链接到指定脚本</td>
+<td>不涉及</td>
+</tr>
+<tr>
+<td>redis</td>
+<td>引入redis</td>
+<td>引入redis依赖</td>
+<td>将redis链接挂载到app.redis</td>
+</tr>
+</tbody>
+</table>
+<p>以下是部分feature说明:</p>
+<hr>
+<h3 id="base"><a href="#base" class="headerlink" title="base"></a>base</h3><p>feature base 按照约定创建了项目基本的结构, 同时提供了一些基础的API和脚本:</p>
+<p><strong>API</strong></p>
+<ul>
+<li><p><code>app.requireModule(relativePathFromRoot)</code>: 参数是相对于app.root的相对路径, 这个API让用户不用考虑当前脚本的位置和目标模块的层级关系, 非常方便.</p>
+</li>
+<li><p><code>app.isDevelopment() -&gt; bool</code> <code>app.isProduction() -&gt; bool</code> 用于判断当前执行环境的语法糖.</p>
+</li>
+<li><p><code>app.netFT</code>: 网络请求降级API, 见<a href="http://wiki.tuan800-inc.com/display/NOD/netFT" target="_blank" rel="noopener">http://wiki.tuan800-inc.com/display/NOD/netFT</a></p>
+</li>
+</ul>
+<p><strong>脚本</strong></p>
+<ul>
+<li><code>npm run setup</code>: 按照当前配置的koa800Config更新项目脚手架</li>
+<li><code>npm run c</code>: 提供了koa800 console功能, 方便调试</li>
+</ul>
+<p><img src="/assets/images/koa800/console.gif" alt="console"></p>
+<p>除此之外, base feature还配置了日志, 设置了favicon.ico, 处理了Post 参数等问题.</p>
+<hr>
+<h3 id="eslint"><a href="#eslint" class="headerlink" title="eslint"></a>eslint</h3><p>在node.js 项目中, 我们引入eslint作为代码质量控制工具. 并在git commit 时, 利用 pre-commit hook 对修改的文件自动执行eslint, 强制保证了入库代码的质量.</p>
+<p>在 pre-commit 执行eslint检测到代码错误时, 可以配置要求阻止当前commit(默认), 也可以配置仅作为警告输出, commit仍然成功.</p>
+<p><img src="/assets/images/koa800/eslint.gif" alt="eslint"></p>
+<p>eslint 支持的配置项:</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>false</td>
+<td>关闭 auto eslint</td>
+</tr>
+<tr>
+<td>true/error</td>
+<td>开启 auto eslint, 如eslint失败, 将阻止 git commit</td>
+</tr>
+<tr>
+<td>warning</td>
+<td>开启 auto eslint, 如eslint失败, 仅输出错误消息, 允许 git commit</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="prepare-commit-msg"><a href="#prepare-commit-msg" class="headerlink" title="prepare_commit_msg"></a>prepare_commit_msg</h3><p>对多个开发共同维护的git仓库, 分析某个commit的作者、来源分支或者来源工单, 是一个常见的场景, 不过git commit 中只能查到作者信息, 不能很方便的追踪到来源分支. 在某些团队中是要求在commit message中手动加上当前分支名, 以满足未来分析需要, 这个工作其实可以通过git prepare-commit-msg 来自动实现.</p>
+<p>当在koa800中开启prepare_commit_msg选项后, 每次用户commit代码, 会自动把当前分支名信息记录到commit message中.</p>
+<p><img src="/assets/images/koa800/prepare_commit_msg.gif" alt="prepare_commit_msg"></p>
+<p>prepare_commit_msg 支持的配置项:</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>false</td>
+<td>关闭 prepare_commit_msg</td>
+</tr>
+<tr>
+<td>true</td>
+<td>开启 prepare_commit_msg</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="settings"><a href="#settings" class="headerlink" title="settings"></a>settings</h3><p>配置管理是项目工程结构中重要一环, koa800 的 settings feature 为项目提供了多级的配置管理:</p>
+<ol>
+<li><p>第一优先级:</p>
+<p> <code>config/settings.local.js</code></p>
+<p> 该文件不应该在git版本库, 用于开发测试或者部署环境的特殊配置, 优先级最高.</p>
+</li>
+<li><p>第二优先级:</p>
+<p> <code>config/environments/development.js</code> 或 <code>config/environments/production.js</code></p>
+<p> koa800会根据env的值去加载<code>config/environments/</code>中的同名js配置文件, 该目录中的配置用于不同运行环境的差异化配置.</p>
+<p> 环境配置文件应该放入版本库.</p>
+</li>
+<li><p>最低优先级:</p>
+<p> <code>config/settings.js</code></p>
+<p> 该文件包含项目基础配置, 优先级最低, 应该放入git版本库.</p>
+</li>
+</ol>
+<p>settings属于Required feature, 无需在koa800Conifg中配置.</p>
+<hr>
+<h3 id="start-hooks"><a href="#start-hooks" class="headerlink" title="start_hooks"></a>start_hooks</h3><p>某些应用在启动web 服务前, 需要处理一些前置操作, 如服务注册, 配置同步, 获取静态资源hash值等. 如果任由这些需求在各个微服务中处理, 会有大量的重复代码. 该feature 提供的API <code>app.beforeStart</code> 允许用户在app.start前注册前置操作:</p>
+<p><code>app.beforeStart(action)</code>参数action 可以是以下值:</p>
+<ul>
+<li><p>一个 Promise 实例, koa800会保证此promise resolve后, 才启动web 服务</p>
+</li>
+<li><p>一个 function, 且该function的返回值是一个Promise实例, koa800会在启动web服务前执行该function, 并且会保证此promise resolve后, 才启动web 服务.</p>
+</li>
+<li><p>一个 function, 返回值并不是Promise实例, koa800会在启动web服务前执行该function.</p>
+</li>
+</ul>
+<p><code>app.beforeStart</code> 允许级联调用, 如:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.beforeStart(syncConfiguration).beforeStart(serviceDiscovery).beforeStart(serviceRegistration)</span><br></pre></td></tr></table></figure>
+<p>start_hooks属于Required feature, 无需在koa800Conifg中配置.</p>
+<hr>
+<h3 id="auto-routes"><a href="#auto-routes" class="headerlink" title="auto_routes"></a>auto_routes</h3><p>web应用的http 路由通常由两部分组成: 子域名匹配和path匹配, <a href="https://www.npmjs.com/package/koa-sub-domain" target="_blank" rel="noopener">koa-sub-domain</a>和<a href="https://www.npmjs.com/package/koa-router" target="_blank" rel="noopener">koa-router</a> 可以实现以上功能.</p>
+<p>如果不使用koa800, 用户需要自行配置子域名路由, 如:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">app.use(app.requireModule(<span class="string">'config/routes'</span>).routes());                          <span class="comment">// 泛域名路由</span></span><br><span class="line">app.use(subdomain(<span class="string">'last'</span>, app.requireModule(<span class="string">'config/routes/last'</span>).routes()));  <span class="comment">// last 子域名路由</span></span><br><span class="line">app.use(subdomain(<span class="string">'new'</span>, app.requireModule(<span class="string">'config/routes/new'</span>).routes()));    <span class="comment">// new 子域名路由</span></span><br><span class="line">app.use(subdomain(<span class="string">'top'</span>, app.requireModule(<span class="string">'config/routes/top'</span>).routes()));    <span class="comment">// top 子域名路由</span></span><br></pre></td></tr></table></figure>
+<p>koa800提倡约定大于配置, 只要代码按照约定组织, koa800 会完整这些重复而固定的工作, 减少用户需要编写的代码行.</p>
+<p>在koa800, 只要将路由文件按照约定放入<code>config/routes</code>中, koa800 会自动加载路由, 并按照文件名识别子域名:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config</span><br><span class="line">└── routes</span><br><span class="line">    ├── index.js  泛域名路由</span><br><span class="line">    ├── last.js   last 子域名路由</span><br><span class="line">    ├── new.js    new 子域名路由</span><br><span class="line">    └── top.js    top 子域名路由</span><br></pre></td></tr></table></figure>
+<p>auto_routes 支持的配置项:</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>false</td>
+<td>关闭 auto_routes</td>
+</tr>
+<tr>
+<td>true</td>
+<td>开启 auto_routes</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="jsonp"><a href="#jsonp" class="headerlink" title="jsonp"></a>jsonp</h3><p><a href="https://www.npmjs.com/package/koa-safe-jsonp" target="_blank" rel="noopener">koa-safe-jsonp</a> 提供了koa jsonp支持, koa800将其做了简单的封装.</p>
+<p>jsonp存在较高的<a href="http://www.csdn.net/article/2015-07-14/2825207" target="_blank" rel="noopener">安全风险</a>, referer 检查是jsnop风险防范的常见手段, koa800的jsonp feature 提供了referer 检测的验证action, 该filter位于<code>app/controllers/filters/check_referer.js</code></p>
+<p>使用方式:</p>
+<p>在路由中加上前置filter: <code>filters.checkReferer</code>:</p>
+<blockquote>
+<p>router.get(‘/user_info’, app.controllers.filters.checkReferer, app.controllers.user.info);</p>
+</blockquote>
+<p>可以在<code>app/controllers/filters/check_referer.js</code>中配置特定的refererMatcher.</p>
+<p>jsonp 支持的配置项:</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>false</td>
+<td>关闭 jsonp</td>
+</tr>
+<tr>
+<td>true</td>
+<td>开启 jsonp</td>
+</tr>
+<tr>
+<td>配置对象</td>
+<td>开启 jsonp, 并将配置对象传递给koa-safe-jsonp</td>
+</tr>
+</tbody>
+</table>
+<p>配置对象中可以配置<code>callback</code>和<code>limit</code>, 详见<a href="https://www.npmjs.com/package/koa-safe-jsonp" target="_blank" rel="noopener">koa-safe-jsonp</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jsonp(app, &#123;</span><br><span class="line">  callback: <span class="string">'_callback'</span>, <span class="comment">// default is 'callback'</span></span><br><span class="line">  limit: <span class="number">50</span>, <span class="comment">// max callback name string length, default is 512</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="6-开发者指南"><a href="#6-开发者指南" class="headerlink" title="6. 开发者指南"></a>6. 开发者指南</h2><p>koa800提供的所有特性单元是Feature, 开发者可以通过编写Feature按需扩展koa800的功能.</p>
+<p>在koa800中Feature类定义如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Feature</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(properties) &#123;</span><br><span class="line">    <span class="keyword">this</span>.run          = properties.run;</span><br><span class="line">    <span class="keyword">this</span>.setup        = properties.setup;</span><br><span class="line">    <span class="keyword">this</span>.packageJson  = properties.packageJson;</span><br><span class="line">    <span class="keyword">this</span>.scaffold     = properties.scaffold;</span><br><span class="line">    <span class="keyword">this</span>.dependencies = properties.dependencies;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>属性说明:</p>
+<ul>
+<li>run: 该feature在运行时对app的增强操作</li>
+<li>setup: 该feature在脚手架更新过程中的操作, 该属性期望是一个生成器函数</li>
+<li>packageJson: 该feature在脚手架更新过程中, 对项目package.json的补充, 比如引入scripts, dependencies等</li>
+<li>scaffold: 该feature在脚手架更新过程需要同步的文件列表</li>
+<li>dependencies: 该feature依赖的其他feature</li>
+</ul>
+<p>Scaffold Generator 各feature的处理流程:</p>
+<ol>
+<li>处理dependencies features</li>
+<li>更新scaffold文件列表</li>
+<li>更新packageJson内容</li>
+<li>执行setup</li>
+</ol>
+<p>运行时, 各feature的执行流程:</p>
+<ol>
+<li>依次执行feature.run</li>
+</ol>
+<h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><p>目前koa800测试覆盖率&gt;80%, 开发者在新增、更新feature时, 务必补充单元测试.</p>
+
+    </article>
+    <!-- license  -->
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/11/27/浅谈vue和react的数据流和绑定/" title= "浅谈vue和react的数据流和绑定">
+                    <div class="nextTitle">浅谈vue和react的数据流和绑定</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/11/18/chrome插件开发教程/" title= "chrome插件开发教程">
+                    <div class="prevTitle">chrome插件开发教程</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:steadyevo@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/steadyzeus" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-要解决的问题"><span class="toc-number">1.</span> <span class="toc-text">1. 要解决的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-背景"><span class="toc-number">2.</span> <span class="toc-text">2. 背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Koa800-介绍"><span class="toc-number">3.</span> <span class="toc-text">3. Koa800 介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-Scaffold-Generator"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 Scaffold Generator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-Runtime-Koa-Wrapper"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 Runtime Koa Wrapper</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-约定"><span class="toc-number">4.</span> <span class="toc-text">4. 约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Feature"><span class="toc-number">5.</span> <span class="toc-text">5. Feature</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#base"><span class="toc-number">5.1.</span> <span class="toc-text">base</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#eslint"><span class="toc-number">5.2.</span> <span class="toc-text">eslint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prepare-commit-msg"><span class="toc-number">5.3.</span> <span class="toc-text">prepare_commit_msg</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#settings"><span class="toc-number">5.4.</span> <span class="toc-text">settings</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#start-hooks"><span class="toc-number">5.5.</span> <span class="toc-text">start_hooks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#auto-routes"><span class="toc-number">5.6.</span> <span class="toc-text">auto_routes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jsonp"><span class="toc-number">5.7.</span> <span class="toc-text">jsonp</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-开发者指南"><span class="toc-number">6.</span> <span class="toc-text">6. 开发者指南</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#单元测试"><span class="toc-number">6.1.</span> <span class="toc-text">单元测试</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 33
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/22</span><a class="archive-post-title" href= "/2019/12/22/React-高阶组件-属性代理和反向继承-生命周期调研/" >React 高阶组件 属性代理和反向继承 生命周期调研</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/20</span><a class="archive-post-title" href= "/2019/12/20/h5-hybird-webview页面兼容性/" >h5 hybird webview页面兼容性</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/17</span><a class="archive-post-title" href= "/2019/12/17/React-16-新特性/" >React 16 新特性</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/11</span><a class="archive-post-title" href= "/2019/12/11/JavaScript-原生dom操作/" >JavaScript 原生dom操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span><a class="archive-post-title" href= "/2019/12/02/vue生命周期/" >vue生命周期</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/27</span><a class="archive-post-title" href= "/2019/11/27/koa800/" >koa800</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/27</span><a class="archive-post-title" href= "/2019/11/27/浅谈vue和react的数据流和绑定/" >浅谈vue和react的数据流和绑定</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/18</span><a class="archive-post-title" href= "/2019/11/18/chrome插件开发教程/" >chrome插件开发教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/24</span><a class="archive-post-title" href= "/2019/10/24/Untitled/" >重识排列组合</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2019/10/08/nginx记录/" >nginx记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/30</span><a class="archive-post-title" href= "/2019/08/30/vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1/" >vue 记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/23</span><a class="archive-post-title" href= "/2019/07/23/nodejs-exports/" >nodejs exports</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/19</span><a class="archive-post-title" href= "/2019/07/19/JavaScript-二进制-十进制/" >JavaScript 二进制 十进制...</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/02</span><a class="archive-post-title" href= "/2019/06/02/dva记录/" >dva记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2019/04/11/微信小程序知识点/" >微信小程序知识点</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2019/02/26/记录package-json字段用处/" >记录package.json字段用处</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2019/02/18/canvas-模拟时钟/" >canvas 模拟时钟</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/13</span><a class="archive-post-title" href= "/2019/02/13/data-xxx-attribute/" >data-xxx ,attribute</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2018/12/21/webpack打包记录/" >webpack打包记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/2018/12/18/linux使用记录/" >linux git 使用记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/29</span><a class="archive-post-title" href= "/2018/11/29/面试题/" >纯手写轮子</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/css3-动画/" >css3 相关(动画,语法)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/JavaScript-事件冒泡和捕获/" >JavaScript 事件冒泡和捕获</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/页面布局方式/" >页面布局方式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/2018/11/23/JavaScript-原生语法/" >JavaScript 原生语法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/2018/11/21/react-生命周期/" >react 生命周期</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/2018/11/13/记一次大促页面性能优化/" >记一次大促页面性能优化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2018/11/12/屏幕height-width-获取/" >屏幕height width 获取</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/09</span><a class="archive-post-title" href= "/2018/11/09/抖动节流函数/" >抖动节流函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/09</span><a class="archive-post-title" href= "/2018/11/09/自我评价/" >自我评价</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/08</span><a class="archive-post-title" href= "/2018/11/08/es6语法/" >es6语法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/2018/11/07/目标/" >目标</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/2018/11/07/hello-world/" >Hello World</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="steadytag"><span class="iconfont-archer">&#xe606;</span>steadytag</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="css3"><span class="iconfont-archer">&#xe60a;</span>css3</span>
+    
+        <span class="sidebar-category-name" data-categories="es6"><span class="iconfont-archer">&#xe60a;</span>es6</span>
+    
+        <span class="sidebar-category-name" data-categories="steadycate"><span class="iconfont-archer">&#xe60a;</span>steadycate</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "John Doe"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
