@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    常用正则 |  Steady&#39;blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-正则表达式" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  常用正则
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2022/02/21/正则表达式/" class="article-date">
+  <time datetime="2022-02-21T06:59:09.000Z" itemprop="datePublished">2022-02-21</time>
+</a>
+      
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.9k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">8分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>今天胖头鱼试着把前端面试中常见的正则表达式相关的题都捞一遍，希望以后正则这个点直接过<br>1.提取连续重复的字符<br>币安原题 将有重复的字符提取出来，例如12323454545666，提取[ ‘23’, ‘45’, ‘6’ ]<br>正则结果</p>
+<p>const collectRepeatStr = (str) =&gt; {<br>  let repeatStrs = []<br>  const repeatRe = /(.+)\1+/g</p>
+<p>  str.replace(repeatRe, ($0, $1) =&gt; {<br>    $1 &amp;&amp; repeatStrs.push($1)<br>  })</p>
+<p>  return repeatStrs<br>}</p>
+<p>分析过程</p>
+<p>题目中有几个关键信息是<br>连续重复的字符<br>连续重复的字符数的长度是不限的（如23、45是两位、6是一位）<br>那什么是连续重复呢？<br>11是连续重复、22也是连续重复、111当然也是。也就是说某些字符X之后一定也是跟着X，就叫连续重复。如果很明确知道X就是1，那么/11+/也就可以匹配了，但关键是这里的X是不明确的，怎么办呢？。<br>使用反向引用的正则知识可以很方便解决这个问题。<br>第一步，写出表示有一个字符重复的正则<br>// 这里的X可用.来表示，即所有的字符，并用括号进行引用，紧跟着反向应用\1，也就是体现了连续重复的意思啦<br>let repeatRe = /(.)\1/</p>
+<p>console.log(repeatRe.test(‘11’)) // true<br>console.log(repeatRe.test(‘22’)) // true<br>console.log(repeatRe.test(‘333’)) // true<br>console.log(repeatRe.test(‘123’)) // false</p>
+<p>第二步，写出表示有n个字符重复的正则<br>因为并不确定是要匹配11还是45 45所以括号内需要用量词+来体现n个重复字符，而反向引用本身也可以是大于一个的，例如 45 45 45</p>
+<p>let repeatRe = /(.+)\1+/</p>
+<p>console.log(repeatRe.test(‘11’)) // true<br>console.log(repeatRe.test(‘22’)) // true<br>console.log(repeatRe.test(‘333’)) // true<br>console.log(repeatRe.test(‘454545’)) // true<br>console.log(repeatRe.test(‘124’)) // false</p>
+<p>第三步，提取所有连续重复的字符</p>
+<p>const collectRepeatStr = (str) =&gt; {<br>  let repeatStrs = []<br>  const repeatRe = /(.+)\1+/g<br>  // 很多时候replace并不是用来做替换，而是做数据提取用<br>  str.replace(repeatRe, ($0, $1) =&gt; {<br>    $1 &amp;&amp; repeatStrs.push($1)<br>  })</p>
+<p>  return repeatStrs<br>}</p>
+<p>console.log(collectRepeatStr(‘11’)) // [“1”]<br>console.log(collectRepeatStr(‘12323’)) // [“23”]<br>console.log(collectRepeatStr(‘12323454545666’)) // [“23”, “45”, “6”]</p>
+<ol start="2">
+<li>实现一个trim函数<br>老生常谈的题了，这里我们用两种思路实现 去除字符串的首尾空格<br>正则结果</li>
+</ol>
+<p>// 去除空格法<br>const trim = (str) =&gt; {<br>  return str.replace(/^\s<em>|\s</em>$/g, ‘’)<br>}<br>// 提取非空格法<br>const trim = (str) =&gt; {<br>  return str.replace(/^\s<em>(.</em>?)\s*$/g, ‘$1’)<br>}</p>
+<p>图片</p>
+<p><img src="/images/pasted-13.png" alt="upload successful"><br>图片</p>
+<p><img src="/images/pasted-14.png" alt="upload successful"><br>分析过程</p>
+<p>初看题目我们脑海中闪过的做法是把空格部分删除掉，保留非空格的部分，但是也可以换一种思路，也可以把非空格的部分提取出来，不管空格的部分。接下来我们来写一下两种trim方法的实现<br>方式一、去除空格法</p>
+<p>const trim = (str) =&gt; {<br>  return str.replace(/^\s<em>|\s</em>$/g, ‘’)<br>}</p>
+<p>console.log(trim(‘  前端胖头鱼’)) // 前端胖头鱼<br>console.log(trim(‘前端胖头鱼  ‘)) // 前端胖头鱼<br>console.log(trim(‘  前端胖头鱼  ‘)) // 前端胖头鱼<br>console.log(trim(‘  前端 胖头鱼  ‘)) // 前端 胖头鱼</p>
+<p>方式二、提取非空格法</p>
+<p>const trim = (str) =&gt; {<br>  return str.replace(/^\s<em>(.</em>?)\s*$/g, ‘$1’)<br>}</p>
+<p>console.log(trim(‘  前端胖头鱼’)) // 前端胖头鱼<br>console.log(trim(‘前端胖头鱼  ‘)) // 前端胖头鱼<br>console.log(trim(‘  前端胖头鱼  ‘)) // 前端胖头鱼<br>console.log(trim(‘  前端 胖头鱼  ‘)) // 前端 胖头鱼</p>
+<ol start="3">
+<li>数字价格千分位分割<br>将123456789变成123,456,789<br>这道题估计大家在面试和工作中也经常遇到，出现频率比较高。<br>正则结果</li>
+</ol>
+<p>‘123456789’.replace(/(?!^)(?=(\d{3})+$)/g, ‘,’) // 123,456,789<br>图片</p>
+<p><img src="/images/pasted-15.png" alt="upload successful"><br>补充小数千分位支持<br>图片</p>
+<p><img src="/images/pasted-16.png" alt="upload successful"><br>分析过程</p>
+<p>题目意思大概是：<br>从后往前每三个数字前加一个逗号<br>开头不能加逗号(比如：123 最后不能变成,123)<br>是不是很符合(?=p)的规律呢？p可以表示每三个数字，要添加的逗号所处的位置正好是(?=p)匹配出来的位置。<br>第一步，尝试先把后面第一个逗号弄出来</p>
+<p>let price = ‘123456789’<br>let priceReg = /(?=\d{3}$)/</p>
+<p>console.log(price.replace(proceReg, ‘,’)) // 123456,789<br>第二步，把所有的逗号都弄出来<br>要把所有的逗号都弄出来，主要要解决的问题是怎么表示三个数字一组,也就是3的倍数。我们知道正则中括号可以把一个p模式变成一个小整体，所以利用括号的特性，可以这样写</p>
+<p>let price = ‘123456789’<br>let priceReg = /(?=(\d{3})+$)/g</p>
+<p>console.log(price.replace(priceReg, ‘,’)) // ,123,456,789</p>
+<p>第三步，去掉首位的逗号，<br>上面已经基本上实现需求了，但是还不够，首位还会出现逗号，那怎么把首位的逗号去除呢？想想是不是有一个知识正好满足这个场景？没错(?!p)，就是他了，两者结合就是从后往前每三个数字的位置前添加逗号，但是这个位置不能是^首位。</p>
+<p>let price = ‘123456789’<br>let priceReg = /(?!^)(?=(\d{3})+$)/g</p>
+<p>console.log(price.replace(priceReg, ‘,’)) // 123,456,789</p>
+<ol start="4">
+<li>手机号3-4-4分割<br>将手机号18379836654转化为183-7983-6654<br>表单搜集场景，经常遇到的手机格式化<br>正则结果</li>
+</ol>
+<p>let mobile = ‘18379836654’<br>let mobileReg = /(?=(\d{4})+$)/g </p>
+<p>console.log(mobile.replace(mobileReg, ‘-‘)) // 183-7983-6654</p>
+<p>图片</p>
+<p><img src="/images/pasted-17.png" alt="upload successful"><br>分析过程</p>
+<p>有了上面数字的千分位分割法，做这个题相信会简单很多，也就是从后往前找到这样的位置：<br>每四个数字前的位置，并把这个位置替换为-</p>
+<p>let mobile = ‘18379836654’<br>let mobileReg = /(?=(\d{4})+$)/g</p>
+<p>console.log(mobile.replace(mobileReg, ‘-‘)) // 183-7983-6654</p>
+<ol start="5">
+<li>将字符串驼峰化<br>如下规则，将对应字符串变成驼峰写法</li>
+<li><p>foo Bar =&gt; fooBar</p>
+</li>
+<li><p>foo-bar—- =&gt; fooBar</p>
+</li>
+<li><p>foo_bar__ =&gt; fooBar</p>
+</li>
+</ol>
+<p>正则结果</p>
+<p>const camelCase = (string) =&gt; {<br>  const camelCaseRegex = /[-_\s]+(.)?/g</p>
+<p>  return string.replace(camelCaseRegex, (match, char) =&gt; {<br>    return char ? char.toUpperCase() : ‘’<br>  })<br>}</p>
+<p>图片</p>
+<p><img src="/images/pasted-18.png" alt="upload successful"><br>分析过程</p>
+<p>分析题目的规律<br>每个单词的前面都有0个或者多个- 空格 _ 如(Foo、–foo、__FOO、_BAR、Bar)</p>
+<ul>
+<li><p>空格 <em>后面有可能不跟任何东西 如(__、–)<br>const camelCase = (string) =&gt; {<br>// 注意(.)?这里的?是为了满足条件2<br>const camelCaseRegex = /[-</em>\s]+(.)?/g</p>
+<p>return string.replace(camelCaseRegex, (match, char) =&gt; {<br>  return char ? char.toUpperCase() : ‘’<br>})<br>}</p>
+</li>
+</ul>
+<p>console.log(camelCase(‘foo Bar’)) // fooBar<br>console.log(camelCase(‘foo-bar–’)) // fooBar<br>console.log(camelCase(‘foo_bar__’)) // fooBar</p>
+<ol start="6">
+<li>将字符串首字母转化为大写，剩下为小写<br>例如 hello world 转为为Hello World<br>正则结果</li>
+</ol>
+<p>const capitalize = (string) =&gt; {<br>  const capitalizeRegex = /(?:^|\s+)\w/g</p>
+<p>  return string.toLowerCase().replace(capitalizeRegex, (match) =&gt; match.toUpperCase())<br>}</p>
+<p><img src="/images/pasted-12.png" alt="upload successful"></p>
+<p>找到单词的首字母然后将其转化为大写字母就可以，单词前面可能是开头也可能是多个空格。</p>
+<p>const capitalize = (string) =&gt; {<br>  const capitalizeRegex = /(?:^|\s+)\w/g</p>
+<p>  return string.toLowerCase().replace(capitalizeRegex, (match) =&gt; match.toUpperCase())<br>}</p>
+<p>console.log(capitalize(‘hello world’)) // Hello World<br>console.log(capitalize(‘hello WORLD’)) // Hello World</p>
+<p>7.通过name获取url query参数<br>正则结果</p>
+<p>const getQueryByName = (name) =&gt; {<br>  const queryNameRegex = new RegExp(<code>[?&amp;]${name}=([^&amp;]*)(&amp;|$)</code>)<br>  const queryNameMatch = window.location.search.match(queryNameRegex)<br>  // 一般都会通过decodeURIComponent解码处理<br>  return queryNameMatch ? decodeURIComponent(queryNameMatch[1]) : ‘’<br>}</p>
+<p>分析过程</p>
+<p>url query上的参数 name=前端胖头鱼 所处的位置可能是<br>紧跟着问号 ?name=前端胖头鱼&amp;sex=boy<br>在最后的位置 ?sex=boy&amp;name=前端胖头鱼<br>在1和2之间 ?sex=boy&amp;name=前端胖头鱼&amp;age=100<br>所以只要处理三个地方基本就可以通过正则来取了<br>name前面只能是?或者&amp;<br>value的值可以除了是&amp;以为的任意东西<br>value后面只能是跟着&amp;或者是结束位置</p>
+<p>const getQueryByName = (name) =&gt; {<br>  const queryNameRegex = new RegExp(<code>[?&amp;]${name}=([^&amp;]*)(?:&amp;|$)</code>)<br>  const queryNameMatch = window.location.search.match(queryNameRegex)<br>  // 一般都会通过decodeURIComponent解码处理<br>  return queryNameMatch ? decodeURIComponent(queryNameMatch[1]) : ‘’<br>}<br>// 1. name在最前面<br>// <a href="https://juejin.cn/?name=前端胖头鱼&amp;sex=boy" target="_blank" rel="noopener">https://juejin.cn/?name=前端胖头鱼&amp;sex=boy</a><br>console.log(getQueryByName(‘name’)) // 前端胖头鱼</p>
+<p>// 2. name在最后<br>// <a href="https://juejin.cn/?sex=boy&amp;name=前端胖头鱼" target="_blank" rel="noopener">https://juejin.cn/?sex=boy&amp;name=前端胖头鱼</a><br>console.log(getQueryByName(‘name’)) // 前端胖头鱼</p>
+<p>// 2. name在中间<br>// <a href="https://juejin.cn/?sex=boy&amp;name=前端胖头鱼&amp;age=100" target="_blank" rel="noopener">https://juejin.cn/?sex=boy&amp;name=前端胖头鱼&amp;age=100</a><br>console.log(getQueryByName(‘name’)) // 前端胖头鱼</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow" target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2022/02/21/正则表达式/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="/2021/11/02/git操作/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">git操作</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2015-2022
+        Steady
+      </li>
+      <li>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+    <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Steady&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/2019/about.me/index.html">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+      <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+<script src="/js/share.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['面朝大海，春暖花开','愿你一生努力，一生被爱','想要的都拥有，得不到的都释怀'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+<script src="/js/tocbot.min.js"></script>
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+<script src="/js/ayer.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+  </div>
+</body>
+
+</html>

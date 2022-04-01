@@ -54,7 +54,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">224字</span>
+            <span class="post-count">754字</span>
         </span>
     </span>
 
@@ -63,7 +63,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
+            <span class="post-count">2分钟</span>
         </span>
     </span>
 </div>
@@ -90,10 +90,15 @@
       
       <p>1.强缓存离不开两个响应头Expires与Cache-Control</p>
 <p>Expires：Expires是http1.0提出的一个表示资源过期时间的header，它描述的是一个绝对时间，由服务器返回，Expires 受限于本地时间，如果修改了本地时间，可能会造成缓存失效<br>Expires: Wed, 11 May 2018 07:20:00 GMT</p>
-<p>Cache-Control: Cache-Control 出现于 HTTP / 1.1，优先级高于 Expires ,表示的是相对时间<br>Cache-Control: max-age=315360000</p>
+<p>Cache-Control: Cache-Control 出现于 HTTP / 1.1，优先级高于 Expires ,表示的是相对时间<br>Cache-Control: max-age=315360000<br>强制缓存</p>
+<p>Expires<br>响应header中添加Expires字段来标明失效规则。它的值为服务器返回的到期时间，即下一次请求时，请求时间小于服务器返回的到期时间，直接使用缓存数据。<br>response.setDataHeader(“Expires”, “0”);//无缓存<br>复制代码</p>
+<p>Cache-Control（优先级高于Expires）<br>Cache-Control是最重要的规则。常见的取值有private、public、no-cache、max-age、no-store,默认为private。</p>
+<p>private：只能针对个人用户，而不能被代理服务器缓存；<br>public：指示响应可被任何缓存区缓存；<br>no-cache：强制客户端直接向服务器发送请求,也就是说每次请求都必须向服务器发送。服务器接收到请求，然后判断资源是否变更，是则返回新内容，否则返回304，未变更。<br>max-age：用来设置资源（representations）可以被缓存多长时间，单位为秒；<br>no-store：禁止一切缓存</p>
 <p>2.协商缓存<br>协商缓存就是强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程，主要有以下两种情况：</p>
 <p>协商缓存生效，返回304和Not Modified<br>协商缓存失效，返回200和请求结果</p>
 <p>协商缓存可以通过设置两种 HTTP Header 实现：Last-Modified 和 ETag 。</p>
+<p>ETag/If-None-Match（优先级高于Last-Modified/If-Modified-Since）<br>服务器响应请求时，通过Etag头部告诉浏览器当前资源在服务器的唯一标识（生成规则由服务器决定），浏览器再次请求时，就会带上一个头If-None-Match，这个值就是服务器上一次给的Etag的值，服务器比对一下资源当前的Etag是否跟If-None-Match一致，不一致则说明资源修改过了，浏览器不能再使用缓存，否则浏览器可以继续使用缓存，并返回304状态码。</p>
+<p>Last-Modified/Last-Modified-Since<br>服务器响应请求时，会告诉浏览器一个告诉浏览器资源的最后修改时间：Last-Modified，浏览器之后再请求的时候，会带上一个头：If-Modified-Since，这个值就是服务器上一次给的 Last-Modified 的时间，服务器会比对资源当前最后的修改时间，如果大于If-Modified-Since，则说明资源修改过了，浏览器不能再使用缓存，否则浏览器可以继续使用缓存，并返回304状态码。</p>
 
       
       <!-- reward -->
@@ -259,7 +264,7 @@
     <ul class="list-inline">
       <li>
         &copy;
-        2015-2020
+        2015-2022
         Steady
       </li>
       <li>

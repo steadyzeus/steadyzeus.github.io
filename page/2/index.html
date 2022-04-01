@@ -38,6 +38,519 @@
     
     
     
+    <article id="post-Chrome-time-分析" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/03/Chrome-time-分析/">Chrome time 分析</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/07/03/Chrome-time-分析/" class="article-date">
+  <time datetime="2020-07-03T02:18:39.000Z" itemprop="datePublished">2020-07-03</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="Stalled（阻塞）"><a href="#Stalled（阻塞）" class="headerlink" title="Stalled（阻塞）"></a>Stalled（阻塞）</h1><p>　　浏览器对同一个主机域名的并发连接数有限制，因此如果当前的连接数已经超过上限，那么其余请求就会被阻塞，等待新的可用连接；此外脚本也会阻塞其他组件的下载；</p>
+<p>　　优化措施：</p>
+<p>　　1、将资源合理分布到多台主机上，可以提高并发数，但是增加并行下载数量也会增大开销，这取决于带宽和CPU速度，过多的并行下载会降低性能；</p>
+<p>　　2、脚本置于页面底部；</p>
+<h1 id="DNS-Lookup（域名解析）"><a href="#DNS-Lookup（域名解析）" class="headerlink" title="DNS Lookup（域名解析）"></a>DNS Lookup（域名解析）</h1><p>　　请求某域名下的资源，浏览器需要先通过DNS解析器得到该域名服务器的IP地址。在DNS查找完成之前，浏览器不能从主机名那里下载到任何东西。</p>
+<p>　　优化措施：</p>
+<p>　　1、利用DNS缓存（设置TTL时间）；</p>
+<p>　　2、利用Connection:keep-alive特性建立持久连接，可以在当前连接上进行多个请求，无需再进行域名解析；</p>
+<h1 id="Initial-connection（初始化连接）"><a href="#Initial-connection（初始化连接）" class="headerlink" title="Initial connection（初始化连接）"></a>Initial connection（初始化连接）</h1><p>　　TCP建立连接的三次握手时间</p>
+<h1 id="SSL（包含于HTTPS连接中）"><a href="#SSL（包含于HTTPS连接中）" class="headerlink" title="SSL（包含于HTTPS连接中）"></a>SSL（包含于HTTPS连接中）</h1><p>　　http是超文本传输协议，以明文方式发送内容，不提供任何方式的数据加密，如果被不法分子截取浏览器和服务器之间的传输报文，会获取其中的信息。</p>
+<p>　　https 是安全套接字层超文本传输协议，就是在HTTP的基础上加入了SSL协议，SSL依靠证书来验证服务器的身份，并为浏览器和服务器之间的通信加密。</p>
+<p>　　因此建立HTTPS连接的时间相当于三次握手的时间+SSL时间。</p>
+<h1 id="Request-sent（发送请求）"><a href="#Request-sent（发送请求）" class="headerlink" title="Request sent（发送请求）"></a>Request sent（发送请求）</h1><p>　　发送HTTP请求的时间（从第一个bit到最后一个bit）</p>
+<p>　　优化措施：</p>
+<p>　　1、减少HTTP请求，可以使用CSS Sprites、内联图片、合并脚本和样式表等；</p>
+<p>　　2、对不常变化的组件添加长久的Expires头（相当于设置久远的过期时间），在后续的页面浏览中可以避免不必要的HTTP请求；</p>
+<h1 id="Waiting（等待响应）"><a href="#Waiting（等待响应）" class="headerlink" title="Waiting（等待响应）"></a>Waiting（等待响应）</h1><p>　　通常是耗费时间最长的。从发送请求到收到响应之间的空隙，会受到线路、服务器距离等因素的影响。</p>
+<p>　　优化措施：</p>
+<p>　　1、使用CDN，将用户的访问指向距离最近的工作正常的缓存服务器上，由缓存服务器直接响应用户请求，提高响应速度；</p>
+<h1 id="Content-Download（下载）"><a href="#Content-Download（下载）" class="headerlink" title="Content Download（下载）"></a>Content Download（下载）</h1><p>　　下载HTTP响应的时间（包含头部和响应体）</p>
+<p>　　优化措施：</p>
+<p>　　1、通过条件Get请求，对比If-Modified-Since和Last-Modified时间，确定是否使用缓存中的组件，服务器会返回“304 Not Modified”状态码，减小响应的大小；</p>
+<p>　　2、移除重复脚本，精简和压缩代码，如借助自动化构建工具grunt、gulp等；</p>
+<p>　　3、压缩响应内容，服务器端启用gzip压缩，可以减少下载时间</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-nodejs相关记录" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/30/nodejs相关记录/">nodejs相关记录</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/30/nodejs相关记录/" class="article-date">
+  <time datetime="2020-06-30T08:09:28.000Z" itemprop="datePublished">2020-06-30</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="nvm管理node-版本号"><a href="#nvm管理node-版本号" class="headerlink" title="nvm管理node 版本号"></a>nvm管理node 版本号</h1><p>在mac和liunx系统里边  nvm use 切换的是当次版本   下次打开终端  还是之前的node版本</p>
+<p>要想永久切换   使用nvm alias default （版本号）</p>
+<h1 id="path-resolve-路径"><a href="#path-resolve-路径" class="headerlink" title="path.resolve 路径"></a>path.resolve 路径</h1><p>// 当前工作目录与当前文件路径(F:/1/2/task6/test/dist)有区别<br>path.resolve();                               //  F:/1/2/task6/test 当前工作目录的绝对路径<br>path.resolve(‘./a’);                          //  F:/1/2/task6/test/a<br>path.resolve(‘../a’);                         //  F:/1/2/task6/a<br>path.resolve(‘.’);                            //  F:/1/2/task6/test<br>path.resolve(‘..’);                           //  F:/1/2/task6<br>path.resolve(‘/‘));                           //  F:/<br>path.resolve(‘./a’,’../c/d’);                 //  F:/1/2/task6/test/c/d<br>path.resolve(‘./a’,’./c/d’);                  //  F:/1/2/task6/test/a/c/d<br>path.resolve(‘/a’,’../c/d’);                  //  F:c/d<br>path.resolve(‘/a’,’./c/d’);                   //  F:/a/c/d<br>path.resolve(‘./a’,’/b’,’./c/d’);             //  F:/b/c/d<br>path.resolve(‘a’,’b’,’c/d’);                  //  F:/1/2/task6/test/a/b/c/d<br>path.resolve(‘./a’,’./b’,’c/d’);              //  F:/1/2/task6/test/a/b/c/d<br>path.resolve(‘./a’,’/b’,’c/d’);               //  F:/b/c/d<br>path.resolve(‘./a/b’,’..’,’c/d’);             //  F:/1/2/task6/test/a/c/d<br>path.resolve(‘./a’,’..’,’c/d’);               //  F:/1/2/task6/test/c/d<br>————————————————</p>
+<h1 id="paht-join"><a href="#paht-join" class="headerlink" title="paht.join"></a>paht.join</h1><p>path.join(‘/foo’, ‘bar’, ‘baz/asdf’, ‘quux’, ‘.’);          //  返回 /foo/bar/baz/asdf/quux, “.”和”/“没什么影响<br>path.join(‘/foo’, ‘./bar’, ‘baz/asdf’, ‘.’, ‘quux’);        //  返回 /foo/bar/baz/asdf/quux<br>path.join(‘/foo’, ‘./bar’, ‘./baz/asdf’, ‘quux’, ‘..’);     //  返回 /foo/bar/baz/asdf<br>path.join(‘/foo’, ‘bar’, ‘baz/asdf’, ‘.’, ‘.’);             //  返回 /foo/bar/baz/asdf<br>path.join(‘/foo’, ‘bar’, ‘baz/asdf’, ‘quux’);               //  返回 /foo/bar/baz/asdf/quux<br>path.join(‘/foo’, ‘bar’, ‘baz/asdf’, ‘..’, ‘..’);           //  返回 /foo/bar<br>————————————————</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-React-HOC-ref-用法" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/04/React-HOC-ref-用法/">React HOC ref 用法</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/04/React-HOC-ref-用法/" class="article-date">
+  <time datetime="2020-06-04T02:26:11.000Z" itemprop="datePublished">2020-06-04</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>昨天参加面试被问到hoc 父组件的static 方法的传递</p>
+<p>关键点就是React.forwardRef的API中ref必须指向dom元素而不是React组件。</p>
+<p>一、React.forwardRef使用示例<br>下面就是应用到React组件的错误示例：</p>
+<p>const A=React.forwardRef((props,ref)=&gt;<b {...props}="" ref="{ref}/">)<br>这就是我之前经常犯的错误， 这里的ref是无法生效的。</b></p>
+<p>前面提到ref必须指向dom元素，那么正确方法就应用而生：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span>  A=React.forwardRef(<span class="function">(<span class="params">props,ref</span>)=&gt;</span>(</span><br><span class="line">&lt;div ref=&#123;ref&#125;&gt;</span><br><span class="line">&lt;B &#123;...props&#125; /&gt;</span><br><span class="line">&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">))</span></span><br></pre></td></tr></table></figure></p>
+<p>二、React.forwardRef应用到高阶组件中<br>2.1. withComponent类型的高阶组件【1】<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;</span><br><span class="line">import A from &apos;./a.jsx&apos;</span><br><span class="line">import PropTypes from &apos;prop-types&apos;;</span><br><span class="line"></span><br><span class="line">function withA(Component)&#123;</span><br><span class="line">    const ForWardedComponent = React.forwardRef((props, ref) =&gt; &lt;div ref=&#123;ref&#125;&gt;</span><br><span class="line">               &lt;Component &#123;...props&#125; /&gt;</span><br><span class="line">           &lt;/div&gt;);</span><br><span class="line">     class MidComponent extends React.Component &#123;</span><br><span class="line">        render() &#123;</span><br><span class="line">            const props = this.props</span><br><span class="line">            return (</span><br><span class="line">                &lt;A &#123;...props&#125;&gt;</span><br><span class="line">                  &lt;ForWardedComponent  ref=&#123;props.forwardedRef&#125; &#123;...props&#125;/&gt;</span><br><span class="line">            &lt;/A&gt;</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //对MidComponent组件属性进行类型经查 </span><br><span class="line">    MidComponent.propTypes = &#123;</span><br><span class="line">        forwardedRef: PropTypes.object,</span><br><span class="line">    &#125;</span><br><span class="line">    return  MidComponent</span><br><span class="line">&#125;</span><br><span class="line">exports.withA=withA</span><br><span class="line">这样，在上述示例的组件A中，A的周期componentDidMount() 调用 this.props.forwardedRef.current ,指向的就是上述示例中ForWardedComponent对应的dom元素。</span><br><span class="line">是B组件对应的dom的父元素，而不是该dom</span><br><span class="line">在a.jsx中某处:</span><br><span class="line"></span><br><span class="line">    componentDidMount()&#123;</span><br><span class="line">     console.log(this.props.forwardedRef.current)</span><br><span class="line">    &#125;</span><br><span class="line">最后应用实例：</span><br><span class="line"></span><br><span class="line">import React from &apos;react&apos;</span><br><span class="line">import ReactDOM from  &apos;react-dom&apos;</span><br><span class="line">//假设withA存储于withA.js文件。</span><br><span class="line">import &#123;withA&#125;   from  &apos;./withA.js&apos;  </span><br><span class="line"> const B=()=&gt;&lt;h2&gt;hello world&lt;/h2&gt;</span><br><span class="line">const B2=withA(B)</span><br><span class="line">class App extends React.Component &#123;</span><br><span class="line">      constructor(props) &#123;</span><br><span class="line">        super(props)</span><br><span class="line">        this.forwardedRef=React.creactRef()        </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        render() &#123;</span><br><span class="line">           return  &lt;div&gt;</span><br><span class="line">               &lt;B2  forwardedRef=&#123;this.forwardedRef&#125;/&gt;</span><br><span class="line">           &lt;/div&gt;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;App/&gt;,document.getElementById(&apos;app&apos;))</span><br><span class="line">     </span><br><span class="line">2.2 纯粹的高阶组件（Parent-Child）</span><br><span class="line">【1】中并不是React组件，只是一个React组件为参数的函数，调用以后才成为React组件。那么直接写入一个Parent组件又该如何呢？</span><br><span class="line"></span><br><span class="line">import React from &apos;react&apos;</span><br><span class="line">import A from &apos;./a.jsx&apos;</span><br><span class="line">import PropTypes from &apos;prop-types&apos;;</span><br><span class="line"></span><br><span class="line">function AasParent(props)&#123;</span><br><span class="line">    const ForWardedComponent = React.forwardRef((props, ref) =&gt; &lt;div ref=&#123;ref&#125;&gt;</span><br><span class="line">               &#123;props.children&#125;</span><br><span class="line">           &lt;/div&gt;);</span><br><span class="line">      return (</span><br><span class="line">                &lt;A &#123;...props&#125;&gt;</span><br><span class="line">                  &lt;ForWardedComponent  ref=&#123;props.forwardedRef&#125; &#123;...props&#125;/&gt;</span><br><span class="line">            &lt;/A&gt;)</span><br><span class="line">&#125;</span><br><span class="line">AasParent.propTypes = &#123;</span><br><span class="line">        forwardedRef: PropTypes.object,</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">module.exports=AasParent</span><br><span class="line">最后应用实例：</span><br><span class="line"></span><br><span class="line">import React from &apos;react&apos;</span><br><span class="line">import ReactDOM from  &apos;react-dom&apos;</span><br><span class="line">//假设AasParent存储于AasParent.jsx文件。注意与【1】中的区别</span><br><span class="line">import AasParent   from  &apos;./AasParent.jsx&apos;  </span><br><span class="line"> const B=(props)=&gt;&lt;h2&gt;&#123;props.greetings&#125;&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">class App extends React.Component &#123;</span><br><span class="line">      constructor(props) &#123;</span><br><span class="line">        super(props)</span><br><span class="line">        this.forwardedRef=React.creactRef()        </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        render() &#123;</span><br><span class="line">           return  &lt;AasParent forwardedRef=&#123;this.forwardedRef&#125;&gt;</span><br><span class="line">               &lt;B2  greetings=&quot;你好，Melo&quot;/&gt;</span><br><span class="line">           &lt;/AasParent&gt;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;App/&gt;,document.getElementById(&apos;app&apos;))</span><br></pre></td></tr></table></figure></p>
+<p>三、总结<br>1.React.forwardRef的API中ref必须指向dom元素而不是React组件。<br>2.在【1】的组件A中，A的周期componentDidMount() 调用 this.props.forwardedRef.current ,指向的就是【1】中ForWardedComponent对应的dom元素。是【1】中B组件对应的dom的父dom元素，而不是该dom。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-Http协议相关" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/12/Http协议相关/">Http协议相关</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/12/Http协议相关/" class="article-date">
+  <time datetime="2020-05-12T09:16:40.000Z" itemprop="datePublished">2020-05-12</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>1.强缓存离不开两个响应头Expires与Cache-Control</p>
+<p>Expires：Expires是http1.0提出的一个表示资源过期时间的header，它描述的是一个绝对时间，由服务器返回，Expires 受限于本地时间，如果修改了本地时间，可能会造成缓存失效<br>Expires: Wed, 11 May 2018 07:20:00 GMT</p>
+<p>Cache-Control: Cache-Control 出现于 HTTP / 1.1，优先级高于 Expires ,表示的是相对时间<br>Cache-Control: max-age=315360000<br>强制缓存</p>
+<p>Expires<br>响应header中添加Expires字段来标明失效规则。它的值为服务器返回的到期时间，即下一次请求时，请求时间小于服务器返回的到期时间，直接使用缓存数据。<br>response.setDataHeader(“Expires”, “0”);//无缓存<br>复制代码</p>
+<p>Cache-Control（优先级高于Expires）<br>Cache-Control是最重要的规则。常见的取值有private、public、no-cache、max-age、no-store,默认为private。</p>
+<p>private：只能针对个人用户，而不能被代理服务器缓存；<br>public：指示响应可被任何缓存区缓存；<br>no-cache：强制客户端直接向服务器发送请求,也就是说每次请求都必须向服务器发送。服务器接收到请求，然后判断资源是否变更，是则返回新内容，否则返回304，未变更。<br>max-age：用来设置资源（representations）可以被缓存多长时间，单位为秒；<br>no-store：禁止一切缓存</p>
+<p>2.协商缓存<br>协商缓存就是强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程，主要有以下两种情况：</p>
+<p>协商缓存生效，返回304和Not Modified<br>协商缓存失效，返回200和请求结果</p>
+<p>协商缓存可以通过设置两种 HTTP Header 实现：Last-Modified 和 ETag 。</p>
+<p>ETag/If-None-Match（优先级高于Last-Modified/If-Modified-Since）<br>服务器响应请求时，通过Etag头部告诉浏览器当前资源在服务器的唯一标识（生成规则由服务器决定），浏览器再次请求时，就会带上一个头If-None-Match，这个值就是服务器上一次给的Etag的值，服务器比对一下资源当前的Etag是否跟If-None-Match一致，不一致则说明资源修改过了，浏览器不能再使用缓存，否则浏览器可以继续使用缓存，并返回304状态码。</p>
+<p>Last-Modified/Last-Modified-Since<br>服务器响应请求时，会告诉浏览器一个告诉浏览器资源的最后修改时间：Last-Modified，浏览器之后再请求的时候，会带上一个头：If-Modified-Since，这个值就是服务器上一次给的 Last-Modified 的时间，服务器会比对资源当前最后的修改时间，如果大于If-Modified-Since，则说明资源修改过了，浏览器不能再使用缓存，否则浏览器可以继续使用缓存，并返回304状态码。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-V2Ray断流异常" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/03/15/V2Ray断流异常/">V2Ray断流异常</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/03/15/V2Ray断流异常/" class="article-date">
+  <time datetime="2020-03-15T15:54:38.000Z" itemprop="datePublished">2020-03-15</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <ol>
+<li><p>问题描述<br>最近一段时间发现，代理十分不稳定，经常出现“断流”，具体表现为：打开需要代理的站点，需要访问两次，第一次访问失败，需要再刷新一次。<br>查看错误日志内容：</p>
+</li>
+<li><p>Proxy|HTTP: failed to read response from r16—sn-ni57dn7z.gvt1.com &gt; io: read/write on closed pipe</p>
+</li>
+<li><p>问题原因<br>后翻阅issue检查发现，我的代理服务器时间比客户端慢了3分钟，两端时间不一致。</p>
+</li>
+<li><p>解决办法<br>同步服务器时间</p>
+</li>
+</ol>
+<p>查看当前服务当前时间</p>
+<ol>
+<li>date -R</li>
+<li>timedatectl set-ntp no</li>
+<li>timedatectl set-time ‘23:51:00’</li>
+</ol>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-React-高阶组件-属性代理和反向继承-生命周期调研" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/React-高阶组件-属性代理和反向继承-生命周期调研/">React 高阶组件 属性代理和反向继承 生命周期调研</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/12/22/React-高阶组件-属性代理和反向继承-生命周期调研/" class="article-date">
+  <time datetime="2019-12-21T17:43:58.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="属性代理-Props-Proxy-：-HOC-对传给-WrappedComponent-W-的-porps-进行操作，反向继承-Inheritance-Inversion-：-HOC-继承-WrappedComponent-W。"><a href="#属性代理-Props-Proxy-：-HOC-对传给-WrappedComponent-W-的-porps-进行操作，反向继承-Inheritance-Inversion-：-HOC-继承-WrappedComponent-W。" class="headerlink" title="属性代理(Props Proxy)： HOC 对传给 WrappedComponent W 的 porps 进行操作，反向继承(Inheritance Inversion)： HOC 继承 WrappedComponent W。"></a>属性代理(Props Proxy)： HOC 对传给 WrappedComponent W 的 porps 进行操作，反向继承(Inheritance Inversion)： HOC 继承 WrappedComponent W。</h2><h3 id="1-属性代理"><a href="#1-属性代理" class="headerlink" title="1.属性代理"></a>1.属性代理</h3><p>使用 Props Proxy 可以做什么？</p>
+<p>操作 props<br>通过 Refs 访问到组件实例<br>提取 state<br>用其他元素包裹 WrappedComponent<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.message = <span class="string">'World'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  componentWillMount()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"属性代理1 willmount"</span>);  </span><br><span class="line">        &#125;</span><br><span class="line">        componentDidMount()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"属性代理1 didmount"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (&lt;h1&gt;Hello &#123;this.message&#125;&lt;/h1&gt;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> MyContainer = <span class="function">(<span class="params">WrappedComponent</span>) =&gt;</span> </span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">        componentWillMount()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"HOC属性代理1 willmount"</span>);  </span><br><span class="line">        &#125;</span><br><span class="line">        componentDidMount()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"HOC属性代理1 didmount"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      </span><br><span class="line">        render()&#123;</span><br><span class="line">            <span class="keyword">return</span> &lt;WrappedComponent &#123;...this.props&#125; /&gt;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">const Hocfirst=MyContainer(App);</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;Hocfirst/&gt;, window.root);</span><br><span class="line"></span><br><span class="line">\\\</span><br><span class="line"></span><br><span class="line">"HOC属性代理1 willmount"</span><br><span class="line">"属性代理1 willmount"</span><br><span class="line">"属性代理1 didmount"</span><br><span class="line">"HOC属性代理1 didmount"</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-反向继承"><a href="#2-反向继承" class="headerlink" title="2.反向继承"></a>2.反向继承</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">replacer</span>(<span class="params">key, value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">'function'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`function <span class="subst">$&#123;value.name&#125;</span>() &#123;...&#125;`</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stringify</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">JSON</span>.stringify(value, replacer, <span class="number">2</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// II debug example</span></span><br><span class="line"><span class="comment">// We are using the Inheritance Inversion technique to display</span></span><br><span class="line"><span class="comment">// the current state and props of the WrappedComponent (the component you want to debug).</span></span><br><span class="line"><span class="comment">// This is based on the technique that Mickael Jackson and Ryan Florence recommend</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">IIHOC</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">II</span> <span class="keyword">extends</span> <span class="title">WrappedComponent</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">      <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">          &lt;h2&gt;</span><br><span class="line">            HOC Debugger Component</span><br><span class="line">          &lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">          &lt;p&gt;</span></span><br><span class="line"><span class="regexp">            Props</span></span><br><span class="line"><span class="regexp">          &lt;/</span>p&gt;</span><br><span class="line">          &lt;pre&gt;&#123;stringify(<span class="keyword">this</span>.props)&#125;&lt;<span class="regexp">/pre&gt;</span></span><br><span class="line"><span class="regexp">          &lt;p&gt;</span></span><br><span class="line"><span class="regexp">            State</span></span><br><span class="line"><span class="regexp">          &lt;/</span>p&gt;</span><br><span class="line">          &lt;pre&gt;&#123;stringify(<span class="keyword">this</span>.state)&#125;&lt;<span class="regexp">/pre&gt;</span></span><br><span class="line"><span class="regexp">          &#123;super.render()&#125;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Example</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      name: <span class="string">'fran'</span>,</span><br><span class="line">      email: <span class="string">'franleplant@gmail.com'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h2&gt;</span><br><span class="line">          Wrapped Component</span><br><span class="line">        &lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">        &lt;p&gt;Im a wrapped component&lt;/</span>p&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">const EnhancedExample = IIHOC(Example)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">ReactDOM.render(&lt;EnhancedExample date=&#123;(new Date).toISOString()&#125; callback=&#123;function test() &#123;&#125;&#125;/</span>&gt;, <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">E2：</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ComponentChild</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      num: <span class="number">2019</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"child component Did Mount"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  clickComponent() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Component click"</span>)</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> ( &lt;div &gt; &#123;</span><br><span class="line">        this.state.num</span><br><span class="line">      &#125; &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> iihoc = <span class="function">(<span class="params">WrapComponet</span>) =&gt;</span> <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">WrapComponet</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">super</span>(props)</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">this</span>.state = &#123;</span><br><span class="line"> </span><br><span class="line">          num: <span class="number">2000</span></span><br><span class="line"> </span><br><span class="line">      &#125;</span><br><span class="line"> </span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line"> </span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'iihoc componentDidMount'</span>)</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">this</span>.clickComponent()</span><br><span class="line"> </span><br><span class="line">  &#125;</span><br><span class="line">render()&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line"> </span><br><span class="line">    &lt;div&gt;</span><br><span class="line"> </span><br><span class="line">        &lt;div onClick=&#123;<span class="keyword">this</span>.clickComponent&#125;&gt;iiHoc 点击&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp">       &#123;/</span>* &lt;div&gt;&lt;WrapComponet /&gt;&lt;/div&gt; *<span class="regexp">/&#125;/</span><span class="regexp">/用的是父组件的state；</span></span><br><span class="line"><span class="regexp">       &lt;div&gt;&#123;super.render()&#125;&lt;/</span>div&gt;<span class="comment">//反向继承，用的是子组件的state；并且会劫持父组件的生命周期钩子函数componentDidMount，不会执行父组件的componentDidMount</span></span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp">)</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp">var App = iihoc(ComponentChild)</span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp">ReactDOM.render(&lt;App/</span>&gt;, <span class="built_in">window</span>.root);</span><br></pre></td></tr></table></figure>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-h5-hybird-webview页面兼容性" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/20/h5-hybird-webview页面兼容性/">h5 hybird webview页面兼容性</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/12/20/h5-hybird-webview页面兼容性/" class="article-date">
+  <time datetime="2019-12-20T14:53:07.000Z" itemprop="datePublished">2019-12-20</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>1.在滚动容器上增加滚动 touch 方法<br>将-webkit-overflow-scrolling 值设置为 touch</p>
+<p>.wrapper {<br>    -webkit-overflow-scrolling: touch;<br>}</p>
+<p>2.iOS 上拉边界下拉出现白色空白<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'touchmove'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(e._isScroller) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">// 阻止默认事件</span></span><br><span class="line">    e.preventDefault();</span><br><span class="line">&#125;, &#123;</span><br><span class="line">    passive: <span class="literal">false</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>3.软键盘将页面顶起来、收起未回落问题<br>表现<br>Android 手机中，点击 input 框时，键盘弹出，将页面顶起来，导致页面样式错乱。<br>移开焦点时，键盘收起，键盘区域空白，未回落。<br>产生原因<br>我们在app 布局中会有个固定的底部。安卓一些版本中，输入弹窗出来，会将解压 absolute 和 fixed 定位的元素。导致可视区域变小，布局错乱。<br>原理与解决方案<br>软键盘将页面顶起来的解决方案，主要是通过监听页面高度变化，强制恢复成弹出前的高度。<br>// 记录原有的视口高度<br>const originalHeight = document.body.clientHeight || document.documentElement.clientHeight;</p>
+<p>window.onresize = function(){<br>  var resizeHeight = document.documentElement.clientHeight || document.body.clientHeight;<br>  if(resizeHeight &lt; originalHeight ){<br>    document.body.clientHeight = originalHeight;<br>  }<br>}<br>复制代码键盘不能回落问题出现在 iOS 12+ 和 wechat 6.7.4+ 中，而在微信 H5 开发中是比较常见的 Bug。<br>兼容原理，1.判断版本类型 2.更改滚动的可视区域<br>const isWechat = window.navigator.userAgent.match(/MicroMessenger\/([\d.]+)/i);<br>if (!isWechat) return;<br>const wechatVersion = wechatInfo[1];<br>const version = (navigator.appVersion).match(/OS (\d+)<em>(\d+)</em>?(\d+)?/);</p>
+<p> // 如果设备类型为iOS 12+ 和wechat 6.7.4+，恢复成原来的视口<br>if (+wechatVersion.replace(/./g, ‘’) &gt;= 674 &amp;&amp; +version[1] &gt;= 12) {<br>  window.scrollTo(0, Math.max(document.body.clientHeight, document.documentElement.clientHeight));<br>}<br>复制代码<br>window.scrollTo(x-coord, y-coord)，其中window.scrollTo(0, clientHeight)恢复成原来的视口</p>
+<p>4.微信公众号分享问题<br>表现<br>在微信公众号 H5 开发中，页面内部点击分享按钮调用 SDK，方法不生效。<br>解决方案<br>解决方法：添加一层蒙层，做分享引导。<br>因为页面内部点击分享按钮无法直接调用，而分享功能需要点击右上角更多来操作。<br>然后用户可能不知道通过右上角小标里面的功能分享。又想引导用户分享，这时应该怎么做呢？<br>技术无法实现的，从产品出发。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-React-16-新特性" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
 
   <div class="article-inner">
@@ -253,951 +766,13 @@
 
 </article>
     
-    <article id="post-浅谈vue和react的数据流和绑定" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/11/27/浅谈vue和react的数据流和绑定/">浅谈vue和react的数据流和绑定</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/11/27/浅谈vue和react的数据流和绑定/" class="article-date">
-  <time datetime="2019-11-26T19:48:41.000Z" itemprop="datePublished">2019-11-27</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>数据流：<br>Vue和React均是单向数据流传递</p>
-<p>单向数据流指只能从一个方向修改数据，姑且我们可以这样理解，如下图所示。一个父组件下有两个子组件1和子组件2，父组件可以向子组件传递数据。假如子组件都获取到了父组件的name，在子组件1中对name重新修改之后，子组件2和父组件中的值并不会发生改变，这正是因为Vue中的机制是单向数据流，子组件不能直接改变父组件的状态。但反过来，如果是父组件中的name修改了，当然两个子组件中的name也就改变了。</p>
-<p>数据的绑定 :<br>Vue是双向绑定和React是单向绑定</p>
-<p>它们俩主要是由MVVM框架实现，在Vue中主要由三个部分组成，View、ViewModel和Model组成，其中View和Model不能直接进行通信，他们要通过中间件ViewModel来进行。例如，当Model部分数据发生改变时，由于vue中Data Binding将底层数据和Dom层进行了绑定，ViewModel通知View层更新视图；当在视图 View数据发生变化也会同步到Model中。View和Model之间的同步完全是自动的，不需要人手动的操作DOM,所以叫双向绑定。</p>
-<p>而在React中虽然modal和view之间也是通过ViewMode处理,但是l却需要setState去手动刷新渲染view，所以叫单向绑定</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-koa800" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/11/27/koa800/">koa800</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/11/27/koa800/" class="article-date">
-  <time datetime="2019-11-26T19:11:48.000Z" itemprop="datePublished">2019-11-27</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <blockquote>
-<p>基于koa框架, 可扩展、可配置的中间件集合, 以及快速定制项目结构的脚手架工具</p>
-</blockquote>
-<p><a href="http://git.tuan800-inc.com/ruby_cd/cd-ruby-common_package_source/blob/master/node/koa800/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a></p>
-<h2 id="1-要解决的问题"><a href="#1-要解决的问题" class="headerlink" title="1. 要解决的问题"></a>1. 要解决的问题</h2><ol>
-<li><p>脚手架文件太多:</p>
-<ul>
-<li>干扰业务代码</li>
-<li>无法方便的进行更新和升级</li>
-<li>随着时间推移, 项目结构和脚手架文件在不同项目中逐渐变得不统一</li>
-</ul>
-</li>
-<li><p>中间件的管理:</p>
-<ul>
-<li>相同的中间件需要在不同项目中去引用和配置, 重复的工作量, 重复的代码(违反DRY)</li>
-<li>不便于统一的更新和升级</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h2 id="2-背景"><a href="#2-背景" class="headerlink" title="2. 背景"></a>2. 背景</h2><p>微服务是当前比较流行的系统架构模式, 各个应用的专注于提供特定的服务. 在框架选择上, 轻量级、 支持中间件选配的koa框架是一个不错的选择.</p>
-<p>koa 的使用非常灵活便捷, 它没有提供模板文件, 也没有要求项目结构标准, 这让开发者有很大的自由度; 不过对于同一个团队下的多个koa应用来说, 这会是一个问题: 多个项目在脚手架结构上的不统一, 将会对跨项目维护、中间件升级等造成麻烦.</p>
-<p>解决以上问题, 有的团队会采用代码规范/项目结构规范来作为约束, 对于生命周期较长的多应用系统, 规范不一定有很好的效果, 规范毕竟是靠人来执行.</p>
-<p>koa800提供另外一种方案: 将各项目的结构标准、共用的中间件依赖等, 提取到npm包中, 对于那些部分项目使用的中间件, 也将其提取到npm包中, 使用者可以对这部分特性进行简单的声明选择. 这样一来, 项目结构和中间件都在koa800中进行控制和装配, 实现了强制的项目标准.</p>
-<p>同时, koa800还提供了项目脚手架的创建和更新功能.</p>
-<hr>
-<h2 id="3-Koa800-介绍"><a href="#3-Koa800-介绍" class="headerlink" title="3. Koa800 介绍"></a>3. Koa800 介绍</h2><p>koa800提供了2个功能:</p>
-<ol>
-<li>Scaffold Generator: 创建、更新项目脚手架, 可配置需要特性. 发生在执行setup脚本时.</li>
-<li>Runtime Koa Wrapper: 统一管理项目中间件, 可配置需要特性. 发生在项目运行时.</li>
-</ol>
-<p>Scaffold Generator和Koa Wrapper都是通过<a href="TODO">Feature</a>进行管理.</p>
-<hr>
-<h3 id="3-1-Scaffold-Generator"><a href="#3-1-Scaffold-Generator" class="headerlink" title="3.1 Scaffold Generator"></a>3.1 Scaffold Generator</h3><p>让我们用koa800来初始化一个新项目:</p>
-<blockquote>
-<p>% mkdir koa800_demo<br>% cd koa800_demo</p>
-</blockquote>
-<p>然后用<code>npm init</code>创建项目package.json</p>
-<p>现在你需要做的是将<code>koa800</code>加入项目依赖:</p>
-<blockquote>
-<p>% npm install koa800 –save</p>
-</blockquote>
-<p>现在该项目的package.json大概是这个样子的:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"koa800_demo"</span>,</span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="string">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"koa800"</span>: <span class="string">"^1.0.0"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行koa800提供的setup脚本更新项目脚手架:</p>
-<blockquote>
-<p>% ./node_modules/.bin/setup</p>
-</blockquote>
-<p>执行完毕后, 将创建类似如下的项目结构:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">├── app/</span><br><span class="line">│   └── controllers/</span><br><span class="line">├── app.js</span><br><span class="line">├── bin/</span><br><span class="line">│   └── www</span><br><span class="line">├── config/</span><br><span class="line">│   ├── environments/</span><br><span class="line">│   │   ├── development.js</span><br><span class="line">│   │   └── production.js</span><br><span class="line">│   ├── errors.js</span><br><span class="line">│   ├── routes/</span><br><span class="line">│   │   └── index.js</span><br><span class="line">│   └── settings.js</span><br><span class="line">└── package.json</span><br></pre></td></tr></table></figure>
-<p>此时查看<code>package.json</code>, 内容也有更新, 内容大概如下:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"koa800_demo"</span>,</span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="string">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"koa800"</span>: <span class="string">"^1.0.0"</span>,</span><br><span class="line">    <span class="string">"zhe800_cd_node_imago"</span>: <span class="string">"^1.0.0"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"start"</span>: <span class="string">"node ./bin/www"</span>,</span><br><span class="line">    <span class="string">"c"</span>: <span class="string">"node ./node_modules/.bin/c"</span>,</span><br><span class="line">    <span class="string">"setup"</span>: <span class="string">"node ./node_modules/.bin/setup"</span>,</span><br><span class="line">    <span class="string">"imago"</span>: <span class="string">"node -e \"require('zhe800_cd_node_imago')\""</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"koa800Config"</span>: &#123;</span><br><span class="line">    <span class="string">"eslint"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"jsonp"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"tingyun"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"memcached"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"redis"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"prepare_commit_msg"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"auto_routes"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"loom"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"docker"</span>: <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中, koa800Config是用于声明可选feature的属性, 默认情况下, 这里列出了所有可选的features, 但设为了false, 表示不启用, 用户可以根据项目实际需要对某些feature进行开启.</p>
-<p>在每次修改了koa800Config中的feature设置后, 需要再次执行如上的setup脚本, setup脚本会根据koa800Config中的配置去调整当前项目的脚手架和中间件.</p>
-<hr>
-<h3 id="3-2-Runtime-Koa-Wrapper"><a href="#3-2-Runtime-Koa-Wrapper" class="headerlink" title="3.2 Runtime Koa Wrapper"></a>3.2 Runtime Koa Wrapper</h3><p>在上一小节中, 通过setup生成的项目入口文件是app.js, 该文件内容如下:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"><span class="keyword">let</span> app = <span class="built_in">require</span>(<span class="string">'koa800'</span>)();</span><br><span class="line"><span class="built_in">module</span>.exports = app;</span><br></pre></td></tr></table></figure>
-<p>可以看到, 项目本身没有直接依赖和使用<code>koa</code>, 而是使用的<code>koa800</code>, <code>koa800</code>作为一个包裹器, 引用了<code>koa</code>, 同时引入并正确配置了其他一些依赖的中间件. 同脚手架生成器一样, 用户也可以在package.json的koa800Config属性中去配置需要的依赖feature.</p>
-<hr>
-<h2 id="4-约定"><a href="#4-约定" class="headerlink" title="4. 约定"></a>4. 约定</h2><p>koa800 的主要目的是减少项目之间的重复的项目结构代码, 保证项目的规范和统一, 并能在今后方便的进行整体调整. koa800想要避免的重复代码包括:</p>
-<ul>
-<li>项目组织和加载的代码</li>
-<li>对相同中间件的引用和配置的代码</li>
-<li>CI类, 工具类, 编译打包部署等代码</li>
-</ul>
-<p>koa800创建的脚手架有如下约定:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">├── app/</span><br><span class="line">│   └── controllers/       控制器代码</span><br><span class="line">├── app.js                 app的入口文件</span><br><span class="line">├── bin/</span><br><span class="line">│   └── www                项目启动文件</span><br><span class="line">├── config/                项目配置文件目录</span><br><span class="line">│   ├── environments/          具体环境的个性配置文件目录</span><br><span class="line">│   │   ├── development.js</span><br><span class="line">│   │   └── production.js</span><br><span class="line">│   ├── errors.js</span><br><span class="line">│   ├── routes/            路由目录</span><br><span class="line">│   │   ├── index.js       任意域名路由</span><br><span class="line">│   │   └── search.js      子域名路由, 子域名和文件名一致</span><br><span class="line">│   └── settings.js        基础配置文件, 低优先级</span><br><span class="line">│   └── settings.local.js  全局特殊配置文件, 高优先级</span><br><span class="line">└── package.json</span><br></pre></td></tr></table></figure></p>
-<p>这些约定是由各feature的setup流程进行控制的.</p>
-<hr>
-<h2 id="5-Feature"><a href="#5-Feature" class="headerlink" title="5. Feature"></a>5. Feature</h2><p>Feature 是脚手架构建和中间件装配的基本单元, Feature分为Required和Optional2个类别, 目前的Feature如下:</p>
-<table>
-<thead>
-<tr>
-<th>Required Features</th>
-<th>描述</th>
-<th>Scaffold Generator</th>
-<th>Runtime</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>base</td>
-<td>基础特性</td>
-<td>生成项目基础脚手架, 引入基础依赖</td>
-<td>引入并配置项目基本的中间件</td>
-</tr>
-<tr>
-<td>tingyun</td>
-<td>引入tingyun APM监控</td>
-<td>生成tingyun.json.exampl模板文件, 引入依赖</td>
-<td>封装app.monitor.noticeError</td>
-</tr>
-<tr>
-<td>controllers</td>
-<td>控制器</td>
-<td>生成控制器目录app/controllers/</td>
-<td>加载控制器, 挂载到app.controllers</td>
-</tr>
-<tr>
-<td>errors</td>
-<td>错误列表</td>
-<td>生成错误列表模块config/errors.js</td>
-<td>加载错误列表, 挂载到app.errors</td>
-</tr>
-<tr>
-<td>imago</td>
-<td>接入统一配置中心</td>
-<td>引入imago依赖,生成config/imago_conf.js</td>
-<td>将imago配置挂载到app.settings.imago_conf</td>
-</tr>
-<tr>
-<td>settings</td>
-<td>项目配置管理</td>
-<td>生成多级配置管理文件</td>
-<td>按照优先级解析settings, 挂载到app.settings</td>
-</tr>
-<tr>
-<td>start_hooks</td>
-<td>应用启动的前置注册管理</td>
-<td>不涉及</td>
-<td>处理app.start的前置操作</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>Optional Features</th>
-<th>描述</th>
-<th>Scaffold Generator</th>
-<th>Runtime</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>auto_routes</td>
-<td>自动路由配置</td>
-<td>引入路由和子域名的依赖</td>
-<td>加载config/routes/中的路由, 并自动匹配子域名</td>
-</tr>
-<tr>
-<td>data_service</td>
-<td>接入data service</td>
-<td>引入data service依赖和配置</td>
-<td>配置data service</td>
-</tr>
-<tr>
-<td>docker</td>
-<td>提供dockerfile</td>
-<td>将dockerfile写入images目录</td>
-<td>不涉及</td>
-</tr>
-<tr>
-<td>eslint</td>
-<td>引入eslint</td>
-<td>将.git/hook/pre-commit链接到指定脚本</td>
-<td>不涉及</td>
-</tr>
-<tr>
-<td>jsonp</td>
-<td>引入jsonp支持</td>
-<td>引入jsonp依赖, 并提供check referer</td>
-<td>加载jsonp中间件</td>
-</tr>
-<tr>
-<td>loom</td>
-<td>接入服务治理平台</td>
-<td>引入config/thrift_conf.js</td>
-<td>在app.start前执行app.loom.init</td>
-</tr>
-<tr>
-<td>memcached</td>
-<td>引入memcached</td>
-<td>引入memcached依赖</td>
-<td>将memcached链接挂载到app.settings.memcached</td>
-</tr>
-<tr>
-<td>prepare_commit_msg</td>
-<td>在git commit消息中自动集成分支信息</td>
-<td>将.git/hooks/prepare-commit-ms链接到指定脚本</td>
-<td>不涉及</td>
-</tr>
-<tr>
-<td>redis</td>
-<td>引入redis</td>
-<td>引入redis依赖</td>
-<td>将redis链接挂载到app.redis</td>
-</tr>
-</tbody>
-</table>
-<p>以下是部分feature说明:</p>
-<hr>
-<h3 id="base"><a href="#base" class="headerlink" title="base"></a>base</h3><p>feature base 按照约定创建了项目基本的结构, 同时提供了一些基础的API和脚本:</p>
-<p><strong>API</strong></p>
-<ul>
-<li><p><code>app.requireModule(relativePathFromRoot)</code>: 参数是相对于app.root的相对路径, 这个API让用户不用考虑当前脚本的位置和目标模块的层级关系, 非常方便.</p>
-</li>
-<li><p><code>app.isDevelopment() -&gt; bool</code> <code>app.isProduction() -&gt; bool</code> 用于判断当前执行环境的语法糖.</p>
-</li>
-<li><p><code>app.netFT</code>: 网络请求降级API, 见<a href="http://wiki.tuan800-inc.com/display/NOD/netFT" target="_blank" rel="noopener">http://wiki.tuan800-inc.com/display/NOD/netFT</a></p>
-</li>
-</ul>
-<p><strong>脚本</strong></p>
-<ul>
-<li><code>npm run setup</code>: 按照当前配置的koa800Config更新项目脚手架</li>
-<li><code>npm run c</code>: 提供了koa800 console功能, 方便调试</li>
-</ul>
-<p><img src="/assets/images/koa800/console.gif" alt="console"></p>
-<p>除此之外, base feature还配置了日志, 设置了favicon.ico, 处理了Post 参数等问题.</p>
-<hr>
-<h3 id="eslint"><a href="#eslint" class="headerlink" title="eslint"></a>eslint</h3><p>在node.js 项目中, 我们引入eslint作为代码质量控制工具. 并在git commit 时, 利用 pre-commit hook 对修改的文件自动执行eslint, 强制保证了入库代码的质量.</p>
-<p>在 pre-commit 执行eslint检测到代码错误时, 可以配置要求阻止当前commit(默认), 也可以配置仅作为警告输出, commit仍然成功.</p>
-<p><img src="/assets/images/koa800/eslint.gif" alt="eslint"></p>
-<p>eslint 支持的配置项:</p>
-<table>
-<thead>
-<tr>
-<th>选项</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>false</td>
-<td>关闭 auto eslint</td>
-</tr>
-<tr>
-<td>true/error</td>
-<td>开启 auto eslint, 如eslint失败, 将阻止 git commit</td>
-</tr>
-<tr>
-<td>warning</td>
-<td>开启 auto eslint, 如eslint失败, 仅输出错误消息, 允许 git commit</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h3 id="prepare-commit-msg"><a href="#prepare-commit-msg" class="headerlink" title="prepare_commit_msg"></a>prepare_commit_msg</h3><p>对多个开发共同维护的git仓库, 分析某个commit的作者、来源分支或者来源工单, 是一个常见的场景, 不过git commit 中只能查到作者信息, 不能很方便的追踪到来源分支. 在某些团队中是要求在commit message中手动加上当前分支名, 以满足未来分析需要, 这个工作其实可以通过git prepare-commit-msg 来自动实现.</p>
-<p>当在koa800中开启prepare_commit_msg选项后, 每次用户commit代码, 会自动把当前分支名信息记录到commit message中.</p>
-<p><img src="/assets/images/koa800/prepare_commit_msg.gif" alt="prepare_commit_msg"></p>
-<p>prepare_commit_msg 支持的配置项:</p>
-<table>
-<thead>
-<tr>
-<th>选项</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>false</td>
-<td>关闭 prepare_commit_msg</td>
-</tr>
-<tr>
-<td>true</td>
-<td>开启 prepare_commit_msg</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h3 id="settings"><a href="#settings" class="headerlink" title="settings"></a>settings</h3><p>配置管理是项目工程结构中重要一环, koa800 的 settings feature 为项目提供了多级的配置管理:</p>
-<ol>
-<li><p>第一优先级:</p>
-<p> <code>config/settings.local.js</code></p>
-<p> 该文件不应该在git版本库, 用于开发测试或者部署环境的特殊配置, 优先级最高.</p>
-</li>
-<li><p>第二优先级:</p>
-<p> <code>config/environments/development.js</code> 或 <code>config/environments/production.js</code></p>
-<p> koa800会根据env的值去加载<code>config/environments/</code>中的同名js配置文件, 该目录中的配置用于不同运行环境的差异化配置.</p>
-<p> 环境配置文件应该放入版本库.</p>
-</li>
-<li><p>最低优先级:</p>
-<p> <code>config/settings.js</code></p>
-<p> 该文件包含项目基础配置, 优先级最低, 应该放入git版本库.</p>
-</li>
-</ol>
-<p>settings属于Required feature, 无需在koa800Conifg中配置.</p>
-<hr>
-<h3 id="start-hooks"><a href="#start-hooks" class="headerlink" title="start_hooks"></a>start_hooks</h3><p>某些应用在启动web 服务前, 需要处理一些前置操作, 如服务注册, 配置同步, 获取静态资源hash值等. 如果任由这些需求在各个微服务中处理, 会有大量的重复代码. 该feature 提供的API <code>app.beforeStart</code> 允许用户在app.start前注册前置操作:</p>
-<p><code>app.beforeStart(action)</code>参数action 可以是以下值:</p>
-<ul>
-<li><p>一个 Promise 实例, koa800会保证此promise resolve后, 才启动web 服务</p>
-</li>
-<li><p>一个 function, 且该function的返回值是一个Promise实例, koa800会在启动web服务前执行该function, 并且会保证此promise resolve后, 才启动web 服务.</p>
-</li>
-<li><p>一个 function, 返回值并不是Promise实例, koa800会在启动web服务前执行该function.</p>
-</li>
-</ul>
-<p><code>app.beforeStart</code> 允许级联调用, 如:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.beforeStart(syncConfiguration).beforeStart(serviceDiscovery).beforeStart(serviceRegistration)</span><br></pre></td></tr></table></figure>
-<p>start_hooks属于Required feature, 无需在koa800Conifg中配置.</p>
-<hr>
-<h3 id="auto-routes"><a href="#auto-routes" class="headerlink" title="auto_routes"></a>auto_routes</h3><p>web应用的http 路由通常由两部分组成: 子域名匹配和path匹配, <a href="https://www.npmjs.com/package/koa-sub-domain" target="_blank" rel="noopener">koa-sub-domain</a>和<a href="https://www.npmjs.com/package/koa-router" target="_blank" rel="noopener">koa-router</a> 可以实现以上功能.</p>
-<p>如果不使用koa800, 用户需要自行配置子域名路由, 如:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">app.use(app.requireModule(<span class="string">'config/routes'</span>).routes());                          <span class="comment">// 泛域名路由</span></span><br><span class="line">app.use(subdomain(<span class="string">'last'</span>, app.requireModule(<span class="string">'config/routes/last'</span>).routes()));  <span class="comment">// last 子域名路由</span></span><br><span class="line">app.use(subdomain(<span class="string">'new'</span>, app.requireModule(<span class="string">'config/routes/new'</span>).routes()));    <span class="comment">// new 子域名路由</span></span><br><span class="line">app.use(subdomain(<span class="string">'top'</span>, app.requireModule(<span class="string">'config/routes/top'</span>).routes()));    <span class="comment">// top 子域名路由</span></span><br></pre></td></tr></table></figure>
-<p>koa800提倡约定大于配置, 只要代码按照约定组织, koa800 会完整这些重复而固定的工作, 减少用户需要编写的代码行.</p>
-<p>在koa800, 只要将路由文件按照约定放入<code>config/routes</code>中, koa800 会自动加载路由, 并按照文件名识别子域名:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config</span><br><span class="line">└── routes</span><br><span class="line">    ├── index.js  泛域名路由</span><br><span class="line">    ├── last.js   last 子域名路由</span><br><span class="line">    ├── new.js    new 子域名路由</span><br><span class="line">    └── top.js    top 子域名路由</span><br></pre></td></tr></table></figure>
-<p>auto_routes 支持的配置项:</p>
-<table>
-<thead>
-<tr>
-<th>选项</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>false</td>
-<td>关闭 auto_routes</td>
-</tr>
-<tr>
-<td>true</td>
-<td>开启 auto_routes</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h3 id="jsonp"><a href="#jsonp" class="headerlink" title="jsonp"></a>jsonp</h3><p><a href="https://www.npmjs.com/package/koa-safe-jsonp" target="_blank" rel="noopener">koa-safe-jsonp</a> 提供了koa jsonp支持, koa800将其做了简单的封装.</p>
-<p>jsonp存在较高的<a href="http://www.csdn.net/article/2015-07-14/2825207" target="_blank" rel="noopener">安全风险</a>, referer 检查是jsnop风险防范的常见手段, koa800的jsonp feature 提供了referer 检测的验证action, 该filter位于<code>app/controllers/filters/check_referer.js</code></p>
-<p>使用方式:</p>
-<p>在路由中加上前置filter: <code>filters.checkReferer</code>:</p>
-<blockquote>
-<p>router.get(‘/user_info’, app.controllers.filters.checkReferer, app.controllers.user.info);</p>
-</blockquote>
-<p>可以在<code>app/controllers/filters/check_referer.js</code>中配置特定的refererMatcher.</p>
-<p>jsonp 支持的配置项:</p>
-<table>
-<thead>
-<tr>
-<th>选项</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>false</td>
-<td>关闭 jsonp</td>
-</tr>
-<tr>
-<td>true</td>
-<td>开启 jsonp</td>
-</tr>
-<tr>
-<td>配置对象</td>
-<td>开启 jsonp, 并将配置对象传递给koa-safe-jsonp</td>
-</tr>
-</tbody>
-</table>
-<p>配置对象中可以配置<code>callback</code>和<code>limit</code>, 详见<a href="https://www.npmjs.com/package/koa-safe-jsonp" target="_blank" rel="noopener">koa-safe-jsonp</a></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jsonp(app, &#123;</span><br><span class="line">  callback: <span class="string">'_callback'</span>, <span class="comment">// default is 'callback'</span></span><br><span class="line">  limit: <span class="number">50</span>, <span class="comment">// max callback name string length, default is 512</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="6-开发者指南"><a href="#6-开发者指南" class="headerlink" title="6. 开发者指南"></a>6. 开发者指南</h2><p>koa800提供的所有特性单元是Feature, 开发者可以通过编写Feature按需扩展koa800的功能.</p>
-<p>在koa800中Feature类定义如下:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Feature</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(properties) &#123;</span><br><span class="line">    <span class="keyword">this</span>.run          = properties.run;</span><br><span class="line">    <span class="keyword">this</span>.setup        = properties.setup;</span><br><span class="line">    <span class="keyword">this</span>.packageJson  = properties.packageJson;</span><br><span class="line">    <span class="keyword">this</span>.scaffold     = properties.scaffold;</span><br><span class="line">    <span class="keyword">this</span>.dependencies = properties.dependencies;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>属性说明:</p>
-<ul>
-<li>run: 该feature在运行时对app的增强操作</li>
-<li>setup: 该feature在脚手架更新过程中的操作, 该属性期望是一个生成器函数</li>
-<li>packageJson: 该feature在脚手架更新过程中, 对项目package.json的补充, 比如引入scripts, dependencies等</li>
-<li>scaffold: 该feature在脚手架更新过程需要同步的文件列表</li>
-<li>dependencies: 该feature依赖的其他feature</li>
-</ul>
-<p>Scaffold Generator 各feature的处理流程:</p>
-<ol>
-<li>处理dependencies features</li>
-<li>更新scaffold文件列表</li>
-<li>更新packageJson内容</li>
-<li>执行setup</li>
-</ol>
-<p>运行时, 各feature的执行流程:</p>
-<ol>
-<li>依次执行feature.run</li>
-</ol>
-<h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><p>目前koa800测试覆盖率&gt;80%, 开发者在新增、更新feature时, 务必补充单元测试.</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-chrome插件开发教程" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/11/18/chrome插件开发教程/">chrome插件开发教程</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/11/18/chrome插件开发教程/" class="article-date">
-  <time datetime="2019-11-17T18:58:35.000Z" itemprop="datePublished">2019-11-18</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>相关链接</p>
-<p>代码仓库： <a href="mailto:git@git.tuan800-inc.com" target="_blank" rel="noopener">git@git.tuan800-inc.com</a>:ued/cd_ued_chrome_extensions.git ，相关开发流程和使用说明在项目的README中均有描述<br>参考</p>
-<p>Chrome扩展及应用开发（首发版），这本书非常实用，配合书中的项目，可以快速上手Chrome扩展开发<br>Chrome扩展程序官方文档，查API就靠它了，<br>非官方中文文档，可以先快速过一遍api<br>这里主要整理了chrome开发技术、cd_ued_chrome_extensions项目的开发环境和打包流程以及Chrome应用商店的使用步骤。</p>
-<p>Chrome开发相关技术<br>扩展程序由HTML、CSS和JavaScript等web技术组成，并由浏览器提供了一系列增强API。</p>
-<p>在项目文件夹根目录新建一个manifest.json的文件，用于声明相关配置。配置文件主要用来指定文件路径、，配置权限等。</p>
-<p>{<br>    // 区分扩展程序和应用，在扩展程序中只能为2<br>    “manifest_version”: 2,<br>    “name”: “扩展程序测试”,<br>    “version”: “1.0”,<br>    “description”: “Chrome扩展”,<br>    // 在chrome://extensions/扩展程序列表下的图标<br>    “icons”: {},<br>    // 当进入指定URL页面时调用对应脚本<br>    “content_scripts”: [],<br>    // 在浏览器右上角的扩展程序的属性<br>    “browser_action”: {},<br>    // 一些权限设置<br>    “permissions”: [],<br>    // 一直在后台运行的脚本<br>    “background”: {},<br>    // 选项页面<br>    “options_page”: “options.html”<br>}<br>整个扩展程序可分为下面几个部分</p>
-<p>content_scripts，进入指定URL页面可注入的脚本<br>background，在后台运行<br>browser_action，右上角弹窗<br>options_page，扩展程序选项页面<br>content_scripts<br>扩展程序一个非常重要的功能就是可以操作用户正在浏览的页面。在配置文件中通过指定对应的match字段，匹配页面url，并在浏览器访问这些页面时，注入对应的脚本文件。</p>
-<p>“content_scripts”: [<br>  {<br>    “matches”: [<br>      “<em>://local.com/</em>“, // 其中 <em> 表示通配符<br>      “</em>://<a href="http://www.amazon.com/*&quot;" target="_blank" rel="noopener">www.amazon.com/*&quot;</a><br>    ],<br>    “js”: [<br>      “js/content.js”<br>    ]<br>  }<br>]<br>content_scripts里面的脚本运行在于网页文档相同的环境下，包括访问和操作页面的DOM和BOM。</p>
-<p>browser_action<br>有时候需要扩展程序快速展示一些信息功能，右上角的弹窗页面就很有用，弹窗页可以看做是扩展程序与用户的交互窗口。</p>
-<p>“browser_action”: {<br>  “default_icon”: {<br>    “19”: “images/icon19.png”,<br>    “38”: “images/icon38.png”<br>  },<br>  “default_popup”: “popup.html” // 可以在页面上通过script标签引入对应的页面js文件<br>},<br>options_page<br>如果配置了options_page选项，并制定了对应的页面，则右击右上角图标是，会出现“选项”栏，点击可跳转到对应的选项页面。选项页面一般用于为用户进行一些插件配置操作，诸如偏好设置等。</p>
-<p>options_page可以看做是我们为扩展程序提供的一个主页。</p>
-<p>background<br>上面部分是基于前端进行开发的，包括DOM、html、CSS等，可以发现，他们都需要用户的主动操作，要么访问对应的页面，要么点击右上角的图标弹出页面，这类页面统称为UI页面。如果希望扩展程序自动运行并常驻后台来实现一些特定的功能，就可以使用background后台页面。</p>
-<p>“background”: {<br>    “page”: “background.html”<br>  },<br>background在后台启动时就会开始运行，可以用于进行插件数据的初始化等操作。</p>
-<p>页面交互<br>一个扩展程序往往不止一个页面，有时候页面之间需要进行数据传递或事件通知，这时候需要考虑页面交互的问题。</p>
-<p>本地存储<br>一种常见的应用场景是选项页面和其他页面之间的配置选项交互，由于同一个扩展程序的页面(除了注入页面的content_scripts)被认为在同一个域下，因此只需要通过localStorage本地存储就可以轻松做到数据的传递。</p>
-<p>UI页面与后台页面的交互<br>另外一种应用场景时某个页面需要主动通知其他页面，可以通过chrome.runtime接口进行</p>
-<p>// content.js 发送信息<br>chrome.runtime.sendMessage(message);</p>
-<p>// background.js 接收消息<br>chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) { // message就是传递的data });</p>
-<p>由于sendMessage无法指定特定的listener，因此onMessage的监听器会接收到所有的消息推送，如果需要区分消息，则需要开发者自己实现相关的逻辑。message可以是字符串也可以是对象，因此可以在参数上携带发送者的消息。</p>
-<p>let messageStrategy = {<br>  // … 对应的命令逻辑<br>}<br>chrome.runtime.onMessage.addListener((message, sender, sendResponse) =&gt; {<br>    let {command, content} = message<br>    messageStrategy[command] &amp;&amp; messageStrategy<a href="content">command</a><br>});<br>后台页面与标签页交互<br>可以通过向当前的标签页发送消息，从而获取页面内容的信息</p>
-<p>sendMessageToCurrentTab(data) {<br>    return new Promise((resolve, reject) =&gt; {<br>        chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {<br>            chrome.tabs.sendMessage(tabs[0].id, data, function (response) {<br>                resolve(response)<br>            });<br>        });<br>    })<br>}<br>一些常见问题<br>脚本只能通过script标签引入，使用行内脚本会提示<br>配置了popup页面之后，会导致监听插件按钮点击事件<code>chrome.browserAction.onClicked.addListener</code>无效，这是因为默认事件被打开popup.html阻止了，可以在页面初始化逻辑中进行处理点击事件相关的逻辑<br>Chrome提供的大部分API是不支持在content_scripts中运行的，在background中执行没有问题<br>注意配置的match，如果需要在全站页面使用，后面的路径记得配置<em>，例如</em>://<a href="http://www.amazon.com/*，否则只有首页可以注入脚本.." target="_blank" rel="noopener">www.amazon.com/*，否则只有首页可以注入脚本..</a>.<br>项目开发打包流程</p>
-<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>由于后期需要维护多个扩展程序，因此搭建此开发环境，便于开发和后期维护</p>
-<p>由于插件各个脚本存在一定的关联，如storage的key值、公共函数、公共接口等，需要引入模块化开发。</p>
-<p>由于开发预览需要及时更新的文件，因此采用<code>gulp + watch</code>的形式搭建开发环境，使用<code>gulp-webpack</code>进行打包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 开启文件改动监听</span><br><span class="line">gulp js:w</span><br><span class="line"></span><br><span class="line"># 打包生产环境的文件</span><br><span class="line">gulp js --env production</span><br></pre></td></tr></table></figure>
-<ul>
-<li>webpack相关配置位于<code>gulp-webpack</code>的webpack配置项下，用于修改项目名称和相关文件，</li>
-<li>插件源文件开发位于<code>插件名/src</code>目录下，最终打包的文件位于<code>插件名/js</code>目录下，插件配置文件位于<code>插件名/manifest.json</code>下</li>
-<li>开发时装配的插件直接使用<code>插件名</code>目录这个即可</li>
-</ul>
-<h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><p>由于是本地安装chrome插件，因此只需要输出对应的插件资源即可，执行命令<code>npm run build + 对应插件目录名</code>即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build piseer</span><br></pre></td></tr></table></figure>
-<p>实际上打包过程只是剔除不必要的文件，在dist目录下生成对应的压缩包，方便传递或部署到SVN上。</p>
-<p>相关的打包脚本位于<code>scripts/build.js</code>下</p>
-<h2 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h2><p>由于chrome应用商店提供了扩展程序自动更新的机制，因此部分扩展程序可以通过托管到应用商店，只需要将打包的压缩包在<a href="https://chrome.google.com/webstore/developer/dashboard/" target="_blank" rel="noopener">开发者中心</a>添加上传即可。</p>
-<p>发布相关</p>
-<ul>
-<li>发布应用的chrome账号为<a href="mailto:`steadyzhe@gmail.com" target="_blank" rel="noopener">`steadyzhe@gmail.com</a>`，密码找云龙提供</li>
-<li>发布需要上传的压缩包，直接使用<code>npm run build xxx</code>生成的压缩包即可</li>
-<li>发布后一般一个小时内会在应用商店更新，在开发者中心可查看发布进度，一般开发者中心的显示已发布后还需要等待一会应用商店才会更新</li>
-<li>如果manifest.json中的permissions过多（貌似还有其他一些限制），在更新包时可能会被系统检测导致人工审核，建议只申明必须的扩展程序权限。</li>
-</ul>
-<p>插件在应用商店的地址</p>
-<ul>
-<li><a href="https://chrome.google.com/webstore/detail/shoppinghelper/phlggmjehjabmkeljbfimpgjkanlmbgc?utm_source=gmail" target="_blank" rel="noopener">亚马逊插件</a>，权限为非公开<br>自动更新<br>相关工单： </li>
-<li><a href="http://redmine.tuan800-inc.com/issues/370684" target="_blank" rel="noopener">亚马逊插件自动更新调研</a></li>
-<li><a href="http://redmine.tuan800-inc.com/issues/372979" target="_blank" rel="noopener">湃势插件自动更新调研</a><br>采用开发者方式安装本地插件包，需要每次更新插件后手动重新下载并解压压缩包，因此需要实现自动更新机制。</li>
-</ul>
-<p>通过应用商店托管扩展程序，有以下特性</p>
-<p>扩展程序安全性，这里的安全性指的是允许用户安装的策略，在发布应用时有公开、非公开、指定账户访问三种等级，其中<br>公开是所有用户都可以通过应用商店搜索到该扩展程序<br>非公开则需要知道扩展程序的下载链接，才能够进行安装，无法直接通过搜索应用商店直接安装<br>指定账户访问则需要在开发者中心添加体验用户的chrome账号，才能够安装该插件，采用这种方式则需要收集使用者的chrome账户<br>自动更新，后续只需要增加版本号并重新在开发者中心发布，chrome会自动更新相关插件，一般会在新版本发布后6个小时内进行更新<br>强制更新，chrome自动更新有一定时间的延迟，如果在发布后想要立即体验更新版本，可以使用强制更新<br>打开<code>chrome://extensions/</code>，选择开发者模式，然后点击更新按钮，强制更新全部扩展程序<br>chrome账户重新登录，在登录状态下安装的扩展程序，重新登录后chrome会进行数据同步，此时也会更新到最新的版本<br>修改chrome扩展更新频率，可以通过在启动chrome时通过参数<code>--extensions-update-frequency=45</code>指定更新检测频率<br>采用非公开方式发布扩展程序，用户只需要第一次点击链接进行扩展程序的安装即可，后续更新都会由chrome自动更新完成，之前通过接口获取配置规则的逻辑也可由发布新版本的机制代替。</p>
-<p>Chrome应用商店开发者中心相关操作流程<br>首先进入开发者中心<a href="https://chrome.google.com/webstore/developer/dashboard/g05227480483751387811?page=1&amp;pli=1，应该需要输入当前Chome账号密码" target="_blank" rel="noopener">https://chrome.google.com/webstore/developer/dashboard/g05227480483751387811?page=1&amp;pli=1，应该需要输入当前Chome账号密码</a></p>
-<p>在“您的列表”下面找到“添加新内容”，打开上传页面；也可以选在已发布的插件，点击右侧的修改操作，进入编辑页面，然后重新上传更新后的包</p>
-<p>点击“选择文件”，选择<code>npm run build</code>打包的压缩文件，然后点击上传，等到文件上传完毕，会自动跳转到编辑页面</p>
-<p>在编辑页面需要填写扩展程序的基本信息，如介绍、图标、轮播图等，此处填写的内容会经过应用商店的审核，某些内容可能会导致审核不通过~</p>
-<p>编辑完成后拉到页面最下面，点击发布按钮即可，此处的公开程度选项决定了是否在应用商店展示该扩展程序。</p>
-<p>发布更改后等待一段时间（一般几分钟到几个小时不等），就可以在应用商店安装对应的扩展程序了。</p>
-<p>之前经历过连续审核未通过的情形，需要根据被拒邮件列举的理由进行调整并重新发布更改，常见的理由有</p>
-<p>未上传图标、空白描述、无预览效果图等<br>未描述产品隐私策略，需要附上隐私政策网址，在描述中详细介绍使用用户数据做什么事情</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-Untitled" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/10/24/Untitled/">重识排列组合</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/10/24/Untitled/" class="article-date">
-  <time datetime="2019-10-23T16:25:00.000Z" itemprop="datePublished">2019-10-24</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>6位数4位为一组共有多少组</p>
-<p>共有15组。C（6，4）=15。    6<em>5</em>4<em>3</em>2<em>1/2</em>1<em>4</em>3<em>2</em>1=15;</p>
-<p>从n个不同元素中取出m(m≤n)个元素的所有组合的个数,叫做从n个不同元素中取出m个元素的组合数.用符号 c(n,m) 表示.c(n,m)=p(n,m)/m!=n!/((n-m)!*m!)。</p>
-<p>这里是从6个里面任取4个的所有组合 共有6!/(（6-4）!<em>4!)=6</em>5<em>4</em>3<em>2</em>1/2<em>1</em>4<em>3</em>2*1=15，所以共有15组。<br>扩展资料：</p>
-<p>重复组合是一种特殊的组合。从n个不同元素中可重复地选取m个元素。不管其顺序合成一组，称为从n个元素中取m个元素的可重复组合。当且仅当所取的元素相同，且同一元素所取的次数相同，则两个重复组合相同。</p>
-<p>排列组合计算方法如下：</p>
-<p>排列A(n,m)=n×（n-1）.（n-m+1）=n!/（n-m）!(n为下标,m为上标,以下同)</p>
-<p>组合C(n,m)=P(n,m)/P(m,m) =n!/m!（n-m）!；</p>
-<p>例如：<br>A(4,2)=4!/2!=4*3=12</p>
-<p>C(4,2)=4!/(2!<em>2!)=4</em>3/(2*1)=6</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-nginx记录" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/10/08/nginx记录/">nginx记录</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/10/08/nginx记录/" class="article-date">
-  <time datetime="2019-10-08T14:36:40.000Z" itemprop="datePublished">2019-10-08</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h3 id="1-nginx-创建一个域名指向-静态资源html"><a href="#1-nginx-创建一个域名指向-静态资源html" class="headerlink" title="1.nginx 创建一个域名指向 静态资源html"></a>1.nginx 创建一个域名指向 静态资源html</h3><p><a href="http://www.test.com/" target="_blank" rel="noopener">http://www.test.com/</a></p>
-<p>需要在nginx头上添加用户组，并且把静态资源的文件夹赋予用户权限</p>
-<p>sudo chown -R root:wheel /Users/zhousteady/Downloads/test/examples</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">user root wheel;</span><br><span class="line">worker_processes  1;</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">      listen 80;</span><br><span class="line">      server_name www.test.com;</span><br><span class="line">      index index.html;</span><br><span class="line">  </span><br><span class="line">      root /Users/zhousteady/Downloads/test/examples/;</span><br><span class="line"></span><br><span class="line">      location / &#123;</span><br><span class="line">        proxy_redirect     off;</span><br><span class="line">        proxy_set_header   Host $host;</span><br><span class="line">        proxy_set_header   X-Forwarded-Host $host;</span><br><span class="line">        proxy_set_header   X-Forwarded-Server $host;</span><br><span class="line"></span><br><span class="line">        proxy_set_header   X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_buffering    on;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      location = /favicon.ico &#123;</span><br><span class="line">        return 204;</span><br><span class="line">        access_log     off;</span><br><span class="line">        log_not_found  off;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      location ~* &quot;(.+)-(\w+)\.\w+$&quot; &#123;</span><br><span class="line">        error_page 404 = @notfound;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      location @notfound &#123;</span><br><span class="line">        rewrite ^(.+)-(\w+)(\.\w+)$ $1$3 break;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="antd-线上静态资源和url-转发"><a href="#antd-线上静态资源和url-转发" class="headerlink" title="antd 线上静态资源和url 转发"></a>antd 线上静态资源和url 转发</h3><p>http请求 静态资源文件，需要让 运维配置 前置的nginx  , 类似：   请注意publicPath: ‘/ued_admin_static/‘, 为webpack静态资源打包前缀</p>
-<pre><code>location ~ ^/ued_admin_static/{
-           add_header Cache-Control &quot;no-cache, max-age=0, must-revalidate&quot;;
-           rewrite ^/ued_admin_static/(.*) /$1 break;
-           proxy_pass http://cd_ued_ftrade_admin;
-        }
-
-
-        location ~ ^/ued_admin/{
-           add_header Cache-Control &quot;no-cache, max-age=0, must-revalidate&quot;;
-           rewrite ^/ued_admin/(.*) /index.html break;
-           index index.html;
-           proxy_pass http://cd_ued_ftrade_admin;
-        }
-</code></pre>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/08/30/vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1/">vue 记录</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/08/30/vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1/" class="article-date">
-  <time datetime="2019-08-29T21:42:00.000Z" itemprop="datePublished">2019-08-30</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h1 id="vue中事件修饰符详解-stop-prevent-self-once-capture-passive"><a href="#vue中事件修饰符详解-stop-prevent-self-once-capture-passive" class="headerlink" title="vue中事件修饰符详解(stop, prevent, self, once, capture, passive)"></a>vue中事件修饰符详解(stop, prevent, self, once, capture, passive)</h1><p>.stop 是阻止冒泡行为,不让当前元素的事件继续往外触发,如阻止点击div内部事件,触发div事件</p>
-<p>.prevent 是阻止事件本身行为,如阻止超链接的点击跳转,form表单的点击提交</p>
-<p>.self 是只有是自己触发的自己才会执行,如果接受到内部的冒泡事件传递信号触发,会忽略掉这个信号</p>
-<p>.capture 是改变js默认的事件机制,默认是冒泡,capture功能是将冒泡改为倾听模式</p>
-<p>.once 是将事件设置为只执行一次,如 .click.prevent.once 代表只阻止事件的默认行为一次,当第二次触发的时候事件本身的行为会执行</p>
-<p>.passive 滚动事件的默认行为 (即滚动行为) 将会立即触发，而不会等待 onScroll 完成。这个 .passive 修饰符尤其能够提升移动端的性能。</p>
-<p>————————————————</p>
-<p>.passive 和 .prevent 不能一起使用:<br>.prevent 将会被忽略</p>
-<p>.self 和 .stop 区别:<br>self只响应当前元素自身触发的事件，不会响应经过冒泡触发的事件，并不会阻止冒泡继续向外部触发。<br>stop是从自身开始不向外部发射冒泡信号</p>
-<h1 id="this-set"><a href="#this-set" class="headerlink" title="this.$set"></a>this.$set</h1><p>使用示列：this.$set(arr,  index,  val)。当然，this.$set除了用于操作数组外还可以操作对象，使用示例：this.$set( obj, key, val).</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-nodejs-exports" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/07/23/nodejs-exports/">nodejs exports</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/07/23/nodejs-exports/" class="article-date">
-  <time datetime="2019-07-23T13:29:00.000Z" itemprop="datePublished">2019-07-23</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/steadycate/">steadycate</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h1 id="exports-与-module-exports"><a href="#exports-与-module-exports" class="headerlink" title="exports 与 module.exports"></a>exports 与 module.exports</h1><p>为了方便，Node为每个模块提供一个exports变量，指向module.exports。这等同在每个模块头部，有一行这样的命令。</p>
-<p>var exports = module.exports;<br>于是我们可以直接在 exports 对象上添加方法，表示对外输出的接口，如同在module.exports上添加一样。注意，不能直接将exports变量指向一个值，因为这样等于切断了exports与module.exports的联系。</p>
-<h1 id="不同于CommonJS，ES6使用-export-和-import-来导出、导入模块。"><a href="#不同于CommonJS，ES6使用-export-和-import-来导出、导入模块。" class="headerlink" title="不同于CommonJS，ES6使用 export 和 import 来导出、导入模块。"></a>不同于CommonJS，ES6使用 export 和 import 来导出、导入模块。</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// profile.js</span></span><br><span class="line"><span class="keyword">var</span> firstName = <span class="string">'Michael'</span>;</span><br><span class="line"><span class="keyword">var</span> lastName = <span class="string">'Jackson'</span>;</span><br><span class="line"><span class="keyword">var</span> year = <span class="number">1958</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123;firstName, lastName, year&#125;;</span><br></pre></td></tr></table></figure>
-<h1 id="两个差异"><a href="#两个差异" class="headerlink" title="两个差异"></a>两个差异</h1><p>CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</p>
-<p>什么是值的拷贝，值的引用？<br>所谓值的拷贝，是在栈内存当中实现的，是一个复制的过程，复制之后两个值互不影响<br>值的引用，是在堆内存当中实现的，当一个引用类型赋值给一个变量时，此时变量拥有指向引用类型的一个指针，当变量发生改变，被引用的值也会发生改变<br>CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</p>
-<p>什么是运行时加载，什么是编译输出？<br>在后端开发当中，只需要做到一次加载，因此在启动服务器中进行加载即可，对于CommonJS的设计当中符合后端的这种开发理念，然后这种效果带来了很大的便利性，在前端开发也是需要模块化加载方式，可是，前端的加载方式跟后端不一致，如果采用CommonJS相同的加载方式，前端性能会大打折扣，比如网页假死，以及难以改变引入模块的变量，因此，在编译阶段，先将模块按需进行处理，生成接口，在引入模块之后进行使用时，可以很方便的调用接口<br>export 与 export default (params表示一个对象)<br>export 输出的时候必须是一个接口，因此export 后面跟的是 { …params} 或则以声明变量的形式 var name = 。。。。或则export function</p>
-<p>export default 中 default 相当于 export 之后的一个接口名称，因此之后可以表达式或则 { …params} 对象</p>
-<p>加载方式</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">from</span> ‘./test’</span><br><span class="line"><span class="keyword">import</span> &#123; key, key1, key2 &#125; <span class="keyword">from</span> ‘./test’</span><br><span class="line"></span><br><span class="line">modele.exports 与 exports (params表示一个对象)</span><br><span class="line">modele.exports = &#123;&#125;写法</span><br></pre></td></tr></table></figure>
-<p>exports为var exports = modele.exports，因此exports后面重新赋值会改变指针，故不能为exports重新赋值，例如exports = newObject，只能类似exports.name = ‘hello world’这种方式进行输出 , 实际上输出的是modele.exports = {name: ‘hello world’}</p>
-<p>加载方式</p>
-<p>var common = require(’./test’)</p>
-<p>简单来说就是，在CommonJS规范下，通过require()导入的是模块的一份值拷贝，可以任意修改，且不会影响到原模块的值。修改原模块的值也不会变动当前文件下的值。– 二者在导入那一刻失去了联系。</p>
-<p>在ES6规范下，打入只是和原模块建立连接，当前文件下不允许修改原模块，即只读。修改原模块的值，会在当前文件下也起作用。</p>
-<p>看下面的例子就很清晰了：</p>
-<p>CommonJS规范下值拷贝<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// calculator.js</span></span><br><span class="line"><span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">	count: count,</span><br><span class="line">	add: <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">		count += <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">return</span> a + b;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">var</span> count = <span class="built_in">require</span>(<span class="string">'./calculator.js'</span>).count;</span><br><span class="line"><span class="keyword">var</span> add = <span class="built_in">require</span>(<span class="string">'./callculator.js'</span>).add;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(count); <span class="comment">// 0</span></span><br><span class="line">add(<span class="number">2</span>, <span class="number">3</span>); <span class="comment">// calculator.js中的count会变化</span></span><br><span class="line"><span class="built_in">console</span>.log(count); <span class="comment">// 0，这里的count不受变化</span></span><br><span class="line"></span><br><span class="line">count += <span class="number">1</span>; <span class="comment">// 本地count值可变化</span></span><br><span class="line"><span class="built_in">console</span>.log(count); <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line">ES6规范下动态映射</span><br><span class="line"></span><br><span class="line"><span class="comment">// calculator.js</span></span><br><span class="line"><span class="keyword">let</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">	count += <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> a + b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> &#123; count, add &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; count, add &#125; <span class="keyword">from</span> <span class="string">'./calculator.js'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(count); <span class="comment">// 0</span></span><br><span class="line">add(<span class="number">2</span>, <span class="number">3</span>); <span class="comment">// </span></span><br><span class="line"><span class="built_in">console</span>.log(count); <span class="comment">// 1, 实时反映calculator.js中的count值的变化</span></span><br><span class="line"></span><br><span class="line">count += <span class="number">1</span>; <span class="comment">// 不允许，count是只读的</span></span><br></pre></td></tr></table></figure></p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/steadytag/">steadytag</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
+    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
   </nav>
   
 </section>
@@ -1208,7 +783,7 @@
     <ul class="list-inline">
       <li>
         &copy;
-        2015-2020
+        2015-2022
         Steady
       </li>
       <li>

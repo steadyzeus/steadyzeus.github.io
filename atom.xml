@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-11-06T08:33:08.709Z</updated>
+  <updated>2022-02-21T07:10:31.103Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,162 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>常用正则</title>
+    <link href="http://yoursite.com/2022/02/21/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
+    <id>http://yoursite.com/2022/02/21/正则表达式/</id>
+    <published>2022-02-21T06:59:09.000Z</published>
+    <updated>2022-02-21T07:10:31.103Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;今天胖头鱼试着把前端面试中常见的正则表达式相关的题都捞一遍，希望以后正则这个点直接过&lt;br&gt;1.提取连续重复的字符&lt;br&gt;币安原题 将有重复的字符提取出来，例如12323454545666，提取[ ‘23’, ‘45’, ‘6’
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>git操作</title>
+    <link href="http://yoursite.com/2021/11/02/git%E6%93%8D%E4%BD%9C/"/>
+    <id>http://yoursite.com/2021/11/02/git操作/</id>
+    <published>2021-11-02T12:10:57.000Z</published>
+    <updated>2021-11-02T12:12:13.961Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>User-agent</title>
+    <link href="http://yoursite.com/2021/07/09/useragent/"/>
+    <id>http://yoursite.com/2021/07/09/useragent/</id>
+    <published>2021-07-09T06:54:58.000Z</published>
+    <updated>2021-07-26T03:24:08.183Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;User-agent&lt;/p&gt;
+&lt;p&gt;iOS&lt;/p&gt;
+&lt;p&gt;iOS环境下，小程序原生和微信公众号H5的UA一致，无法通过UA对环境进行区分。小程序内的H5页面可通过miniProgram来判断。app中区分全屏页面和弹窗两种内嵌H5的场景，modalWebview为true为
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>手写promise</title>
+    <link href="http://yoursite.com/2021/04/02/%E6%89%8B%E5%86%99promise/"/>
+    <id>http://yoursite.com/2021/04/02/手写promise/</id>
+    <published>2021-04-02T02:40:44.000Z</published>
+    <updated>2021-04-02T02:41:15.834Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>SQL 和 NoSQL 的区别</title>
+    <link href="http://yoursite.com/2021/03/06/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E9%9D%9E%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84-%E5%8C%BA%E5%88%AB/"/>
+    <id>http://yoursite.com/2021/03/06/关系数据库和非关系数据库的-区别/</id>
+    <published>2021-03-06T00:26:11.000Z</published>
+    <updated>2021-03-20T06:06:54.156Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;SQL-和-NoSQL-的区别&quot;&gt;&lt;a href=&quot;#SQL-和-NoSQL-的区别&quot; class=&quot;headerlink&quot; title=&quot;SQL 和 NoSQL 的区别&quot;&gt;&lt;/a&gt;SQL 和 NoSQL 的区别&lt;/h1&gt;&lt;h2 id=&quot;一、概念&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>关于同构SSR</title>
+    <link href="http://yoursite.com/2021/01/04/%E5%90%8C%E6%9E%84SSR/"/>
+    <id>http://yoursite.com/2021/01/04/同构SSR/</id>
+    <published>2021-01-04T06:25:48.000Z</published>
+    <updated>2021-01-13T06:45:07.086Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;关于同构SSR&quot;&gt;&lt;a href=&quot;#关于同构SSR&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>将emoji转成UTF-16</title>
+    <link href="http://yoursite.com/2020/12/11/JS-emoji-%E8%BD%AC%E7%A0%81-%E8%A7%A3%E7%A0%81/"/>
+    <id>http://yoursite.com/2020/12/11/JS-emoji-转码-解码/</id>
+    <published>2020-12-11T06:03:17.000Z</published>
+    <updated>2020-12-11T06:16:33.820Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;将emoji转成UTF-16&lt;br&gt;&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>css GPU硬件加速原理</title>
@@ -45,7 +201,7 @@
     <link href="http://yoursite.com/2020/11/03/react-%E7%BB%84%E4%BB%B6/"/>
     <id>http://yoursite.com/2020/11/03/react-组件/</id>
     <published>2020-11-03T12:43:27.000Z</published>
-    <updated>2020-11-06T08:29:41.495Z</updated>
+    <updated>2021-03-30T09:33:03.135Z</updated>
     
     <summary type="html">
     
@@ -68,7 +224,7 @@
     <link href="http://yoursite.com/2020/08/25/react-hooks/"/>
     <id>http://yoursite.com/2020/08/25/react-hooks/</id>
     <published>2020-08-25T07:25:12.000Z</published>
-    <updated>2020-11-03T12:44:39.574Z</updated>
+    <updated>2021-01-18T01:50:09.100Z</updated>
     
     <summary type="html">
     
@@ -76,7 +232,7 @@
       
         
         
-          &lt;h1 id=&quot;1-userContext123&quot;&gt;&lt;a href=&quot;#1-userContext123&quot; class=&quot;headerlink&quot; title=&quot;1.userContext123&quot;&gt;&lt;/a&gt;1.userContext123&lt;/h1&gt;&lt;p&gt;关于React
+          &lt;h1 id=&quot;1-userContext&quot;&gt;&lt;a href=&quot;#1-userContext&quot; class=&quot;headerlink&quot; title=&quot;1.userContext&quot;&gt;&lt;/a&gt;1.userContext&lt;/h1&gt;&lt;p&gt;关于React
         
       
     
@@ -112,7 +268,7 @@
     <link href="http://yoursite.com/2020/06/30/nodejs%E7%9B%B8%E5%85%B3%E8%AE%B0%E5%BD%95/"/>
     <id>http://yoursite.com/2020/06/30/nodejs相关记录/</id>
     <published>2020-06-30T08:09:28.000Z</published>
-    <updated>2020-06-30T08:09:58.625Z</updated>
+    <updated>2021-04-12T02:00:40.894Z</updated>
     
     <summary type="html">
     
@@ -156,7 +312,7 @@
     <link href="http://yoursite.com/2020/05/12/Http%E5%8D%8F%E8%AE%AE%E7%9B%B8%E5%85%B3/"/>
     <id>http://yoursite.com/2020/05/12/Http协议相关/</id>
     <published>2020-05-12T09:16:40.000Z</published>
-    <updated>2020-05-30T09:50:55.325Z</updated>
+    <updated>2021-03-11T07:07:28.117Z</updated>
     
     <summary type="html">
     
@@ -308,170 +464,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>浅谈vue和react的数据流和绑定</title>
-    <link href="http://yoursite.com/2019/11/27/%E6%B5%85%E8%B0%88vue%E5%92%8Creact%E7%9A%84%E6%95%B0%E6%8D%AE%E6%B5%81%E5%92%8C%E7%BB%91%E5%AE%9A/"/>
-    <id>http://yoursite.com/2019/11/27/浅谈vue和react的数据流和绑定/</id>
-    <published>2019-11-26T19:48:41.000Z</published>
-    <updated>2020-02-16T07:56:55.411Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;数据流：&lt;br&gt;Vue和React均是单向数据流传递&lt;/p&gt;
-&lt;p&gt;单向数据流指只能从一个方向修改数据，姑且我们可以这样理解，如下图所示。一个父组件下有两个子组件1和子组件2，父组件可以向子组件传递数据。假如子组件都获取到了父组件的name，在子组件1中对name重新修改之
-        
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>koa800</title>
-    <link href="http://yoursite.com/2019/11/27/koa800/"/>
-    <id>http://yoursite.com/2019/11/27/koa800/</id>
-    <published>2019-11-26T19:11:48.000Z</published>
-    <updated>2020-02-16T07:56:55.409Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;基于koa框架, 可扩展、可配置的中间件集合, 以及快速定制项目结构的脚手架工具&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>chrome插件开发教程</title>
-    <link href="http://yoursite.com/2019/11/18/chrome%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E6%95%99%E7%A8%8B/"/>
-    <id>http://yoursite.com/2019/11/18/chrome插件开发教程/</id>
-    <published>2019-11-17T18:58:35.000Z</published>
-    <updated>2020-02-16T07:56:55.407Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;相关链接&lt;/p&gt;
-&lt;p&gt;代码仓库： &lt;a href=&quot;mailto:git@git.tuan800-inc.com&quot; target=&quot;_blank&quot;
-        
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>重识排列组合</title>
-    <link href="http://yoursite.com/2019/10/24/Untitled/"/>
-    <id>http://yoursite.com/2019/10/24/Untitled/</id>
-    <published>2019-10-23T16:25:00.000Z</published>
-    <updated>2020-02-16T07:56:55.407Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;6位数4位为一组共有多少组&lt;/p&gt;
-&lt;p&gt;共有15组。C（6，4）=15。   
-        
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>nginx记录</title>
-    <link href="http://yoursite.com/2019/10/08/nginx%E8%AE%B0%E5%BD%95/"/>
-    <id>http://yoursite.com/2019/10/08/nginx记录/</id>
-    <published>2019-10-08T14:36:40.000Z</published>
-    <updated>2020-02-16T07:56:55.409Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h3 id=&quot;1-nginx-创建一个域名指向-静态资源html&quot;&gt;&lt;a href=&quot;#1-nginx-创建一个域名指向-静态资源html&quot; class=&quot;headerlink&quot; title=&quot;1.nginx 创建一个域名指向 静态资源html&quot;&gt;&lt;/a&gt;1.nginx
-        
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>vue 记录</title>
-    <link href="http://yoursite.com/2019/08/30/vue%E4%B8%AD%E4%BA%8B%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6%E8%AF%A6%E8%A7%A3-stop-prevent-self-once-capture-passive-1/"/>
-    <id>http://yoursite.com/2019/08/30/vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1/</id>
-    <published>2019-08-29T21:42:00.000Z</published>
-    <updated>2020-02-16T07:56:55.410Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;vue中事件修饰符详解-stop-prevent-self-once-capture-passive&quot;&gt;&lt;a href=&quot;#vue中事件修饰符详解-stop-prevent-self-once-capture-passive&quot;
-        
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>nodejs exports</title>
-    <link href="http://yoursite.com/2019/07/23/nodejs-exports/"/>
-    <id>http://yoursite.com/2019/07/23/nodejs-exports/</id>
-    <published>2019-07-23T13:29:00.000Z</published>
-    <updated>2020-05-07T09:24:34.938Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;exports-与-module-exports&quot;&gt;&lt;a href=&quot;#exports-与-module-exports&quot; class=&quot;headerlink&quot; title=&quot;exports 与 module.exports&quot;&gt;&lt;/a&gt;exports 与
-        
-      
-    
-    </summary>
-    
-      <category term="steadycate" scheme="http://yoursite.com/categories/steadycate/"/>
-    
-    
-      <category term="steadytag" scheme="http://yoursite.com/tags/steadytag/"/>
     
   </entry>
   

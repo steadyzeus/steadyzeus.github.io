@@ -54,7 +54,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">473字</span>
+            <span class="post-count">616字</span>
         </span>
     </span>
 
@@ -98,6 +98,11 @@
 <h1 id="这是函数栈-然后想象一下，每次去把执行的函数压栈，执行完毕再出栈。"><a href="#这是函数栈-然后想象一下，每次去把执行的函数压栈，执行完毕再出栈。" class="headerlink" title="这是函数栈,然后想象一下，每次去把执行的函数压栈，执行完毕再出栈。"></a>这是函数栈,然后想象一下，每次去把执行的函数压栈，执行完毕再出栈。</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function foo(i) &#123;</span><br><span class="line">  if (i &lt; 0)</span><br><span class="line">  return;</span><br><span class="line">  console.log(&apos;begin:&apos; + i);</span><br><span class="line">  foo(i - 1);</span><br><span class="line">  console.log(&apos;end:&apos; + i);</span><br><span class="line">&#125;</span><br><span class="line">foo(3);</span><br></pre></td></tr></table></figure>
 <h1 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h1><p>#示例二展示了一个我们工作中常见的场景，我们预期的值应该是0,1,2..实际结果都输出了最后一次循环的值。原因是这里的i我们是在window下声明可以，当我们调用funs数组中的方法时，循环已经结束i的值已经变成了5。们可以用闭包来解决这个问题：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> funs = []</span><br><span class="line"><span class="keyword">var</span> i=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span>(; i&lt;<span class="number">5</span>; i++) &#123;</span><br><span class="line">    (<span class="function"><span class="keyword">function</span> <span class="title">parent</span>(<span class="params">i</span>)</span>&#123;</span><br><span class="line">        funs.push(<span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(i)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)(i)</span><br><span class="line">&#125;</span><br><span class="line">funs[<span class="number">0</span>]() <span class="comment">// 0</span></span><br><span class="line">funs[<span class="number">1</span>]() <span class="comment">// 1</span></span><br><span class="line">funs[<span class="number">2</span>]() <span class="comment">// 2</span></span><br></pre></td></tr></table></figure></p>
 <p>我们声明了一个parent函数并立即调用了它，把i当做参数传入作为parent的部变量，并在child函数中调用i形成了一个闭包。</p>
+<h1 id="Object-assign"><a href="#Object-assign" class="headerlink" title="Object.assign"></a>Object.assign</h1><p>（1）为对象添加方法</p>
+<p>Object.assign(SomeClass.prototype, {<br>  someMethod(arg1, arg2) {<br>    ···<br>  },<br>  anotherMethod() {<br>    ···<br>  }<br>});</p>
+<p>// 等同于下面的写法<br>SomeClass.prototype.someMethod = function (arg1, arg2) {<br>  ···<br>};<br>SomeClass.prototype.anotherMethod = function () {<br>  ···<br>};<br>上面代码使用了对象属性的简洁表示法，直接将两个函数放在大括号中，再使用assign方法添加到SomeClass.prototype之中。</p>
+<p>（2）不过，采用这种方法克隆，只能克隆原始对象自身的值，不能克隆它继承的值。如果想要保持继承链，可以采用下面的代码。</p>
+<p>function clone(origin) {<br>  let originProto = Object.getPrototypeOf(origin);<br>  return Object.assign(Object.create(originProto), origin);<br>}</p>
 
       
       <!-- reward -->
@@ -263,7 +268,7 @@
     <ul class="list-inline">
       <li>
         &copy;
-        2015-2020
+        2015-2022
         Steady
       </li>
       <li>

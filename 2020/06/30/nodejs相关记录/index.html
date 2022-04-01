@@ -54,7 +54,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">51字</span>
+            <span class="post-count">313字</span>
         </span>
     </span>
 
@@ -92,6 +92,8 @@
       
       <h1 id="nvm管理node-版本号"><a href="#nvm管理node-版本号" class="headerlink" title="nvm管理node 版本号"></a>nvm管理node 版本号</h1><p>在mac和liunx系统里边  nvm use 切换的是当次版本   下次打开终端  还是之前的node版本</p>
 <p>要想永久切换   使用nvm alias default （版本号）</p>
+<h1 id="path-resolve-路径"><a href="#path-resolve-路径" class="headerlink" title="path.resolve 路径"></a>path.resolve 路径</h1><p>// 当前工作目录与当前文件路径(F:/1/2/task6/test/dist)有区别<br>path.resolve();                               //  F:/1/2/task6/test 当前工作目录的绝对路径<br>path.resolve(‘./a’);                          //  F:/1/2/task6/test/a<br>path.resolve(‘../a’);                         //  F:/1/2/task6/a<br>path.resolve(‘.’);                            //  F:/1/2/task6/test<br>path.resolve(‘..’);                           //  F:/1/2/task6<br>path.resolve(‘/‘));                           //  F:/<br>path.resolve(‘./a’,’../c/d’);                 //  F:/1/2/task6/test/c/d<br>path.resolve(‘./a’,’./c/d’);                  //  F:/1/2/task6/test/a/c/d<br>path.resolve(‘/a’,’../c/d’);                  //  F:c/d<br>path.resolve(‘/a’,’./c/d’);                   //  F:/a/c/d<br>path.resolve(‘./a’,’/b’,’./c/d’);             //  F:/b/c/d<br>path.resolve(‘a’,’b’,’c/d’);                  //  F:/1/2/task6/test/a/b/c/d<br>path.resolve(‘./a’,’./b’,’c/d’);              //  F:/1/2/task6/test/a/b/c/d<br>path.resolve(‘./a’,’/b’,’c/d’);               //  F:/b/c/d<br>path.resolve(‘./a/b’,’..’,’c/d’);             //  F:/1/2/task6/test/a/c/d<br>path.resolve(‘./a’,’..’,’c/d’);               //  F:/1/2/task6/test/c/d<br>————————————————</p>
+<h1 id="paht-join"><a href="#paht-join" class="headerlink" title="paht.join"></a>paht.join</h1><p>path.join(‘/foo’, ‘bar’, ‘baz/asdf’, ‘quux’, ‘.’);          //  返回 /foo/bar/baz/asdf/quux, “.”和”/“没什么影响<br>path.join(‘/foo’, ‘./bar’, ‘baz/asdf’, ‘.’, ‘quux’);        //  返回 /foo/bar/baz/asdf/quux<br>path.join(‘/foo’, ‘./bar’, ‘./baz/asdf’, ‘quux’, ‘..’);     //  返回 /foo/bar/baz/asdf<br>path.join(‘/foo’, ‘bar’, ‘baz/asdf’, ‘.’, ‘.’);             //  返回 /foo/bar/baz/asdf<br>path.join(‘/foo’, ‘bar’, ‘baz/asdf’, ‘quux’);               //  返回 /foo/bar/baz/asdf/quux<br>path.join(‘/foo’, ‘bar’, ‘baz/asdf’, ‘..’, ‘..’);           //  返回 /foo/bar<br>————————————————</p>
 
       
       <!-- reward -->
@@ -257,7 +259,7 @@
     <ul class="list-inline">
       <li>
         &copy;
-        2015-2020
+        2015-2022
         Steady
       </li>
       <li>

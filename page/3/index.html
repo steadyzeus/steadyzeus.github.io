@@ -38,6 +38,944 @@
     
     
     
+    <article id="post-浅谈vue和react的数据流和绑定" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/11/27/浅谈vue和react的数据流和绑定/">浅谈vue和react的数据流和绑定</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/11/27/浅谈vue和react的数据流和绑定/" class="article-date">
+  <time datetime="2019-11-26T19:48:41.000Z" itemprop="datePublished">2019-11-27</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>数据流：<br>Vue和React均是单向数据流传递</p>
+<p>单向数据流指只能从一个方向修改数据，姑且我们可以这样理解，如下图所示。一个父组件下有两个子组件1和子组件2，父组件可以向子组件传递数据。假如子组件都获取到了父组件的name，在子组件1中对name重新修改之后，子组件2和父组件中的值并不会发生改变，这正是因为Vue中的机制是单向数据流，子组件不能直接改变父组件的状态。但反过来，如果是父组件中的name修改了，当然两个子组件中的name也就改变了。</p>
+<p>数据的绑定 :<br>Vue是双向绑定和React是单向绑定</p>
+<p>它们俩主要是由MVVM框架实现，在Vue中主要由三个部分组成，View、ViewModel和Model组成，其中View和Model不能直接进行通信，他们要通过中间件ViewModel来进行。例如，当Model部分数据发生改变时，由于vue中Data Binding将底层数据和Dom层进行了绑定，ViewModel通知View层更新视图；当在视图 View数据发生变化也会同步到Model中。View和Model之间的同步完全是自动的，不需要人手动的操作DOM,所以叫双向绑定。</p>
+<p>而在React中虽然modal和view之间也是通过ViewMode处理,但是l却需要setState去手动刷新渲染view，所以叫单向绑定</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-koa800" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/11/27/koa800/">koa800</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/11/27/koa800/" class="article-date">
+  <time datetime="2019-11-26T19:11:48.000Z" itemprop="datePublished">2019-11-27</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <blockquote>
+<p>基于koa框架, 可扩展、可配置的中间件集合, 以及快速定制项目结构的脚手架工具</p>
+</blockquote>
+<p><a href="http://git.tuan800-inc.com/ruby_cd/cd-ruby-common_package_source/blob/master/node/koa800/CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG</a></p>
+<h2 id="1-要解决的问题"><a href="#1-要解决的问题" class="headerlink" title="1. 要解决的问题"></a>1. 要解决的问题</h2><ol>
+<li><p>脚手架文件太多:</p>
+<ul>
+<li>干扰业务代码</li>
+<li>无法方便的进行更新和升级</li>
+<li>随着时间推移, 项目结构和脚手架文件在不同项目中逐渐变得不统一</li>
+</ul>
+</li>
+<li><p>中间件的管理:</p>
+<ul>
+<li>相同的中间件需要在不同项目中去引用和配置, 重复的工作量, 重复的代码(违反DRY)</li>
+<li>不便于统一的更新和升级</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="2-背景"><a href="#2-背景" class="headerlink" title="2. 背景"></a>2. 背景</h2><p>微服务是当前比较流行的系统架构模式, 各个应用的专注于提供特定的服务. 在框架选择上, 轻量级、 支持中间件选配的koa框架是一个不错的选择.</p>
+<p>koa 的使用非常灵活便捷, 它没有提供模板文件, 也没有要求项目结构标准, 这让开发者有很大的自由度; 不过对于同一个团队下的多个koa应用来说, 这会是一个问题: 多个项目在脚手架结构上的不统一, 将会对跨项目维护、中间件升级等造成麻烦.</p>
+<p>解决以上问题, 有的团队会采用代码规范/项目结构规范来作为约束, 对于生命周期较长的多应用系统, 规范不一定有很好的效果, 规范毕竟是靠人来执行.</p>
+<p>koa800提供另外一种方案: 将各项目的结构标准、共用的中间件依赖等, 提取到npm包中, 对于那些部分项目使用的中间件, 也将其提取到npm包中, 使用者可以对这部分特性进行简单的声明选择. 这样一来, 项目结构和中间件都在koa800中进行控制和装配, 实现了强制的项目标准.</p>
+<p>同时, koa800还提供了项目脚手架的创建和更新功能.</p>
+<hr>
+<h2 id="3-Koa800-介绍"><a href="#3-Koa800-介绍" class="headerlink" title="3. Koa800 介绍"></a>3. Koa800 介绍</h2><p>koa800提供了2个功能:</p>
+<ol>
+<li>Scaffold Generator: 创建、更新项目脚手架, 可配置需要特性. 发生在执行setup脚本时.</li>
+<li>Runtime Koa Wrapper: 统一管理项目中间件, 可配置需要特性. 发生在项目运行时.</li>
+</ol>
+<p>Scaffold Generator和Koa Wrapper都是通过<a href="TODO">Feature</a>进行管理.</p>
+<hr>
+<h3 id="3-1-Scaffold-Generator"><a href="#3-1-Scaffold-Generator" class="headerlink" title="3.1 Scaffold Generator"></a>3.1 Scaffold Generator</h3><p>让我们用koa800来初始化一个新项目:</p>
+<blockquote>
+<p>% mkdir koa800_demo<br>% cd koa800_demo</p>
+</blockquote>
+<p>然后用<code>npm init</code>创建项目package.json</p>
+<p>现在你需要做的是将<code>koa800</code>加入项目依赖:</p>
+<blockquote>
+<p>% npm install koa800 –save</p>
+</blockquote>
+<p>现在该项目的package.json大概是这个样子的:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"koa800_demo"</span>,</span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="string">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"koa800"</span>: <span class="string">"^1.0.0"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行koa800提供的setup脚本更新项目脚手架:</p>
+<blockquote>
+<p>% ./node_modules/.bin/setup</p>
+</blockquote>
+<p>执行完毕后, 将创建类似如下的项目结构:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">├── app/</span><br><span class="line">│   └── controllers/</span><br><span class="line">├── app.js</span><br><span class="line">├── bin/</span><br><span class="line">│   └── www</span><br><span class="line">├── config/</span><br><span class="line">│   ├── environments/</span><br><span class="line">│   │   ├── development.js</span><br><span class="line">│   │   └── production.js</span><br><span class="line">│   ├── errors.js</span><br><span class="line">│   ├── routes/</span><br><span class="line">│   │   └── index.js</span><br><span class="line">│   └── settings.js</span><br><span class="line">└── package.json</span><br></pre></td></tr></table></figure>
+<p>此时查看<code>package.json</code>, 内容也有更新, 内容大概如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"koa800_demo"</span>,</span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="string">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"koa800"</span>: <span class="string">"^1.0.0"</span>,</span><br><span class="line">    <span class="string">"zhe800_cd_node_imago"</span>: <span class="string">"^1.0.0"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"start"</span>: <span class="string">"node ./bin/www"</span>,</span><br><span class="line">    <span class="string">"c"</span>: <span class="string">"node ./node_modules/.bin/c"</span>,</span><br><span class="line">    <span class="string">"setup"</span>: <span class="string">"node ./node_modules/.bin/setup"</span>,</span><br><span class="line">    <span class="string">"imago"</span>: <span class="string">"node -e \"require('zhe800_cd_node_imago')\""</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"koa800Config"</span>: &#123;</span><br><span class="line">    <span class="string">"eslint"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"jsonp"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"tingyun"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"memcached"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"redis"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"prepare_commit_msg"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"auto_routes"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"loom"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"docker"</span>: <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中, koa800Config是用于声明可选feature的属性, 默认情况下, 这里列出了所有可选的features, 但设为了false, 表示不启用, 用户可以根据项目实际需要对某些feature进行开启.</p>
+<p>在每次修改了koa800Config中的feature设置后, 需要再次执行如上的setup脚本, setup脚本会根据koa800Config中的配置去调整当前项目的脚手架和中间件.</p>
+<hr>
+<h3 id="3-2-Runtime-Koa-Wrapper"><a href="#3-2-Runtime-Koa-Wrapper" class="headerlink" title="3.2 Runtime Koa Wrapper"></a>3.2 Runtime Koa Wrapper</h3><p>在上一小节中, 通过setup生成的项目入口文件是app.js, 该文件内容如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"><span class="keyword">let</span> app = <span class="built_in">require</span>(<span class="string">'koa800'</span>)();</span><br><span class="line"><span class="built_in">module</span>.exports = app;</span><br></pre></td></tr></table></figure>
+<p>可以看到, 项目本身没有直接依赖和使用<code>koa</code>, 而是使用的<code>koa800</code>, <code>koa800</code>作为一个包裹器, 引用了<code>koa</code>, 同时引入并正确配置了其他一些依赖的中间件. 同脚手架生成器一样, 用户也可以在package.json的koa800Config属性中去配置需要的依赖feature.</p>
+<hr>
+<h2 id="4-约定"><a href="#4-约定" class="headerlink" title="4. 约定"></a>4. 约定</h2><p>koa800 的主要目的是减少项目之间的重复的项目结构代码, 保证项目的规范和统一, 并能在今后方便的进行整体调整. koa800想要避免的重复代码包括:</p>
+<ul>
+<li>项目组织和加载的代码</li>
+<li>对相同中间件的引用和配置的代码</li>
+<li>CI类, 工具类, 编译打包部署等代码</li>
+</ul>
+<p>koa800创建的脚手架有如下约定:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">├── app/</span><br><span class="line">│   └── controllers/       控制器代码</span><br><span class="line">├── app.js                 app的入口文件</span><br><span class="line">├── bin/</span><br><span class="line">│   └── www                项目启动文件</span><br><span class="line">├── config/                项目配置文件目录</span><br><span class="line">│   ├── environments/          具体环境的个性配置文件目录</span><br><span class="line">│   │   ├── development.js</span><br><span class="line">│   │   └── production.js</span><br><span class="line">│   ├── errors.js</span><br><span class="line">│   ├── routes/            路由目录</span><br><span class="line">│   │   ├── index.js       任意域名路由</span><br><span class="line">│   │   └── search.js      子域名路由, 子域名和文件名一致</span><br><span class="line">│   └── settings.js        基础配置文件, 低优先级</span><br><span class="line">│   └── settings.local.js  全局特殊配置文件, 高优先级</span><br><span class="line">└── package.json</span><br></pre></td></tr></table></figure></p>
+<p>这些约定是由各feature的setup流程进行控制的.</p>
+<hr>
+<h2 id="5-Feature"><a href="#5-Feature" class="headerlink" title="5. Feature"></a>5. Feature</h2><p>Feature 是脚手架构建和中间件装配的基本单元, Feature分为Required和Optional2个类别, 目前的Feature如下:</p>
+<table>
+<thead>
+<tr>
+<th>Required Features</th>
+<th>描述</th>
+<th>Scaffold Generator</th>
+<th>Runtime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>base</td>
+<td>基础特性</td>
+<td>生成项目基础脚手架, 引入基础依赖</td>
+<td>引入并配置项目基本的中间件</td>
+</tr>
+<tr>
+<td>tingyun</td>
+<td>引入tingyun APM监控</td>
+<td>生成tingyun.json.exampl模板文件, 引入依赖</td>
+<td>封装app.monitor.noticeError</td>
+</tr>
+<tr>
+<td>controllers</td>
+<td>控制器</td>
+<td>生成控制器目录app/controllers/</td>
+<td>加载控制器, 挂载到app.controllers</td>
+</tr>
+<tr>
+<td>errors</td>
+<td>错误列表</td>
+<td>生成错误列表模块config/errors.js</td>
+<td>加载错误列表, 挂载到app.errors</td>
+</tr>
+<tr>
+<td>imago</td>
+<td>接入统一配置中心</td>
+<td>引入imago依赖,生成config/imago_conf.js</td>
+<td>将imago配置挂载到app.settings.imago_conf</td>
+</tr>
+<tr>
+<td>settings</td>
+<td>项目配置管理</td>
+<td>生成多级配置管理文件</td>
+<td>按照优先级解析settings, 挂载到app.settings</td>
+</tr>
+<tr>
+<td>start_hooks</td>
+<td>应用启动的前置注册管理</td>
+<td>不涉及</td>
+<td>处理app.start的前置操作</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Optional Features</th>
+<th>描述</th>
+<th>Scaffold Generator</th>
+<th>Runtime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>auto_routes</td>
+<td>自动路由配置</td>
+<td>引入路由和子域名的依赖</td>
+<td>加载config/routes/中的路由, 并自动匹配子域名</td>
+</tr>
+<tr>
+<td>data_service</td>
+<td>接入data service</td>
+<td>引入data service依赖和配置</td>
+<td>配置data service</td>
+</tr>
+<tr>
+<td>docker</td>
+<td>提供dockerfile</td>
+<td>将dockerfile写入images目录</td>
+<td>不涉及</td>
+</tr>
+<tr>
+<td>eslint</td>
+<td>引入eslint</td>
+<td>将.git/hook/pre-commit链接到指定脚本</td>
+<td>不涉及</td>
+</tr>
+<tr>
+<td>jsonp</td>
+<td>引入jsonp支持</td>
+<td>引入jsonp依赖, 并提供check referer</td>
+<td>加载jsonp中间件</td>
+</tr>
+<tr>
+<td>loom</td>
+<td>接入服务治理平台</td>
+<td>引入config/thrift_conf.js</td>
+<td>在app.start前执行app.loom.init</td>
+</tr>
+<tr>
+<td>memcached</td>
+<td>引入memcached</td>
+<td>引入memcached依赖</td>
+<td>将memcached链接挂载到app.settings.memcached</td>
+</tr>
+<tr>
+<td>prepare_commit_msg</td>
+<td>在git commit消息中自动集成分支信息</td>
+<td>将.git/hooks/prepare-commit-ms链接到指定脚本</td>
+<td>不涉及</td>
+</tr>
+<tr>
+<td>redis</td>
+<td>引入redis</td>
+<td>引入redis依赖</td>
+<td>将redis链接挂载到app.redis</td>
+</tr>
+</tbody>
+</table>
+<p>以下是部分feature说明:</p>
+<hr>
+<h3 id="base"><a href="#base" class="headerlink" title="base"></a>base</h3><p>feature base 按照约定创建了项目基本的结构, 同时提供了一些基础的API和脚本:</p>
+<p><strong>API</strong></p>
+<ul>
+<li><p><code>app.requireModule(relativePathFromRoot)</code>: 参数是相对于app.root的相对路径, 这个API让用户不用考虑当前脚本的位置和目标模块的层级关系, 非常方便.</p>
+</li>
+<li><p><code>app.isDevelopment() -&gt; bool</code> <code>app.isProduction() -&gt; bool</code> 用于判断当前执行环境的语法糖.</p>
+</li>
+<li><p><code>app.netFT</code>: 网络请求降级API, 见<a href="http://wiki.tuan800-inc.com/display/NOD/netFT" target="_blank" rel="noopener">http://wiki.tuan800-inc.com/display/NOD/netFT</a></p>
+</li>
+</ul>
+<p><strong>脚本</strong></p>
+<ul>
+<li><code>npm run setup</code>: 按照当前配置的koa800Config更新项目脚手架</li>
+<li><code>npm run c</code>: 提供了koa800 console功能, 方便调试</li>
+</ul>
+<p><img src="/assets/images/koa800/console.gif" alt="console"></p>
+<p>除此之外, base feature还配置了日志, 设置了favicon.ico, 处理了Post 参数等问题.</p>
+<hr>
+<h3 id="eslint"><a href="#eslint" class="headerlink" title="eslint"></a>eslint</h3><p>在node.js 项目中, 我们引入eslint作为代码质量控制工具. 并在git commit 时, 利用 pre-commit hook 对修改的文件自动执行eslint, 强制保证了入库代码的质量.</p>
+<p>在 pre-commit 执行eslint检测到代码错误时, 可以配置要求阻止当前commit(默认), 也可以配置仅作为警告输出, commit仍然成功.</p>
+<p><img src="/assets/images/koa800/eslint.gif" alt="eslint"></p>
+<p>eslint 支持的配置项:</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>false</td>
+<td>关闭 auto eslint</td>
+</tr>
+<tr>
+<td>true/error</td>
+<td>开启 auto eslint, 如eslint失败, 将阻止 git commit</td>
+</tr>
+<tr>
+<td>warning</td>
+<td>开启 auto eslint, 如eslint失败, 仅输出错误消息, 允许 git commit</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="prepare-commit-msg"><a href="#prepare-commit-msg" class="headerlink" title="prepare_commit_msg"></a>prepare_commit_msg</h3><p>对多个开发共同维护的git仓库, 分析某个commit的作者、来源分支或者来源工单, 是一个常见的场景, 不过git commit 中只能查到作者信息, 不能很方便的追踪到来源分支. 在某些团队中是要求在commit message中手动加上当前分支名, 以满足未来分析需要, 这个工作其实可以通过git prepare-commit-msg 来自动实现.</p>
+<p>当在koa800中开启prepare_commit_msg选项后, 每次用户commit代码, 会自动把当前分支名信息记录到commit message中.</p>
+<p><img src="/assets/images/koa800/prepare_commit_msg.gif" alt="prepare_commit_msg"></p>
+<p>prepare_commit_msg 支持的配置项:</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>false</td>
+<td>关闭 prepare_commit_msg</td>
+</tr>
+<tr>
+<td>true</td>
+<td>开启 prepare_commit_msg</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="settings"><a href="#settings" class="headerlink" title="settings"></a>settings</h3><p>配置管理是项目工程结构中重要一环, koa800 的 settings feature 为项目提供了多级的配置管理:</p>
+<ol>
+<li><p>第一优先级:</p>
+<p> <code>config/settings.local.js</code></p>
+<p> 该文件不应该在git版本库, 用于开发测试或者部署环境的特殊配置, 优先级最高.</p>
+</li>
+<li><p>第二优先级:</p>
+<p> <code>config/environments/development.js</code> 或 <code>config/environments/production.js</code></p>
+<p> koa800会根据env的值去加载<code>config/environments/</code>中的同名js配置文件, 该目录中的配置用于不同运行环境的差异化配置.</p>
+<p> 环境配置文件应该放入版本库.</p>
+</li>
+<li><p>最低优先级:</p>
+<p> <code>config/settings.js</code></p>
+<p> 该文件包含项目基础配置, 优先级最低, 应该放入git版本库.</p>
+</li>
+</ol>
+<p>settings属于Required feature, 无需在koa800Conifg中配置.</p>
+<hr>
+<h3 id="start-hooks"><a href="#start-hooks" class="headerlink" title="start_hooks"></a>start_hooks</h3><p>某些应用在启动web 服务前, 需要处理一些前置操作, 如服务注册, 配置同步, 获取静态资源hash值等. 如果任由这些需求在各个微服务中处理, 会有大量的重复代码. 该feature 提供的API <code>app.beforeStart</code> 允许用户在app.start前注册前置操作:</p>
+<p><code>app.beforeStart(action)</code>参数action 可以是以下值:</p>
+<ul>
+<li><p>一个 Promise 实例, koa800会保证此promise resolve后, 才启动web 服务</p>
+</li>
+<li><p>一个 function, 且该function的返回值是一个Promise实例, koa800会在启动web服务前执行该function, 并且会保证此promise resolve后, 才启动web 服务.</p>
+</li>
+<li><p>一个 function, 返回值并不是Promise实例, koa800会在启动web服务前执行该function.</p>
+</li>
+</ul>
+<p><code>app.beforeStart</code> 允许级联调用, 如:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.beforeStart(syncConfiguration).beforeStart(serviceDiscovery).beforeStart(serviceRegistration)</span><br></pre></td></tr></table></figure>
+<p>start_hooks属于Required feature, 无需在koa800Conifg中配置.</p>
+<hr>
+<h3 id="auto-routes"><a href="#auto-routes" class="headerlink" title="auto_routes"></a>auto_routes</h3><p>web应用的http 路由通常由两部分组成: 子域名匹配和path匹配, <a href="https://www.npmjs.com/package/koa-sub-domain" target="_blank" rel="noopener">koa-sub-domain</a>和<a href="https://www.npmjs.com/package/koa-router" target="_blank" rel="noopener">koa-router</a> 可以实现以上功能.</p>
+<p>如果不使用koa800, 用户需要自行配置子域名路由, 如:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">app.use(app.requireModule(<span class="string">'config/routes'</span>).routes());                          <span class="comment">// 泛域名路由</span></span><br><span class="line">app.use(subdomain(<span class="string">'last'</span>, app.requireModule(<span class="string">'config/routes/last'</span>).routes()));  <span class="comment">// last 子域名路由</span></span><br><span class="line">app.use(subdomain(<span class="string">'new'</span>, app.requireModule(<span class="string">'config/routes/new'</span>).routes()));    <span class="comment">// new 子域名路由</span></span><br><span class="line">app.use(subdomain(<span class="string">'top'</span>, app.requireModule(<span class="string">'config/routes/top'</span>).routes()));    <span class="comment">// top 子域名路由</span></span><br></pre></td></tr></table></figure>
+<p>koa800提倡约定大于配置, 只要代码按照约定组织, koa800 会完整这些重复而固定的工作, 减少用户需要编写的代码行.</p>
+<p>在koa800, 只要将路由文件按照约定放入<code>config/routes</code>中, koa800 会自动加载路由, 并按照文件名识别子域名:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config</span><br><span class="line">└── routes</span><br><span class="line">    ├── index.js  泛域名路由</span><br><span class="line">    ├── last.js   last 子域名路由</span><br><span class="line">    ├── new.js    new 子域名路由</span><br><span class="line">    └── top.js    top 子域名路由</span><br></pre></td></tr></table></figure>
+<p>auto_routes 支持的配置项:</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>false</td>
+<td>关闭 auto_routes</td>
+</tr>
+<tr>
+<td>true</td>
+<td>开启 auto_routes</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="jsonp"><a href="#jsonp" class="headerlink" title="jsonp"></a>jsonp</h3><p><a href="https://www.npmjs.com/package/koa-safe-jsonp" target="_blank" rel="noopener">koa-safe-jsonp</a> 提供了koa jsonp支持, koa800将其做了简单的封装.</p>
+<p>jsonp存在较高的<a href="http://www.csdn.net/article/2015-07-14/2825207" target="_blank" rel="noopener">安全风险</a>, referer 检查是jsnop风险防范的常见手段, koa800的jsonp feature 提供了referer 检测的验证action, 该filter位于<code>app/controllers/filters/check_referer.js</code></p>
+<p>使用方式:</p>
+<p>在路由中加上前置filter: <code>filters.checkReferer</code>:</p>
+<blockquote>
+<p>router.get(‘/user_info’, app.controllers.filters.checkReferer, app.controllers.user.info);</p>
+</blockquote>
+<p>可以在<code>app/controllers/filters/check_referer.js</code>中配置特定的refererMatcher.</p>
+<p>jsonp 支持的配置项:</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>false</td>
+<td>关闭 jsonp</td>
+</tr>
+<tr>
+<td>true</td>
+<td>开启 jsonp</td>
+</tr>
+<tr>
+<td>配置对象</td>
+<td>开启 jsonp, 并将配置对象传递给koa-safe-jsonp</td>
+</tr>
+</tbody>
+</table>
+<p>配置对象中可以配置<code>callback</code>和<code>limit</code>, 详见<a href="https://www.npmjs.com/package/koa-safe-jsonp" target="_blank" rel="noopener">koa-safe-jsonp</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jsonp(app, &#123;</span><br><span class="line">  callback: <span class="string">'_callback'</span>, <span class="comment">// default is 'callback'</span></span><br><span class="line">  limit: <span class="number">50</span>, <span class="comment">// max callback name string length, default is 512</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="6-开发者指南"><a href="#6-开发者指南" class="headerlink" title="6. 开发者指南"></a>6. 开发者指南</h2><p>koa800提供的所有特性单元是Feature, 开发者可以通过编写Feature按需扩展koa800的功能.</p>
+<p>在koa800中Feature类定义如下:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Feature</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(properties) &#123;</span><br><span class="line">    <span class="keyword">this</span>.run          = properties.run;</span><br><span class="line">    <span class="keyword">this</span>.setup        = properties.setup;</span><br><span class="line">    <span class="keyword">this</span>.packageJson  = properties.packageJson;</span><br><span class="line">    <span class="keyword">this</span>.scaffold     = properties.scaffold;</span><br><span class="line">    <span class="keyword">this</span>.dependencies = properties.dependencies;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>属性说明:</p>
+<ul>
+<li>run: 该feature在运行时对app的增强操作</li>
+<li>setup: 该feature在脚手架更新过程中的操作, 该属性期望是一个生成器函数</li>
+<li>packageJson: 该feature在脚手架更新过程中, 对项目package.json的补充, 比如引入scripts, dependencies等</li>
+<li>scaffold: 该feature在脚手架更新过程需要同步的文件列表</li>
+<li>dependencies: 该feature依赖的其他feature</li>
+</ul>
+<p>Scaffold Generator 各feature的处理流程:</p>
+<ol>
+<li>处理dependencies features</li>
+<li>更新scaffold文件列表</li>
+<li>更新packageJson内容</li>
+<li>执行setup</li>
+</ol>
+<p>运行时, 各feature的执行流程:</p>
+<ol>
+<li>依次执行feature.run</li>
+</ol>
+<h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><p>目前koa800测试覆盖率&gt;80%, 开发者在新增、更新feature时, 务必补充单元测试.</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-chrome插件开发教程" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/11/18/chrome插件开发教程/">chrome插件开发教程</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/11/18/chrome插件开发教程/" class="article-date">
+  <time datetime="2019-11-17T18:58:35.000Z" itemprop="datePublished">2019-11-18</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>相关链接</p>
+<p>代码仓库： <a href="mailto:git@git.tuan800-inc.com" target="_blank" rel="noopener">git@git.tuan800-inc.com</a>:ued/cd_ued_chrome_extensions.git ，相关开发流程和使用说明在项目的README中均有描述<br>参考</p>
+<p>Chrome扩展及应用开发（首发版），这本书非常实用，配合书中的项目，可以快速上手Chrome扩展开发<br>Chrome扩展程序官方文档，查API就靠它了，<br>非官方中文文档，可以先快速过一遍api<br>这里主要整理了chrome开发技术、cd_ued_chrome_extensions项目的开发环境和打包流程以及Chrome应用商店的使用步骤。</p>
+<p>Chrome开发相关技术<br>扩展程序由HTML、CSS和JavaScript等web技术组成，并由浏览器提供了一系列增强API。</p>
+<p>在项目文件夹根目录新建一个manifest.json的文件，用于声明相关配置。配置文件主要用来指定文件路径、，配置权限等。</p>
+<p>{<br>    // 区分扩展程序和应用，在扩展程序中只能为2<br>    “manifest_version”: 2,<br>    “name”: “扩展程序测试”,<br>    “version”: “1.0”,<br>    “description”: “Chrome扩展”,<br>    // 在chrome://extensions/扩展程序列表下的图标<br>    “icons”: {},<br>    // 当进入指定URL页面时调用对应脚本<br>    “content_scripts”: [],<br>    // 在浏览器右上角的扩展程序的属性<br>    “browser_action”: {},<br>    // 一些权限设置<br>    “permissions”: [],<br>    // 一直在后台运行的脚本<br>    “background”: {},<br>    // 选项页面<br>    “options_page”: “options.html”<br>}<br>整个扩展程序可分为下面几个部分</p>
+<p>content_scripts，进入指定URL页面可注入的脚本<br>background，在后台运行<br>browser_action，右上角弹窗<br>options_page，扩展程序选项页面<br>content_scripts<br>扩展程序一个非常重要的功能就是可以操作用户正在浏览的页面。在配置文件中通过指定对应的match字段，匹配页面url，并在浏览器访问这些页面时，注入对应的脚本文件。</p>
+<p>“content_scripts”: [<br>  {<br>    “matches”: [<br>      “<em>://local.com/</em>“, // 其中 <em> 表示通配符<br>      “</em>://<a href="http://www.amazon.com/*&quot;" target="_blank" rel="noopener">www.amazon.com/*&quot;</a><br>    ],<br>    “js”: [<br>      “js/content.js”<br>    ]<br>  }<br>]<br>content_scripts里面的脚本运行在于网页文档相同的环境下，包括访问和操作页面的DOM和BOM。</p>
+<p>browser_action<br>有时候需要扩展程序快速展示一些信息功能，右上角的弹窗页面就很有用，弹窗页可以看做是扩展程序与用户的交互窗口。</p>
+<p>“browser_action”: {<br>  “default_icon”: {<br>    “19”: “images/icon19.png”,<br>    “38”: “images/icon38.png”<br>  },<br>  “default_popup”: “popup.html” // 可以在页面上通过script标签引入对应的页面js文件<br>},<br>options_page<br>如果配置了options_page选项，并制定了对应的页面，则右击右上角图标是，会出现“选项”栏，点击可跳转到对应的选项页面。选项页面一般用于为用户进行一些插件配置操作，诸如偏好设置等。</p>
+<p>options_page可以看做是我们为扩展程序提供的一个主页。</p>
+<p>background<br>上面部分是基于前端进行开发的，包括DOM、html、CSS等，可以发现，他们都需要用户的主动操作，要么访问对应的页面，要么点击右上角的图标弹出页面，这类页面统称为UI页面。如果希望扩展程序自动运行并常驻后台来实现一些特定的功能，就可以使用background后台页面。</p>
+<p>“background”: {<br>    “page”: “background.html”<br>  },<br>background在后台启动时就会开始运行，可以用于进行插件数据的初始化等操作。</p>
+<p>页面交互<br>一个扩展程序往往不止一个页面，有时候页面之间需要进行数据传递或事件通知，这时候需要考虑页面交互的问题。</p>
+<p>本地存储<br>一种常见的应用场景是选项页面和其他页面之间的配置选项交互，由于同一个扩展程序的页面(除了注入页面的content_scripts)被认为在同一个域下，因此只需要通过localStorage本地存储就可以轻松做到数据的传递。</p>
+<p>UI页面与后台页面的交互<br>另外一种应用场景时某个页面需要主动通知其他页面，可以通过chrome.runtime接口进行</p>
+<p>// content.js 发送信息<br>chrome.runtime.sendMessage(message);</p>
+<p>// background.js 接收消息<br>chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) { // message就是传递的data });</p>
+<p>由于sendMessage无法指定特定的listener，因此onMessage的监听器会接收到所有的消息推送，如果需要区分消息，则需要开发者自己实现相关的逻辑。message可以是字符串也可以是对象，因此可以在参数上携带发送者的消息。</p>
+<p>let messageStrategy = {<br>  // … 对应的命令逻辑<br>}<br>chrome.runtime.onMessage.addListener((message, sender, sendResponse) =&gt; {<br>    let {command, content} = message<br>    messageStrategy[command] &amp;&amp; messageStrategy<a href="content">command</a><br>});<br>后台页面与标签页交互<br>可以通过向当前的标签页发送消息，从而获取页面内容的信息</p>
+<p>sendMessageToCurrentTab(data) {<br>    return new Promise((resolve, reject) =&gt; {<br>        chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {<br>            chrome.tabs.sendMessage(tabs[0].id, data, function (response) {<br>                resolve(response)<br>            });<br>        });<br>    })<br>}<br>一些常见问题<br>脚本只能通过script标签引入，使用行内脚本会提示<br>配置了popup页面之后，会导致监听插件按钮点击事件<code>chrome.browserAction.onClicked.addListener</code>无效，这是因为默认事件被打开popup.html阻止了，可以在页面初始化逻辑中进行处理点击事件相关的逻辑<br>Chrome提供的大部分API是不支持在content_scripts中运行的，在background中执行没有问题<br>注意配置的match，如果需要在全站页面使用，后面的路径记得配置<em>，例如</em>://<a href="http://www.amazon.com/*，否则只有首页可以注入脚本.." target="_blank" rel="noopener">www.amazon.com/*，否则只有首页可以注入脚本..</a>.<br>项目开发打包流程</p>
+<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>由于后期需要维护多个扩展程序，因此搭建此开发环境，便于开发和后期维护</p>
+<p>由于插件各个脚本存在一定的关联，如storage的key值、公共函数、公共接口等，需要引入模块化开发。</p>
+<p>由于开发预览需要及时更新的文件，因此采用<code>gulp + watch</code>的形式搭建开发环境，使用<code>gulp-webpack</code>进行打包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 开启文件改动监听</span><br><span class="line">gulp js:w</span><br><span class="line"></span><br><span class="line"># 打包生产环境的文件</span><br><span class="line">gulp js --env production</span><br></pre></td></tr></table></figure>
+<ul>
+<li>webpack相关配置位于<code>gulp-webpack</code>的webpack配置项下，用于修改项目名称和相关文件，</li>
+<li>插件源文件开发位于<code>插件名/src</code>目录下，最终打包的文件位于<code>插件名/js</code>目录下，插件配置文件位于<code>插件名/manifest.json</code>下</li>
+<li>开发时装配的插件直接使用<code>插件名</code>目录这个即可</li>
+</ul>
+<h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><p>由于是本地安装chrome插件，因此只需要输出对应的插件资源即可，执行命令<code>npm run build + 对应插件目录名</code>即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build piseer</span><br></pre></td></tr></table></figure>
+<p>实际上打包过程只是剔除不必要的文件，在dist目录下生成对应的压缩包，方便传递或部署到SVN上。</p>
+<p>相关的打包脚本位于<code>scripts/build.js</code>下</p>
+<h2 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h2><p>由于chrome应用商店提供了扩展程序自动更新的机制，因此部分扩展程序可以通过托管到应用商店，只需要将打包的压缩包在<a href="https://chrome.google.com/webstore/developer/dashboard/" target="_blank" rel="noopener">开发者中心</a>添加上传即可。</p>
+<p>发布相关</p>
+<ul>
+<li>发布应用的chrome账号为<a href="mailto:`steadyzhe@gmail.com" target="_blank" rel="noopener">`steadyzhe@gmail.com</a>`，密码找云龙提供</li>
+<li>发布需要上传的压缩包，直接使用<code>npm run build xxx</code>生成的压缩包即可</li>
+<li>发布后一般一个小时内会在应用商店更新，在开发者中心可查看发布进度，一般开发者中心的显示已发布后还需要等待一会应用商店才会更新</li>
+<li>如果manifest.json中的permissions过多（貌似还有其他一些限制），在更新包时可能会被系统检测导致人工审核，建议只申明必须的扩展程序权限。</li>
+</ul>
+<p>插件在应用商店的地址</p>
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/shoppinghelper/phlggmjehjabmkeljbfimpgjkanlmbgc?utm_source=gmail" target="_blank" rel="noopener">亚马逊插件</a>，权限为非公开<br>自动更新<br>相关工单： </li>
+<li><a href="http://redmine.tuan800-inc.com/issues/370684" target="_blank" rel="noopener">亚马逊插件自动更新调研</a></li>
+<li><a href="http://redmine.tuan800-inc.com/issues/372979" target="_blank" rel="noopener">湃势插件自动更新调研</a><br>采用开发者方式安装本地插件包，需要每次更新插件后手动重新下载并解压压缩包，因此需要实现自动更新机制。</li>
+</ul>
+<p>通过应用商店托管扩展程序，有以下特性</p>
+<p>扩展程序安全性，这里的安全性指的是允许用户安装的策略，在发布应用时有公开、非公开、指定账户访问三种等级，其中<br>公开是所有用户都可以通过应用商店搜索到该扩展程序<br>非公开则需要知道扩展程序的下载链接，才能够进行安装，无法直接通过搜索应用商店直接安装<br>指定账户访问则需要在开发者中心添加体验用户的chrome账号，才能够安装该插件，采用这种方式则需要收集使用者的chrome账户<br>自动更新，后续只需要增加版本号并重新在开发者中心发布，chrome会自动更新相关插件，一般会在新版本发布后6个小时内进行更新<br>强制更新，chrome自动更新有一定时间的延迟，如果在发布后想要立即体验更新版本，可以使用强制更新<br>打开<code>chrome://extensions/</code>，选择开发者模式，然后点击更新按钮，强制更新全部扩展程序<br>chrome账户重新登录，在登录状态下安装的扩展程序，重新登录后chrome会进行数据同步，此时也会更新到最新的版本<br>修改chrome扩展更新频率，可以通过在启动chrome时通过参数<code>--extensions-update-frequency=45</code>指定更新检测频率<br>采用非公开方式发布扩展程序，用户只需要第一次点击链接进行扩展程序的安装即可，后续更新都会由chrome自动更新完成，之前通过接口获取配置规则的逻辑也可由发布新版本的机制代替。</p>
+<p>Chrome应用商店开发者中心相关操作流程<br>首先进入开发者中心<a href="https://chrome.google.com/webstore/developer/dashboard/g05227480483751387811?page=1&amp;pli=1，应该需要输入当前Chome账号密码" target="_blank" rel="noopener">https://chrome.google.com/webstore/developer/dashboard/g05227480483751387811?page=1&amp;pli=1，应该需要输入当前Chome账号密码</a></p>
+<p>在“您的列表”下面找到“添加新内容”，打开上传页面；也可以选在已发布的插件，点击右侧的修改操作，进入编辑页面，然后重新上传更新后的包</p>
+<p>点击“选择文件”，选择<code>npm run build</code>打包的压缩文件，然后点击上传，等到文件上传完毕，会自动跳转到编辑页面</p>
+<p>在编辑页面需要填写扩展程序的基本信息，如介绍、图标、轮播图等，此处填写的内容会经过应用商店的审核，某些内容可能会导致审核不通过~</p>
+<p>编辑完成后拉到页面最下面，点击发布按钮即可，此处的公开程度选项决定了是否在应用商店展示该扩展程序。</p>
+<p>发布更改后等待一段时间（一般几分钟到几个小时不等），就可以在应用商店安装对应的扩展程序了。</p>
+<p>之前经历过连续审核未通过的情形，需要根据被拒邮件列举的理由进行调整并重新发布更改，常见的理由有</p>
+<p>未上传图标、空白描述、无预览效果图等<br>未描述产品隐私策略，需要附上隐私政策网址，在描述中详细介绍使用用户数据做什么事情</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-Untitled" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/10/24/Untitled/">重识排列组合</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/10/24/Untitled/" class="article-date">
+  <time datetime="2019-10-23T16:25:00.000Z" itemprop="datePublished">2019-10-24</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>6位数4位为一组共有多少组</p>
+<p>共有15组。C（6，4）=15。    6<em>5</em>4<em>3</em>2<em>1/2</em>1<em>4</em>3<em>2</em>1=15;</p>
+<p>从n个不同元素中取出m(m≤n)个元素的所有组合的个数,叫做从n个不同元素中取出m个元素的组合数.用符号 c(n,m) 表示.c(n,m)=p(n,m)/m!=n!/((n-m)!*m!)。</p>
+<p>这里是从6个里面任取4个的所有组合 共有6!/(（6-4）!<em>4!)=6</em>5<em>4</em>3<em>2</em>1/2<em>1</em>4<em>3</em>2*1=15，所以共有15组。<br>扩展资料：</p>
+<p>重复组合是一种特殊的组合。从n个不同元素中可重复地选取m个元素。不管其顺序合成一组，称为从n个元素中取m个元素的可重复组合。当且仅当所取的元素相同，且同一元素所取的次数相同，则两个重复组合相同。</p>
+<p>排列组合计算方法如下：</p>
+<p>排列A(n,m)=n×（n-1）.（n-m+1）=n!/（n-m）!(n为下标,m为上标,以下同)</p>
+<p>组合C(n,m)=P(n,m)/P(m,m) =n!/m!（n-m）!；</p>
+<p>例如：<br>A(4,2)=4!/2!=4*3=12</p>
+<p>C(4,2)=4!/(2!<em>2!)=4</em>3/(2*1)=6</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-nginx记录" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/10/08/nginx记录/">nginx记录</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/10/08/nginx记录/" class="article-date">
+  <time datetime="2019-10-08T14:36:40.000Z" itemprop="datePublished">2019-10-08</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h3 id="1-nginx-创建一个域名指向-静态资源html"><a href="#1-nginx-创建一个域名指向-静态资源html" class="headerlink" title="1.nginx 创建一个域名指向 静态资源html"></a>1.nginx 创建一个域名指向 静态资源html</h3><p><a href="http://www.test.com/" target="_blank" rel="noopener">http://www.test.com/</a></p>
+<p>需要在nginx头上添加用户组，并且把静态资源的文件夹赋予用户权限</p>
+<p>sudo chown -R root:wheel /Users/zhousteady/Downloads/test/examples</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">user root wheel;</span><br><span class="line">worker_processes  1;</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">      listen 80;</span><br><span class="line">      server_name www.test.com;</span><br><span class="line">      index index.html;</span><br><span class="line">  </span><br><span class="line">      root /Users/zhousteady/Downloads/test/examples/;</span><br><span class="line"></span><br><span class="line">      location / &#123;</span><br><span class="line">        proxy_redirect     off;</span><br><span class="line">        proxy_set_header   Host $host;</span><br><span class="line">        proxy_set_header   X-Forwarded-Host $host;</span><br><span class="line">        proxy_set_header   X-Forwarded-Server $host;</span><br><span class="line"></span><br><span class="line">        proxy_set_header   X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_buffering    on;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      location = /favicon.ico &#123;</span><br><span class="line">        return 204;</span><br><span class="line">        access_log     off;</span><br><span class="line">        log_not_found  off;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      location ~* &quot;(.+)-(\w+)\.\w+$&quot; &#123;</span><br><span class="line">        error_page 404 = @notfound;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      location @notfound &#123;</span><br><span class="line">        rewrite ^(.+)-(\w+)(\.\w+)$ $1$3 break;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="antd-线上静态资源和url-转发"><a href="#antd-线上静态资源和url-转发" class="headerlink" title="antd 线上静态资源和url 转发"></a>antd 线上静态资源和url 转发</h3><p>http请求 静态资源文件，需要让 运维配置 前置的nginx  , 类似：   请注意publicPath: ‘/ued_admin_static/‘, 为webpack静态资源打包前缀</p>
+<pre><code>location ~ ^/ued_admin_static/{
+           add_header Cache-Control &quot;no-cache, max-age=0, must-revalidate&quot;;
+           rewrite ^/ued_admin_static/(.*) /$1 break;
+           proxy_pass http://cd_ued_ftrade_admin;
+        }
+
+
+        location ~ ^/ued_admin/{
+           add_header Cache-Control &quot;no-cache, max-age=0, must-revalidate&quot;;
+           rewrite ^/ued_admin/(.*) /index.html break;
+           index index.html;
+           proxy_pass http://cd_ued_ftrade_admin;
+        }
+</code></pre>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/08/30/vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1/">vue 记录</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/08/30/vue中事件修饰符详解-stop-prevent-self-once-capture-passive-1/" class="article-date">
+  <time datetime="2019-08-29T21:42:00.000Z" itemprop="datePublished">2019-08-30</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="vue中事件修饰符详解-stop-prevent-self-once-capture-passive"><a href="#vue中事件修饰符详解-stop-prevent-self-once-capture-passive" class="headerlink" title="vue中事件修饰符详解(stop, prevent, self, once, capture, passive)"></a>vue中事件修饰符详解(stop, prevent, self, once, capture, passive)</h1><p>.stop 是阻止冒泡行为,不让当前元素的事件继续往外触发,如阻止点击div内部事件,触发div事件</p>
+<p>.prevent 是阻止事件本身行为,如阻止超链接的点击跳转,form表单的点击提交</p>
+<p>.self 是只有是自己触发的自己才会执行,如果接受到内部的冒泡事件传递信号触发,会忽略掉这个信号</p>
+<p>.capture 是改变js默认的事件机制,默认是冒泡,capture功能是将冒泡改为倾听模式</p>
+<p>.once 是将事件设置为只执行一次,如 .click.prevent.once 代表只阻止事件的默认行为一次,当第二次触发的时候事件本身的行为会执行</p>
+<p>.passive 滚动事件的默认行为 (即滚动行为) 将会立即触发，而不会等待 onScroll 完成。这个 .passive 修饰符尤其能够提升移动端的性能。</p>
+<p>————————————————</p>
+<p>.passive 和 .prevent 不能一起使用:<br>.prevent 将会被忽略</p>
+<p>.self 和 .stop 区别:<br>self只响应当前元素自身触发的事件，不会响应经过冒泡触发的事件，并不会阻止冒泡继续向外部触发。<br>stop是从自身开始不向外部发射冒泡信号</p>
+<h1 id="this-set"><a href="#this-set" class="headerlink" title="this.$set"></a>this.$set</h1><p>使用示列：this.$set(arr,  index,  val)。当然，this.$set除了用于操作数组外还可以操作对象，使用示例：this.$set( obj, key, val).</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-nodejs-exports" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/07/23/nodejs-exports/">nodejs exports</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/07/23/nodejs-exports/" class="article-date">
+  <time datetime="2019-07-23T13:29:00.000Z" itemprop="datePublished">2019-07-23</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/steadycate/">steadycate</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="exports-与-module-exports"><a href="#exports-与-module-exports" class="headerlink" title="exports 与 module.exports"></a>exports 与 module.exports</h1><p>为了方便，Node为每个模块提供一个exports变量，指向module.exports。这等同在每个模块头部，有一行这样的命令。</p>
+<p>var exports = module.exports;<br>于是我们可以直接在 exports 对象上添加方法，表示对外输出的接口，如同在module.exports上添加一样。注意，不能直接将exports变量指向一个值，因为这样等于切断了exports与module.exports的联系。</p>
+<h1 id="不同于CommonJS，ES6使用-export-和-import-来导出、导入模块。"><a href="#不同于CommonJS，ES6使用-export-和-import-来导出、导入模块。" class="headerlink" title="不同于CommonJS，ES6使用 export 和 import 来导出、导入模块。"></a>不同于CommonJS，ES6使用 export 和 import 来导出、导入模块。</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// profile.js</span></span><br><span class="line"><span class="keyword">var</span> firstName = <span class="string">'Michael'</span>;</span><br><span class="line"><span class="keyword">var</span> lastName = <span class="string">'Jackson'</span>;</span><br><span class="line"><span class="keyword">var</span> year = <span class="number">1958</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123;firstName, lastName, year&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="两个差异"><a href="#两个差异" class="headerlink" title="两个差异"></a>两个差异</h1><p>CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</p>
+<p>什么是值的拷贝，值的引用？<br>所谓值的拷贝，是在栈内存当中实现的，是一个复制的过程，复制之后两个值互不影响<br>值的引用，是在堆内存当中实现的，当一个引用类型赋值给一个变量时，此时变量拥有指向引用类型的一个指针，当变量发生改变，被引用的值也会发生改变<br>CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</p>
+<p>什么是运行时加载，什么是编译输出？<br>在后端开发当中，只需要做到一次加载，因此在启动服务器中进行加载即可，对于CommonJS的设计当中符合后端的这种开发理念，然后这种效果带来了很大的便利性，在前端开发也是需要模块化加载方式，可是，前端的加载方式跟后端不一致，如果采用CommonJS相同的加载方式，前端性能会大打折扣，比如网页假死，以及难以改变引入模块的变量，因此，在编译阶段，先将模块按需进行处理，生成接口，在引入模块之后进行使用时，可以很方便的调用接口<br>export 与 export default (params表示一个对象)<br>export 输出的时候必须是一个接口，因此export 后面跟的是 { …params} 或则以声明变量的形式 var name = 。。。。或则export function</p>
+<p>export default 中 default 相当于 export 之后的一个接口名称，因此之后可以表达式或则 { …params} 对象</p>
+<p>加载方式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">from</span> ‘./test’</span><br><span class="line"><span class="keyword">import</span> &#123; key, key1, key2 &#125; <span class="keyword">from</span> ‘./test’</span><br><span class="line"></span><br><span class="line">modele.exports 与 exports (params表示一个对象)</span><br><span class="line">modele.exports = &#123;&#125;写法</span><br></pre></td></tr></table></figure>
+<p>exports为var exports = modele.exports，因此exports后面重新赋值会改变指针，故不能为exports重新赋值，例如exports = newObject，只能类似exports.name = ‘hello world’这种方式进行输出 , 实际上输出的是modele.exports = {name: ‘hello world’}</p>
+<p>加载方式</p>
+<p>var common = require(’./test’)</p>
+<p>简单来说就是，在CommonJS规范下，通过require()导入的是模块的一份值拷贝，可以任意修改，且不会影响到原模块的值。修改原模块的值也不会变动当前文件下的值。– 二者在导入那一刻失去了联系。</p>
+<p>在ES6规范下，打入只是和原模块建立连接，当前文件下不允许修改原模块，即只读。修改原模块的值，会在当前文件下也起作用。</p>
+<p>看下面的例子就很清晰了：</p>
+<p>CommonJS规范下值拷贝<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// calculator.js</span></span><br><span class="line"><span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">	count: count,</span><br><span class="line">	add: <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">		count += <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">return</span> a + b;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">var</span> count = <span class="built_in">require</span>(<span class="string">'./calculator.js'</span>).count;</span><br><span class="line"><span class="keyword">var</span> add = <span class="built_in">require</span>(<span class="string">'./callculator.js'</span>).add;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(count); <span class="comment">// 0</span></span><br><span class="line">add(<span class="number">2</span>, <span class="number">3</span>); <span class="comment">// calculator.js中的count会变化</span></span><br><span class="line"><span class="built_in">console</span>.log(count); <span class="comment">// 0，这里的count不受变化</span></span><br><span class="line"></span><br><span class="line">count += <span class="number">1</span>; <span class="comment">// 本地count值可变化</span></span><br><span class="line"><span class="built_in">console</span>.log(count); <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line">ES6规范下动态映射</span><br><span class="line"></span><br><span class="line"><span class="comment">// calculator.js</span></span><br><span class="line"><span class="keyword">let</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">	count += <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> a + b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> &#123; count, add &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; count, add &#125; <span class="keyword">from</span> <span class="string">'./calculator.js'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(count); <span class="comment">// 0</span></span><br><span class="line">add(<span class="number">2</span>, <span class="number">3</span>); <span class="comment">// </span></span><br><span class="line"><span class="built_in">console</span>.log(count); <span class="comment">// 1, 实时反映calculator.js中的count值的变化</span></span><br><span class="line"></span><br><span class="line">count += <span class="number">1</span>; <span class="comment">// 不允许，count是只读的</span></span><br></pre></td></tr></table></figure></p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/steadytag/">steadytag</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-JavaScript-二进制-十进制" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
 
   <div class="article-inner">
@@ -239,623 +1177,13 @@
 
 </article>
     
-    <article id="post-记录package-json字段用处" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/02/26/记录package-json字段用处/">记录package.json字段用处</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/02/26/记录package-json字段用处/" class="article-date">
-  <time datetime="2019-02-25T17:28:53.000Z" itemprop="datePublished">2019-02-26</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>npm install 就是安装模块，npm run dev  就是执行npm script中的命令。当我们执行npm命令的时候，它到哪里去找，这就要说到每个node项目中都有的核心文件package.json 文件。</p>
-<p>　　项目开始时，我们就要建立这个文件。假设我们要创建一个node 项目，我们会新建一个文件夹命名node， 这时我们就要创建package.json文件。进入node 文件夹，你可以手动创建，就和创建一个txt文件一样，但我们一般都会使用命令创建，打开cmd 窗口，输入npm init， 这时你要回答几个问题，如name,version 等，输入内容，一路回车键，当你输入yes的时候，package.json 创建成功，你的文件夹中多了这个文件。</p>
-<p>　　其中有几个字段比较重要：</p>
-<p>　　name 项目名称， 你可能在项目中使用过 var express = require(‘express’), require 函数后面的参数，就是package.json 中的name字段，所以这个name一定要简短，且不能有大写，这是规定。</p>
-<p>　　version版本号：安装一个模块的时候， 你可能指定过特定的版本号，npm install express @4.13.2, 版本号4.13.2 就是我们这里的version。版本号有三个组成部分，4：表示的是大版本，一般是重大升级。13：表示的是小版本, 在大版本的基础进行的小的更新，如某个功能废弃了，新增了那个功能。2： 对该版本进行补丁，主要是版本bug的修复。</p>
-<p>　　script： 我们在命令行中执行的所有命令都写在这个地方，然后用 npm run 去执行这个命令。</p>
-<p>　　项目初始完成后，我们就可以进行项目开发。在开发过程中我们都会用到一些第三方库和 框架，尤其是node 开发, 因为它提供的API 有点底层. 如果想用第三方的东西，就要事先安装。上面说到 安装用的命令是npm install。 npm install express –save  –save 是什么意思？–save表示，我们安装模块的时候，同时把它写到package.json 文件中。这时打开package.json 文件，我们看到多了一个dependencies字段，它包括了我们刚安装的express. node中有些es6/es7 的语法不支持，我们使用的时候，就需要进行转换。这时安装babel. npm install babel-cli babel-preset-es2015 –save–dev  –save-dev 又是什么，它也表示安装依模块的时候，把它写到package.json中，不过它写入的不是dependencies, 而是devDependencies中。</p>
-<p>　　devDependencies 和dependencies 有什么区别？dependencies: 是项目运行时的依赖，就是程序上线后仍然需要依赖，比如express, 我们程序就是用express 写的，如果没有express, 我们的程序根本无法运行，更直白一点，dependencies 就是我们在程序开发的过程中手动require的模块。进行express 开发时,server.js中，都会写  var express  = require(‘express’), 我们程序直接依赖，所以是dependencies. </p>
-<p>　　devDependencies, 开发依赖，就是我们在开发过程中需要的依赖。比如babel, 它只负责转换es6+ 到es5， 转换完成后，我们只要转换后的代码，上线的时候，直接把转换后的代码部署上线，不需要bebal.  这就是开发依赖，只在开发时候起作用， 上线不需要。其实就是我们在使用webpack开发时，它配置文件里所有的依赖，都是开发依赖。</p>
-<p>　　无论devDependencies还是dependencies中，安装的模块版本号前面还有符号^, 其实这里还有很多符号也可以无符号，符号主要是限定版本。</p>
-<p>　　“express”: “4.15.2” 版本号前面什么符号都没有，它表示固定版本，安装版本时，只会安装这个指定的版本。</p>
-<p>　　“express”: “~4.15.2”，版本号前面有符号~，它表示安装4.15.x 的版本，只x&gt;3 就可以。在这里，我们express指定是4.15.2 版本，当我们npm install 安装的时候，它可能在项目中安装4.15.5或者4.15.6 版本。</p>
-<p>　　“express”: “^4.15.2” , 版本号前面有符号^, 它表示可以安装4.x.x 的版本，只要中间的x  大于15就可以。</p>
-<p>　　&gt;=4.15.3  版本号前面有符号&gt;=, 它安装大于我们指定的版本，就可以。</p>
-<p>　　有时还看到一个*， 表示安装最新版本。</p>
-<p>　　版本号一定要注意，因为有些框架和库在进行版本升级的时候，向后兼容性必较差，容易引起代码冲突。但npm install 进行安装的时候，它默认是^ 符号，如果不符合我们要求，我们可以对package.json 进行手动修改，如 把^号改成~, 或直接去掉符号， package.json文件，只是一个文件， 我们可以手动地进行任何修改。</p>
-<p>　　最后再说一下package.json 中的scripts. 这个字段主要用于运行命令。我们用es6 写一个hello World项目体验下。在node文件夹中新建index.js </p>
-<p>由于node 不支持 import 命令，所以要把它转成require 的形式，这要用到babel 命令: babel index.js –o server.js，由于babel-cli  是安装到本地的，所以不能全局使用，那么这个命令写在什么地方？就是写在scripts 中，</p>
-<p>　　在scripts中的命令，都要用npm run 命令名启动。这时在命令行中输入npm run build，可以看到目录中多了一个server.js文件，再在命令行中输入node server, 就可以启动服务器。浏览器地址栏中输入localhost:8080, 看到hello world.</p>
-<p>　　这里我们在命令行中输入了两次命令，其实可以把这两个命令合并到 一个命令中，修改scripts 中的build 如下， 直接npm run build  就可以启动服务器。</p>
-<p>“build”: “babel index.js -o server.js &amp;&amp; node server”<br>　　npm 也可以做部分的任务自动化。</p>
-<p>　　整个package.json文件如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;node&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;node project&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;server.js&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,</span><br><span class="line">    &quot;build&quot;: &quot;babel index.js -o server.js &amp;&amp; node server&quot;  </span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;author&quot;: &quot;&quot;,</span><br><span class="line">  &quot;license&quot;: &quot;ISC&quot;,</span><br><span class="line">  &quot;dependencies&quot;: &#123;</span><br><span class="line">    &quot;express&quot;: &quot;^4.15.2&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    &quot;babel-cli&quot;: &quot;^6.24.1&quot;,</span><br><span class="line">    &quot;babel-preset-es2015&quot;: &quot;^6.24.1&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-canvas-模拟时钟" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/02/18/canvas-模拟时钟/">canvas 模拟时钟</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/02/18/canvas-模拟时钟/" class="article-date">
-  <time datetime="2019-02-17T17:56:22.000Z" itemprop="datePublished">2019-02-18</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>&lt;!DOCTYPE html&gt;</p>
-<html lang="en"><br><head><br>    <meta charset="UTF-8"><br>    <title>Title</title>
-  <meta name="generator" content="hexo-theme-yilia-plus"><br>    <style><br>        body {<br>            padding: 0;<br>            margin: 0;<br>            background-color: rgba(0, 0, 0, 0.1)<br>        }<br><br>        canvas {<br>            display: block;<br>            margin: 200px auto;<br>        }<br>    </style><br></head><br><body><br><canvas id="solar" width="300" height="300"></canvas><br><script><br>    init();<br><br>    function init(){<br>        let canvas = document.querySelector(“#solar”);<br>        let ctx = canvas.getContext(“2d”);<br>        draw(ctx);<br>    }<br><br>    function draw(ctx){<br>        requestAnimationFrame(function step(){<br>            drawDial(ctx); //绘制表盘<br>            drawAllHands(ctx); //绘制时分秒针<br>            requestAnimationFrame(step);<br>        });<br>    }<br>    /<em>绘制时分秒针</em>/<br>    function drawAllHands(ctx){<br>        let time = new Date();<br><br>        let s = time.getSeconds();<br>        let m = time.getMinutes();<br>        let h = time.getHours();<br><br>        let pi = Math.PI;<br>        let secondAngle = pi / 180 <em> 6 </em> s;  //计算出来s针的弧度<br>        let minuteAngle = pi / 180 <em> 6 </em> m + secondAngle / 60;  //计算出来分针的弧度<br>        let hourAngle = pi / 180 <em> 30 </em> h + minuteAngle / 12;  //计算出来时针的弧度<br><br>        drawHand(hourAngle, 60, 6, “red”, ctx);  //绘制时针<br>        drawHand(minuteAngle, 106, 4, “green”, ctx);  //绘制分针<br>        drawHand(secondAngle, 129, 2, “blue”, ctx);  //绘制秒针<br>    }<br>    /<em>绘制时针、或分针、或秒针
-     </em> 参数1：要绘制的针的角度<br>     <em> 参数2：要绘制的针的长度
-     </em> 参数3：要绘制的针的宽度<br>     <em> 参数4：要绘制的针的颜色
-     </em> 参数4：ctx<br>     <em> </em>/<br>    function drawHand(angle, len, width, color, ctx){<br>        ctx.save();<br>        ctx.translate(150, 150); //把坐标轴的远点平移到原来的中心<br>        ctx.rotate(-Math.PI / 2 + angle);  //旋转坐标轴。 x轴就是针的角度<br>        ctx.beginPath();<br>        ctx.moveTo(-4, 0);<br>        ctx.lineTo(len, 0);  // 沿着x轴绘制针<br>        ctx.lineWidth = width;<br>        ctx.strokeStyle = color;<br>        ctx.lineCap = “round”;<br>        ctx.stroke();<br>        ctx.closePath();<br>        ctx.restore();<br>    }<br><br>    /<em>绘制表盘</em>/<br>    function drawDial(ctx){<br>        let pi = Math.PI;<br><br>        ctx.clearRect(0, 0, 300, 300); //清除所有内容<br>        ctx.save();<br><br>        ctx.translate(150, 150); //一定坐标原点到原来的中心<br>        ctx.beginPath();<br>        ctx.arc(0, 0, 148, 0, 2 <em> pi); //绘制圆周<br>        ctx.stroke();<br>        ctx.closePath();<br><br>        for (let i = 0; i &lt; 60; i++){//绘制刻度。<br>            ctx.save();<br>            ctx.rotate(-pi / 2 + i </em> pi / 30);  //旋转坐标轴。坐标轴x的正方形从 向上开始算起<br>            ctx.beginPath();<br>            ctx.moveTo(110, 0);<br>            ctx.lineTo(140, 0);<br>            ctx.lineWidth = i % 5 ? 2 : 4;<br>            ctx.strokeStyle = i % 5 ? “blue” : “red”;<br>            ctx.stroke();<br>            ctx.closePath();<br>            ctx.restore();<br>        }<br>        ctx.restore();<br>    }<br></script><br></body><br></html>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-data-xxx-attribute" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/02/13/data-xxx-attribute/">data-xxx ,attribute</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/02/13/data-xxx-attribute/" class="article-date">
-  <time datetime="2019-02-13T12:27:02.000Z" itemprop="datePublished">2019-02-13</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>data-* 属性是 HTML 5 的新特性，允许用户在 DOM 中存储自定义信息。</p>
-<p>以前，需要存储含有特定含义的信息通常是通过 class 完成的，但这并不是 class 本来的用途。现在，利用 HTML 5，可以为元素添加data-<em>属性，从而存储自定义信息。其中</em>是可以自定义的部分。例如：</p>
-<p><article id="tu" data-category="Web Development" data-author="1"> … </article><br>通过 JavaScript 访问<br>通过 JavaScript 访问自定义的信息有两种方式：getAttribute()和dataset。</p>
-<p>getAttribute 方法<br>这就是经典的取得一个元素属性的方式，和以前一样。</p>
-<p>document.getElementById(‘tu’).getAttribute(‘data-category’); // “Web Development”<br>dataset 方法<br>这是 HTML 5 新增的方法，可以更方便的读取所有的 data 信息。</p>
-<p>var article = document.getElementById(‘tu’);<br>var data = article.dataset;<br>alert(data.category); // “Web Development”<br>alert(data.author); // 1<br>通过 jQuery 访问<br>jQuery 也提供了专门的data方法来访问这些信息：</p>
-<p>$(“#tu”).data(‘category’); // “Web Development”<br>通过 CSS 访问<br>使用 attr<br>article::before {<br>    content: attr(data-category);<br>}<br>使用属性选择器<br>article[data-author=’1’] {<br>    border-width: 1px;<br>}<br>修改信息<br>在引入 jQuery 之前，使用 JavaScript 修改自定义信息也非常容易，两种方式都可以：</p>
-<p>var a = document.getElementById(‘tu’);<br>a.dataset.category = “Uncategorized”;<br>a.setAttribute(“data-category”, “Uncategorized”);<br>然而如果你用 jQuery 的data方法进行修改：</p>
-<p>$(“#tu”).data(“category”, “Uncategorized”);<br>会发现 HTML 代码并没有改动，同时使用dataset等标准 JavaScript 读出来的数据也是修改之前的数据。类似，如果先用 jQuery 读取一次，然后再用标准 JavaScript 修改，再用 jQuery 读取第二次，则发现读取的数据仍是修改之前的数据。可是如果没有经过 jQuery 读取直接用标准 JavaScript 修改，这时再用 jQuery 读取，读到的就是新数据了。</p>
-<p>这是怎么回事儿？</p>
-<p>jQuery 的文档对此有所说明：</p>
-<p>The data- attributes are pulled in the first time the data property is accessed and then are no longer accessed or mutated (all data values are then stored internally in jQuery).</p>
-<p>原来，标准 JavaScript 直接对 DOM 进行读写（和我们设想的一致），但是 jQuery 不同。jQuery 的内部也维护着一份这些 data 数据。当第一次使用 jQuery 读取时，数据被从 DOM 读到jQuery.cache保存起来，以后使用 jQuery 修改时，修改的是内部维护的这个数据，同时再次读取也会从 jQuery 内部而非 DOM 读取数据。</p>
-<p>因此，最好的办法是，要么一直用标准 JavaScript，要么一直用 jQuery。不要两者混用就好了。jQuery 如此设计的初衷就是为了减少 DOM 读写从而提高性能。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-webpack打包记录" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/12/21/webpack打包记录/">webpack打包记录</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2018/12/21/webpack打包记录/" class="article-date">
-  <time datetime="2018-12-20T18:59:09.000Z" itemprop="datePublished">2018-12-21</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h1 id="解决-vender的hash因为文件新增而改变"><a href="#解决-vender的hash因为文件新增而改变" class="headerlink" title="解决 vender的hash因为文件新增而改变"></a>解决 vender的hash因为文件新增而改变</h1><p>两次构建之间，vender chunk的chunkhash以及各模块的模块ID都保持了一致。从而达到了最佳的缓存效果。<br><a href="https://www.cnblogs.com/zhishaofei/p/8590627.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhishaofei/p/8590627.html</a></p>
-<p>1.Webpack 4 抛弃了原有的 CommonChunksPlugin，换成了更为先进的 SplitChunksPlugin，用于提取公用代码。</p>
-<p>2.js Tree Shaking<br>清除到代码中无用的js代码，只支持import方式引入，不支持commonjs的方式引入<br>只要mode是production就会生效，develpoment的tree shaking是不生效的，因为webpack为了方便你的调试<br>  optimization: {<br>    usedExports:true,<br>  }</p>
-<ol start="3">
-<li><p>plugins: [</p>
-<pre><code>new webpack.DllPlugin({
-    // 定义程序中打包公共文件的入口文件vendor.js
-</code></pre></li>
-<li><p>使用happypack并发执行任务<br>运行在 Node.之上的Webpack是单线程模型的，也就是说Webpack需要一个一个地处理任务，不能同时处理多个任务。 Happy Pack 就能让Webpack做到这一点，它将任务分解给多个子进程去并发执行，子进程处理完后再将结果发送给主进程。<br>cnpm i -D happypack</p>
-</li>
-</ol>
-<p>// webpack.config.js<br> rules: [<br>     {<br>        // cnpm i babel-loader @babel/core @babel/preset-env -D<br>        test: /.jsx?$/,<br>        exclude: /node_modules/,<br>        use: [<br>          {<br>            // 一个loader对应一个id<br>            loader: “happypack/loader?id=busongBabel”<br>          }<br>        ]<br>      }<br>      ]</p>
-<p>//在plugins中增加<br>plugins:[<br>      new HappyPack({<br>      // 用唯一的标识符id，来代表当前的HappyPack是用来处理一类特定的文件<br>      id:’busongBabel’,<br>      // 如何处理.js文件，用法和Loader配置中一样<br>      loaders:[‘babel-loader?cacheDirectory’],<br>      threadPool: HappyPackThreadPool,<br>  })<br>]</p>
-<ol start="5">
-<li>PWA优化策略<br>简言之：在你第一次访问一个网站的时候，如果成功，做一个缓存，当服务器挂了之后，你依然能够访问这个网页 ，这就是PWA。那相信你也已经知道了，这个只需要在生产环境，才需要做PWA的处理，以防不测。<br>cnpm i workbox-webpack-plugin -D</li>
-</ol>
-<p>const WorkboxPlugin = require(‘workbox-webpack-plugin’) // 引入 PWA 插件<br>const prodConfig = {<br>  plugins: [<br>    // 配置 PWA<br>    new WorkboxPlugin.GenerateSW({<br>      clientsClaim: true,<br>      skipWaiting: true<br>    })<br>  ]<br>}</p>
-<p>在入口文件加上<br>// 判断该浏览器支不支持 serviceWorker<br>if (‘serviceWorker’ in navigator) {<br>  window.addEventListener(‘load’, () =&gt; {<br>    navigator.serviceWorker<br>      .register(‘/service-worker.js’)<br>      .then(registration =&gt; {<br>        console.log(‘service-worker registed’)<br>      })<br>      .catch(error =&gt; {<br>        console.log(‘service-worker registed error’)<br>      })<br>  })<br>}</p>
-<p>6.使用 HotModuleReplacement (热模块替换HMR)<br>建立了开发环境本地服务器 后，当修改内容后，网页会同步刷新，我们现在进入toCOunt页面</p>
-<p>点击按钮，将数字加到一个不为0的数，比如加到6</p>
-<p>然后你可以在代码中改变按钮的文字，随便改点东西，会发现，页面刷新后，数字重新变为0</p>
-<p>这显然不是我们想要的，想要的是，能不能把页面的状态保存了，也就是更改了代码后，页面还是保存了数字为6的状态，也就是实现局部更改，首先需要用到：HotModuleReplacementPlugin插件<br>devServer: {<br>    hot: true<br>},</p>
-<p>plugins: [<br>    new webpack.HotModuleReplacementPlugin()<br>],<br>复制代码完事之后，继续更上边的操作，点击按钮，数字增加，然后更改内容，发现还是没有保存状态。。。what？怎么办<br>对@！这还没完呢，接着往下看，我们还需要react-hot-loader这个插件<br>10、react-hot-loader记录react页面留存状态state<br>我们继续接着上边的进行操作，分一下四步<br>cnpm i react-hot-loader -D</p>
-<p>// 在主文件里这样写</p>
-<p>import React from “react”;<br>import ReactDOM from “react-dom”;<br>import { AppContainer } from “react-hot-loader”;——————-1、首先引入AppContainre<br>import { BrowserRouter } from “react-router-dom”;<br>import Router from “./router”;</p>
-<p>/<em>初始化</em>/<br>renderWithHotReload(Router);——————-2、初始化</p>
-<p>/<em>热更新</em>/<br>if (module.hot) {——————-3、热更新操作<br>  module.hot.accept(“./router/index.js”, () =&gt; {<br>    const Router = require(“./router/index.js”).default;<br>    renderWithHotReload(Router);<br>  });<br>}</p>
-<p>function renderWithHotReload(Router) {——————-4、定义渲染函数<br>  ReactDOM.render(<br>    <appcontainer><br>      <browserrouter><br>        <router><br>      </router></browserrouter><br>    </appcontainer>,<br>    document.getElementById(“app”)<br>  );<br>}</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-linux使用记录" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/12/18/linux使用记录/">linux git 使用记录</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2018/12/18/linux使用记录/" class="article-date">
-  <time datetime="2018-12-17T20:45:53.000Z" itemprop="datePublished">2018-12-18</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>1.全文磁盘搜索：<br>grep -rn “hello,world!” *</p>
-<p>2.git reset –hard<br>至于这几个参数：<br>–mixed<br>意思是：不删除工作空间改动代码，撤销commit，并且撤销git add . 操作<br>这个为默认参数,git reset –mixed HEAD^ 和 git reset HEAD^ 效果是一样的。</p>
-<p>–soft<br>不删除工作空间改动代码，撤销commit，不撤销git add . </p>
-<p>–hard<br>删除工作空间改动代码，撤销commit，撤销git add . </p>
-<p>注意完成这个操作后，就恢复到了上一次的commit状态。</p>
-<p>3.</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-面试题" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/11/29/面试题/">纯手写轮子</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2018/11/29/面试题/" class="article-date">
-  <time datetime="2018-11-28T21:19:40.000Z" itemprop="datePublished">2018-11-29</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <ol>
-<li>从URL输入到页面展现到底发生什么？ #24<br><a href="https://github.com/ljianshu/Blog/issues/24" target="_blank" rel="noopener">https://github.com/ljianshu/Blog/issues/24</a></li>
-</ol>
-<p>2.高级curry化实现<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span>(<span class="params">func</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">curried</span>(<span class="params">...args</span>)</span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(args.length&gt;=func.length)&#123;</span><br><span class="line">          <span class="keyword">return</span> func.apply(<span class="keyword">this</span>,args);</span><br><span class="line">       &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">...args2</span>)</span>&#123;</span><br><span class="line">            </span><br><span class="line">               <span class="keyword">return</span> curried.apply(<span class="keyword">this</span>,args.concat(args2));</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>运用递归的方式，</p>
-<p>3.手写一个深拷贝</p>
-<p><img src="/images/pasted-10.png" alt="upload successful"></p>
-<p>4.手写一个防抖,节流函数</p>
-<p><img src="/images/pasted-11.png" alt="upload successful"><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">debunce</span>(<span class="params">func,wait</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> timeOut=<span class="string">""</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">...args</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context=<span class="keyword">this</span>;</span><br><span class="line">          <span class="keyword">if</span>(timeOut)&#123;</span><br><span class="line">            clearTimeout(timeOut);</span><br><span class="line">          &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            timeOut=setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">              func.apply(context,args);</span><br><span class="line">            &#125;</span><br><span class="line">            ,</span><br><span class="line">            wait);</span><br><span class="line">          &#125;</span><br><span class="line">        </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    现在一起实现一个 throttle：</span><br><span class="line"></span><br><span class="line"><span class="comment">// fn是我们需要包装的事件回调, interval是时间间隔的阈值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fn, interval</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// last为上一次触发回调的时间</span></span><br><span class="line">  <span class="keyword">let</span> last = <span class="number">0</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 将throttle处理结果当作函数返回</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">// 保留调用时的this上下文</span></span><br><span class="line">      <span class="keyword">let</span> context = <span class="keyword">this</span></span><br><span class="line">      <span class="comment">// 保留调用时传入的参数</span></span><br><span class="line">      <span class="keyword">let</span> args = <span class="built_in">arguments</span></span><br><span class="line">      <span class="comment">// 记录本次触发回调的时间</span></span><br><span class="line">      <span class="keyword">let</span> now = +<span class="keyword">new</span> <span class="built_in">Date</span>()</span><br><span class="line">      </span><br><span class="line">      <span class="comment">// 判断上次触发的时间和本次触发的时间差是否小于时间间隔的阈值</span></span><br><span class="line">      <span class="keyword">if</span> (now - last &gt;= interval) &#123;</span><br><span class="line">      <span class="comment">// 如果时间间隔大于我们设定的时间间隔阈值，则执行回调</span></span><br><span class="line">          last = now;</span><br><span class="line">          fn.apply(context, args);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>5.es5 继承 和es6 class extends 继承<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">     <span class="keyword">this</span>.name=name;</span><br><span class="line">     <span class="keyword">this</span>.color=[<span class="string">"red"</span>,<span class="string">"blue"</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SuperType.prototype.sayName=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  alert(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params">name,age</span>)</span>&#123;</span><br><span class="line">     SuperType.call(<span class="keyword">this</span>,name); <span class="comment">//就是把this 传到父类执行了构造函数。所以this变化了。但this的地址是 subtype的</span></span><br><span class="line">     <span class="keyword">this</span>.age=age;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment"> 1. 这一步不用Child.prototype =Parent.prototype的原因是怕共享内存，修改父类原型对象就会影响子类</span></span><br><span class="line"><span class="comment"> 2. 不用Child.prototype = new Parent()的原因是会调用2次父类的构造方法（另一次是call），会存在一份多余的父类实例属性</span></span><br><span class="line"><span class="comment">3. Object.create是创建了父类原型的副本，与父类原型完全隔离</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">SubType.prototype=<span class="built_in">Object</span>.create(SuperType.prototype);</span><br><span class="line">SubType.prototype.constructor=SubType;</span><br><span class="line"></span><br><span class="line">val s1=<span class="keyword">new</span> SubType(”ren“)</span><br><span class="line">s1.sayName();</span><br><span class="line"><span class="built_in">console</span>.log(sl.color);</span><br><span class="line"></span><br><span class="line">-----</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SuperType</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>()&#123;</span><br><span class="line">       <span class="keyword">this</span>.name=name;</span><br><span class="line">       <span class="keyword">this</span>.color=[<span class="string">'red'</span>,<span class="string">'blue'</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    sayName()&#123;</span><br><span class="line">    alert(<span class="keyword">this</span>.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubType</span> <span class="keyword">extends</span> <span class="title">SuperType</span></span>&#123;</span><br><span class="line">     <span class="keyword">constructor</span>(name,age)&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);<span class="comment">//相当于SuperType.call(this,name);</span></span><br><span class="line">        <span class="keyword">this</span>.age=age;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> s1=<span class="keyword">new</span> SubType(<span class="string">'ren'</span>,<span class="number">19</span>);</span><br><span class="line">s1.sayName();</span><br><span class="line"><span class="built_in">console</span>.log(s1.color);</span><br></pre></td></tr></table></figure></p>
-<p>6.//实现一个eventemitter<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Emitter</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>()&#123;</span><br><span class="line">    <span class="keyword">super</span>(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">this</span>.list=&#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">constructor</span>()&#123;</span><br><span class="line">    <span class="keyword">super</span>(<span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  on(e,f)&#123;</span><br><span class="line">    <span class="keyword">var</span> callback=<span class="keyword">this</span>.list[e]?<span class="keyword">this</span>.list[e]:[];</span><br><span class="line">    callback.push(f);</span><br><span class="line">    <span class="keyword">this</span>.list[e]=callback;</span><br><span class="line">  &#125;</span><br><span class="line">  emit(e,...params)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.list[e])&#123;</span><br><span class="line">      <span class="keyword">this</span>.list[e].map(<span class="function"><span class="keyword">function</span>(<span class="params">item,index</span>)</span>&#123;</span><br><span class="line">        item(...params);</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  off(e,f)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.list.hasOwnProperty(e))&#123;</span><br><span class="line">      <span class="keyword">const</span> callback=<span class="keyword">this</span>.list[e];</span><br><span class="line">      <span class="keyword">let</span> index=callback.indexOf(f);</span><br><span class="line">      callback.splice(index,<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  once(e,f)&#123;</span><br><span class="line">    <span class="keyword">let</span> newFunc=<span class="function">(<span class="params">...args</span>)=&gt;</span>&#123;</span><br><span class="line">      f.apply(<span class="keyword">this</span>,args);</span><br><span class="line">      <span class="keyword">this</span>.off(e,newFunc);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.on(e,newFunc)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>7.//实现一个jsonp<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">window,document</span>) </span>&#123;</span><br><span class="line"><span class="meta">    "use strict"</span>;</span><br><span class="line">    <span class="keyword">var</span> jsonp = <span class="function"><span class="keyword">function</span> (<span class="params">url,data,callback</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1.将传入的data数据转化为url字符串形式</span></span><br><span class="line">        <span class="comment">// &#123;id:1,name:'jack'&#125; =&gt; id=1&amp;name=jack</span></span><br><span class="line">        <span class="keyword">var</span> dataString = url.indexof(<span class="string">'?'</span>) == <span class="number">-1</span>? <span class="string">'?'</span>: <span class="string">'&amp;'</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> data)&#123;</span><br><span class="line">            dataString += key + <span class="string">'='</span> + data[key] + <span class="string">'&amp;'</span>;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2 处理url中的回调函数</span></span><br><span class="line">        <span class="comment">// cbFuncName回调函数的名字 ：my_json_cb_名字的前缀 + 随机数（把小数点去掉）</span></span><br><span class="line">        <span class="keyword">var</span> cbFuncName = <span class="string">'my_json_cb_'</span> + <span class="built_in">Math</span>.random().toString().replace(<span class="string">'.'</span>,<span class="string">''</span>);</span><br><span class="line">        dataString += <span class="string">'callback='</span> + cbFuncName;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3.创建一个script标签并插入到页面中</span></span><br><span class="line">        <span class="keyword">var</span> scriptEle = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">        scriptEle.src = url + dataString;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4.挂载回调函数</span></span><br><span class="line">        <span class="built_in">window</span>[cbFuncName] = <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">            callback(data);</span><br><span class="line">            <span class="comment">// 处理完回调函数的数据之后，删除jsonp的script标签</span></span><br><span class="line">            <span class="built_in">document</span>.body.removeChild(scriptEle);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">document</span>.body.appendChild(scriptEle);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">window</span>.$jsonp = jsonp;</span><br><span class="line"></span><br><span class="line">&#125;)(<span class="built_in">window</span>,<span class="built_in">document</span>)</span><br></pre></td></tr></table></figure></p>
-<p>8.co库实现原理，就是利用产出值的done的状态，去判断是否需要再次递归执行next方法。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">co</span>(<span class="params">it</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">next</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">let</span> &#123;value,done&#125;= it.next(data);</span><br><span class="line">            <span class="keyword">if</span>(!done)&#123;</span><br><span class="line">                value.then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">                    next(res);</span><br><span class="line">                &#125;,reject)</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                resolve(value)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        next();</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<ol start="9">
-<li><p>使用co 遍历generator </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> co=<span class="built_in">require</span>(<span class="string">'co'</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">testco</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> a=<span class="keyword">yield</span> promisA();</span><br><span class="line">    <span class="built_in">console</span>.log(a);</span><br><span class="line">    <span class="keyword">let</span> b=<span class="keyword">yield</span> promisA();</span><br><span class="line">    <span class="keyword">let</span> c=<span class="keyword">yield</span> promisA();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">promisA</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            resolve(<span class="number">99</span>);</span><br><span class="line">        &#125;,<span class="number">1000</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> newtestco=testco();</span><br><span class="line"></span><br><span class="line">co(newtestco).then(<span class="function"><span class="params">data</span>=&gt;</span>&#123;<span class="built_in">console</span>.log(data)&#125;)</span><br><span class="line"></span><br><span class="line">日志</span><br><span class="line"><span class="number">99</span></span><br><span class="line"><span class="number">10</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>执行下面promise ，日志为test(10)   10! ,err,undefined </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">res</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(res)</span><br><span class="line">        .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(res += <span class="string">'!'</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(<span class="string">'err'</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">        .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">         setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>resolve(<span class="number">10</span>),<span class="number">5000</span>);</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line">&#125;)</span><br><span class="line">           <span class="comment">//return Promise.reject("end"); //此处返回了一个新的promise </span></span><br><span class="line">.catch(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(res);</span><br><span class="line">            </span><br><span class="line">        &#125;)</span><br><span class="line">        .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(res += <span class="string">'!'</span>);  <span class="comment">//肯定会执行了</span></span><br><span class="line">        &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>11.手写一个简单promise</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myPromise</span>(<span class="params">constructor</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> self = <span class="keyword">this</span>;</span><br><span class="line">    self.status = <span class="string">"pending"</span></span><br><span class="line">        <span class="comment">//定义状态改变前的初始状态</span></span><br><span class="line">    self.value = <span class="literal">undefined</span>;</span><br><span class="line">    <span class="comment">//定义状态为resolved的时候的状态</span></span><br><span class="line">    self.reason = <span class="literal">undefined</span>;</span><br><span class="line">    <span class="comment">//定义状态为rejected的时候的状态</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">resolve</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">        <span class="comment">//两个==="pending"，保证了状态的改变是不可逆的</span></span><br><span class="line">        <span class="keyword">if</span> (self.status === <span class="string">"pending"</span>) &#123;</span><br><span class="line">            self.value = value;</span><br><span class="line">            self.status = <span class="string">"resolved"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">reject</span>(<span class="params">reason</span>) </span>&#123;</span><br><span class="line">        <span class="comment">//两个==="pending"，保证了状态的改变是不可逆的</span></span><br><span class="line">        <span class="keyword">if</span> (self.status === <span class="string">"pending"</span>) &#123;</span><br><span class="line">            self.reason = reason;</span><br><span class="line">            self.status = <span class="string">"rejected"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//捕获构造异常</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">constructor</span>(resolve, reject);</span><br><span class="line">    &#125; catch (e) &#123;</span><br><span class="line">        reject(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//同时，需要在 myPromise的原型上定义链式调用的 then方法：</span></span><br><span class="line">myPromise.prototype.then = <span class="function"><span class="keyword">function</span>(<span class="params">onFullfilled, onRejected</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> self = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">switch</span> (self.status) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"resolved"</span>:</span><br><span class="line">            onFullfilled(self.value);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"rejected"</span>:</span><br><span class="line">            onRejected(self.reason);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//测试一下：</span></span><br><span class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> myPromise(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    resolve(<span class="number">1</span>)</span><br><span class="line">&#125;);</span><br><span class="line">p.then(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(x)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>12.看到一个很有意思的数组去重</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">2</span>].filter(<span class="function">(<span class="params">item, index, arr</span>) =&gt;</span> arr.indexOf(item) === index)</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-css3-动画" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/11/23/css3-动画/">css3 相关(动画,语法)</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2018/11/23/css3-动画/" class="article-date">
-  <time datetime="2018-11-22T19:28:00.000Z" itemprop="datePublished">2018-11-23</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/css3/">css3</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h1 id="1-使用-mix-blend-mode-screen-滤色模式制作-loading-效果"><a href="#1-使用-mix-blend-mode-screen-滤色模式制作-loading-效果" class="headerlink" title="1.使用 mix-blend-mode: screen 滤色模式制作 loading 效果"></a>1.使用 mix-blend-mode: screen 滤色模式制作 loading 效果</h1><iframe title="mix-blend-mode: screen" src="https://codepen.io/Chokcoco/embed/zwPyWj/?height=265&amp;theme-id=0&amp;default-tab=css,result&amp;embed-version=2" frameborder="no" scrolling="no" width="750" height="365"></iframe>
-
-<p>更多：<a href="https://www.cnblogs.com/coco1s/p/6829372.html" target="_blank" rel="noopener">https://www.cnblogs.com/coco1s/p/6829372.html</a></p>
-<h1 id="2-选择器"><a href="#2-选择器" class="headerlink" title="2.选择器"></a>2.选择器</h1><p>选择第一个类名： .exerciseInfo: nth-of-type(1) { … };</p>
-<p>选择最后一个类名： .exerciseInfo: last-child { … };</p>
-<iframe height="265" style="width: 100%;" scrolling="no" title="【iCSS：布局】使用:not()去除无用属性" src="https://codepen.io/steadyzeus/embed/jOOPgYJ?height=265&theme-id=0&default-tab=html,result" frameborder="no" allowtransparency="true" allowfullscreen="true"><br>  See the Pen <a href="https://codepen.io/steadyzeus/pen/jOOPgYJ" target="_blank" rel="noopener">【iCSS：布局】使用:not()去除无用属性</a> by Steady<br>  (<a href="https://codepen.io/steadyzeus" target="_blank" rel="noopener">@steadyzeus</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.<br></iframe>
-
-<h1 id="3-使用object-fit规定图像尺寸"><a href="#3-使用object-fit规定图像尺寸" class="headerlink" title="3.使用object-fit规定图像尺寸"></a>3.使用object-fit规定图像尺寸</h1><p>要点：通过object-fit使图像脱离background-size的约束，使用<img>来标记图像背景尺寸</p>
-<iframe height="265" style="width: 100%;" scrolling="no" title="【iCSS：布局】使用object-fit规定图像尺寸" src="https://codepen.io/steadyzeus/embed/mddedOJ?height=265&theme-id=0&default-tab=css,result" frameborder="no" allowtransparency="true" allowfullscreen="true"><br>  See the Pen <a href="https://codepen.io/steadyzeus/pen/mddedOJ" target="_blank" rel="noopener">【iCSS：布局】使用object-fit规定图像尺寸</a> by Steady<br>  (<a href="https://codepen.io/steadyzeus" target="_blank" rel="noopener">@steadyzeus</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.<br></iframe>
-
-
-<h1 id="4-iCSS：布局】使用transform描绘1px边框"><a href="#4-iCSS：布局】使用transform描绘1px边框" class="headerlink" title="4.iCSS：布局】使用transform描绘1px边框"></a>4.iCSS：布局】使用transform描绘1px边框</h1><p>//从左上角开始缩放，不然是从右下角开始<br>transform: scale(.5);<br>transform-origin: left top;</p>
-<iframe height="265" style="width: 100%;" scrolling="no" title="【iCSS：布局】使用transform描绘1px边框" src="https://codepen.io/JowayYoung/embed/YzKqMVO?height=265&theme-id=0&default-tab=css,result" frameborder="no" allowtransparency="true" allowfullscreen="true"><br>  See the Pen <a href="https://codepen.io/JowayYoung/pen/YzKqMVO" target="_blank" rel="noopener">【iCSS：布局】使用transform描绘1px边框</a> by JowayYoung<br>  (<a href="https://codepen.io/JowayYoung" target="_blank" rel="noopener">@JowayYoung</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.<br></iframe>
-
-
-<h1 id="5-css中“-”（波浪号）、“，”（逗号）、-“-”（加号）和-“-gt-”（大于号）是什么意思？"><a href="#5-css中“-”（波浪号）、“，”（逗号）、-“-”（加号）和-“-gt-”（大于号）是什么意思？" class="headerlink" title="5.css中“~”（波浪号）、“，”（逗号）、 “ + ”（加号）和 “ &gt; ”（大于号）是什么意思？"></a>5.css中“~”（波浪号）、“，”（逗号）、 “ + ”（加号）和 “ &gt; ”（大于号）是什么意思？</h1><p>为所有相同的父元素中位于 p 元素之后的所有 ul 元素设置背景：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">    p~ul&#123;</span><br><span class="line">　　     background:#ff0000;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">      &lt;p&gt;快乐生活&lt;/p&gt;</span><br><span class="line">      &lt;ul&gt;</span><br><span class="line">　　    &lt;li&gt;生活&lt;/li&gt;</span><br><span class="line">　　    &lt;li&gt;生活&lt;/li&gt;</span><br><span class="line">　　    &lt;li&gt;生活&lt;/li&gt;</span><br><span class="line">      &lt;/ul&gt;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">p~ul 选择前面有 &lt;p&gt; 元素的每个 &lt;ul&gt; 元素。“~”的定义和用法,p~ul选择器 p之后出现的所有ul。</span><br><span class="line"></span><br><span class="line">　　两种元素必须拥有相同的父元素，但是 ul不必直接紧随 p。</span><br><span class="line"></span><br><span class="line">       css中“&gt;”是css3特有的选择器，A&gt;B 表示选择A元素的所有子B元素。</span><br><span class="line"></span><br><span class="line">　　与A B的区别在于，A B选择所有后代元素，而A&gt;B只选择一代。</span><br><span class="line"></span><br><span class="line">       .a，.b｛逗号指相同的css样式｝；</span><br><span class="line"></span><br><span class="line">       .a .b｛空格指后代元素｝；</span><br><span class="line"></span><br><span class="line">       .a&gt;.b｛大于号指子代元素｝；</span><br><span class="line"></span><br><span class="line">       .a+.b｛这个“+”是选择相邻兄弟，叫做“相邻兄弟选择器”</span><br></pre></td></tr></table></figure></p>
-<p>　　如果需要选择紧接在另一个元素后的元素，而且二者有相同的父元素，可以使用相邻兄弟选择器(Adjacent sibling selector)。<br>　　例如，如果要增加紧接在 h1 元素后出现的段落的上边距，可以这样写：<br>　　h1 + p {margin-top:50px;}<br>　　这个选择器读作：“选择紧接在 h1 元素后出现的段落，h1 和 p 元素拥有共同的父元素”。｝；<br>  <code>`</code></p>
-<h1 id="6-ease-seae-in-ease-in-out-ease-out"><a href="#6-ease-seae-in-ease-in-out-ease-out" class="headerlink" title="6.ease,seae-in,ease-in-out,ease-out"></a>6.ease,seae-in,ease-in-out,ease-out</h1><p>css 动画中 ease,seae-in,ease-in-out,ease-out,效果区别<br>linear    规定以相同速度开始至结束的过渡效果（等于 cubic-bezier(0,0,1,1)）。(匀速)<br>ease    规定慢速开始，然后变快，然后慢速结束的过渡效果（cubic-bezier(0.25,0.1,0.25,1)）（相对于匀速，中间快，两头慢）。<br>ease-in    规定以慢速开始的过渡效果（等于 cubic-bezier(0.42,0,1,1)）（相对于匀速，开始的时候慢，之后快）。<br>ease-out    规定以慢速结束的过渡效果（等于 cubic-bezier(0,0,0.58,1)）（相对于匀速，开始时快，结束时候间慢，）。<br>ease-in-out    规定以慢速开始和结束的过渡效果（等于 cubic-bezier(0.42,0,0.58,1)）（相对于匀速，（开始和结束都慢）两头慢）。<br>cubic-bezier(n,n,n,n)    在 cubic-bezier 函数中定义自己的值。可能的值是 0 至 1 之间的数值。</p>
-<h1 id="7-animation-direction：定义是否循环交替反向播放动画。"><a href="#7-animation-direction：定义是否循环交替反向播放动画。" class="headerlink" title="7.animation-direction：定义是否循环交替反向播放动画。"></a>7.animation-direction：定义是否循环交替反向播放动画。</h1><p>normal    默认值。动画按正常播放。<br>reverse    动画反向播放。<br>alternate    动画在奇数次（1、3、5…）正向播放，在偶数次（2、4、6…）反向播放。<br>alternate-reverse    动画在奇数次（1、3、5…）反向播放，在偶数次（2、4、6…）正向播放。<br>initial    设置该属性为它的默认值。<br>inherit    从父元素继承该属性。</p>
-<p>animation 属性一共有 6个基本属性：</p>
-<p>animation-name    ：keyframe name</p>
-<p>animation-duration</p>
-<p>animation-timing-function</p>
-<p>animation-delay</p>
-<p>animation-iteration-count</p>
-<p>animation-direction</p>
-<p>animation-play-state: running | paused 检索或设置对象动画的状态，running为默认值</p>
-<h1 id="8-animation-fill-mode-使用"><a href="#8-animation-fill-mode-使用" class="headerlink" title="8.animation-fill-mode 使用"></a>8.animation-fill-mode 使用</h1><p>首先，你要明白动画分为 初始状态 等待期 动画执行期 完成期 四个阶段。</p>
-<p>初始状态，就是没有触发动画效果时，你元素原本应该有的状态。<br>例如你的动画是通过点击触发的，那么你元素在还没有点击的时候，是受初始状态样式控制的，也就css中不含 animation 的其他属性控制。</p>
-<p>等待期，就是 animation-delay 设置的延迟期间。</p>
-<p>按照点击触发为例子，等待期就是从你点击元素开始计算，持续 animation-delay 计时结束的这段时间。</p>
-<p>这个期间的样式会受到 animation-fill-mode 取值的影响。</p>
-<p>如果为 none，表示等待期间元素没有变化，还是初始状态的样式。<br>如果为 backwards 或者 both，表示等待期元素样式为第一帧的样式。</p>
-<p>注意是第一帧的概念，可能时 @keyframes 中的 0%，也有可能为 100% 。取决于 animationo-direction 属性。</p>
-<p>1、当 animationo-direction 为 normal 或者 alternate 时，第一帧就是 0% 中定义样式。<br>2、当 animation-direction 为 reverse 或者 alternate-reverse时，第一帧就时 100% 中定义样式。</p>
-<p>如果为 forwards，对于等待期而言没有意义，这个是定义完成状态时元素样式，下面会细说。</p>
-<p>动画执行期，指的是 delay 结束瞬间开始执行动画，一直持续到最后一帧。<br>注意最后一帧的概念也是很绕，它一定属于 @keyframes 中的 0% 或者 100% 中之一。但具体为哪一个受到 animation-direction 和 animation-iteration-count 取值影响。</p>
-<p>总结：<br>1、当 animation-direction：normal 时，最后一帧总为 100% 样式，无关 animation-iteration-count。<br>2、当 animation-direction：reverse 时，最后一帧总为 0% 样式，也无关 animation-iteration-count。<br>3、当 animation-direction：alternate时，animation-iteration-count 为单数时，最后一帧 为 100%， 双数为 0%；<br>4、当 animation-direction：alternate-reverse时，animation-iteration-count 为单数时，最后一帧 为 0%， 双数为 100%；</p>
-<p>完成状态，执行完最后一帧时，元素处于的状态<br>如果你理解最后一帧，就能理解完成状态。ifinite 的动画没有完成状态。<br>animation-fill-mode 取值 none。表示动画结束，元素回归初始状态，而且是瞬间回归，无动画效果。</p>
-<p>animation-fill-mode 取值 forwards 或者 both。表示动画执行完最后一帧，保持在最后一帧样式。再次申明，最后一帧可能为 @keyframes 中的 0% 或者 100% 之一。</p>
-<p>最后总结<br>none 表示 等待期和完成期，元素样式都为初始状态样式，不受动画定义（@keyframes）的影响。</p>
-<p>both 表示 等待期样式为第一帧样式，完成期保持最后一帧样式。</p>
-<p>backwards 表示等待期为第一帧样式，完成期跳转为初始样式</p>
-<p>forwards 表示等待期保持初始样式，完成期间保持最后一帧样式。</p>
-<h1 id="9-CSS3-filter"><a href="#9-CSS3-filter" class="headerlink" title="9.CSS3 filter"></a>9.CSS3 filter</h1><p>grayscale灰度<br>sepia褐色（求专业指点翻译）<br>saturate饱和度<br>hue-rotate色相旋转<br>invert反色<br>opacity透明度<br>brightness亮度<br>contrast对比度<br>blur模糊<br>drop-shadow阴影</p>
-<p>注意: 滤镜通常使用百分比 (如：75%), 当然也可以使用小数来表示 (如：0.75)。</p>
-<p>Filter    描述<br>none    默认值，没有效果。<br>blur(px)    给图像设置高斯模糊。”radius”一值设定高斯函数的标准差，或者是屏幕上以多少像素融在一起， 所以值越大越模糊；</p>
-<p>如果没有设定值，则默认是0；这个参数可设置css长度值，但不接受百分比值。<br>brightness(%)    给图片应用一种线性乘法，使其看起来更亮或更暗。如果值是0%，图像会全黑。值是100%，则图像无变化。其他的值对应线性乘数效果。值超过100%也是可以的，图像会比原来更亮。如果没有设定值，默认是1。</p>
-<p>contrast(%)    调整图像的对比度。值是0%的话，图像会全黑。值是100%，图像不变。值可以超过100%，意味着会运用更低的对比。若没有设置值，默认是1。</p>
-<p>drop-shadow(h-shadow v-shadow blur spread color)<br>给图像设置一个阴影效果。阴影是合成在图像下面，可以有模糊度的，可以以特定颜色画出的遮罩图的偏移版本。 函数接受<shadow>(在CSS3背景中定义)类型的值，除了”inset”关键字是不允许的。该函数与已有的box-shadow box-shadow属性很相似；不同之处在于，通过滤镜，一些浏览器为了更好的性能会提供硬件加速。<shadow>参数如下：</shadow></shadow></p>
-<p><offset-x> <offset-y> (必须)<br>这是设置阴影偏移量的两个 <length>值. <offset-x> 设定水平方向距离. 负值会使阴影出现在元素左边. <offset-y>设定垂直距离.负值会使阴影出现在元素上方。查看<length>可能的单位.<br>如果两个值都是0, 则阴影出现在元素正后面 (如果设置了 <blur-radius> and/or <spread-radius>，会有模糊效果).</spread-radius></blur-radius></length></offset-y></offset-x></length></offset-y></offset-x></p>
-<p><blur-radius> (可选)<br>这是第三个code&gt;<length>值. 值越大，越模糊，则阴影会变得更大更淡.不允许负值 若未设定，默认是0 (则阴影的边界很锐利).</length></blur-radius></p>
-<p><spread-radius> (可选)<br>这是第四个 <length>值. 正值会使阴影扩张和变大，负值会是阴影缩小.若未设定，默认是0 (阴影会与元素一样大小).<br>注意: Webkit, 以及一些其他浏览器 不支持第四个长度，如果加了也不会渲染。</length></spread-radius></p>
-<p><color> (可选)<br>查看 <color>该值可能的关键字和标记。若未设定，颜色值基于浏览器。在Gecko (Firefox), Presto (Opera)和Trident (Internet Explorer)中， 会应用colorcolor属性的值。另外, 如果颜色值省略，WebKit中阴影是透明的。</color></color></p>
-<p>grayscale(%)<br>将图像转换为灰度图像。值定义转换的比例。值为100%则完全转为灰度图像，值为0%图像无变化。值在0%到100%之间，则是效果的线性乘子。若未设置，值默认是0；</p>
-<p>hue-rotate(deg)<br>给图像应用色相旋转。”angle”一值设定图像会被调整的色环角度值。值为0deg，则图像无变化。若值未设置，默认值是0deg。该值虽然没有最大值，超过360deg的值相当于又绕一圈。</p>
-<p>invert(%)<br>反转输入图像。值定义转换的比例。100%的价值是完全反转。值为0%则图像无变化。值在0%和100%之间，则是效果的线性乘子。 若值未设置，值默认是0。</p>
-<p>opacity(%)<br>转化图像的透明程度。值定义转换的比例。值为0%则是完全透明，值为100%则图像无变化。值在0%和100%之间，则是效果的线性乘子，也相当于图像样本乘以数量。 若值未设置，值默认是1。该函数与已有的opacity属性很相似，不同之处在于通过filter，一些浏览器为了提升性能会提供硬件加速。</p>
-<p>saturate(%)<br>转换图像饱和度。值定义转换的比例。值为0%则是完全不饱和，值为100%则图像无变化。其他值，则是效果的线性乘子。超过100%的值是允许的，则有更高的饱和度。 若值未设置，值默认是1。</p>
-<p>sepia(%)<br>将图像转换为深褐色。值定义转换的比例。值为100%则完全是深褐色的，值为0%图像无变化。值在0%到100%之间，则是效果的线性乘子。若未设置，值默认是0；</p>
-<p>url()<br>URL函数接受一个XML文件，该文件设置了 一个SVG滤镜，且可以包含一个锚点来指定一个具体的滤镜元素。</p>
-<p>例如：</p>
-<p>filter: url(svg-url#element-id)</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
+    <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
   </nav>
   
 </section>
@@ -866,7 +1194,7 @@
     <ul class="list-inline">
       <li>
         &copy;
-        2015-2020
+        2015-2022
         Steady
       </li>
       <li>

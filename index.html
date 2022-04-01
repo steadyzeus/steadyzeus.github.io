@@ -38,6 +38,611 @@
     
     
     
+    <article id="post-正则表达式" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/02/21/正则表达式/">常用正则</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2022/02/21/正则表达式/" class="article-date">
+  <time datetime="2022-02-21T06:59:09.000Z" itemprop="datePublished">2022-02-21</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>今天胖头鱼试着把前端面试中常见的正则表达式相关的题都捞一遍，希望以后正则这个点直接过<br>1.提取连续重复的字符<br>币安原题 将有重复的字符提取出来，例如12323454545666，提取[ ‘23’, ‘45’, ‘6’ ]<br>正则结果</p>
+<p>const collectRepeatStr = (str) =&gt; {<br>  let repeatStrs = []<br>  const repeatRe = /(.+)\1+/g</p>
+<p>  str.replace(repeatRe, ($0, $1) =&gt; {<br>    $1 &amp;&amp; repeatStrs.push($1)<br>  })</p>
+<p>  return repeatStrs<br>}</p>
+<p>分析过程</p>
+<p>题目中有几个关键信息是<br>连续重复的字符<br>连续重复的字符数的长度是不限的（如23、45是两位、6是一位）<br>那什么是连续重复呢？<br>11是连续重复、22也是连续重复、111当然也是。也就是说某些字符X之后一定也是跟着X，就叫连续重复。如果很明确知道X就是1，那么/11+/也就可以匹配了，但关键是这里的X是不明确的，怎么办呢？。<br>使用反向引用的正则知识可以很方便解决这个问题。<br>第一步，写出表示有一个字符重复的正则<br>// 这里的X可用.来表示，即所有的字符，并用括号进行引用，紧跟着反向应用\1，也就是体现了连续重复的意思啦<br>let repeatRe = /(.)\1/</p>
+<p>console.log(repeatRe.test(‘11’)) // true<br>console.log(repeatRe.test(‘22’)) // true<br>console.log(repeatRe.test(‘333’)) // true<br>console.log(repeatRe.test(‘123’)) // false</p>
+<p>第二步，写出表示有n个字符重复的正则<br>因为并不确定是要匹配11还是45 45所以括号内需要用量词+来体现n个重复字符，而反向引用本身也可以是大于一个的，例如 45 45 45</p>
+<p>let repeatRe = /(.+)\1+/</p>
+<p>console.log(repeatRe.test(‘11’)) // true<br>console.log(repeatRe.test(‘22’)) // true<br>console.log(repeatRe.test(‘333’)) // true<br>console.log(repeatRe.test(‘454545’)) // true<br>console.log(repeatRe.test(‘124’)) // false</p>
+<p>第三步，提取所有连续重复的字符</p>
+<p>const collectRepeatStr = (str) =&gt; {<br>  let repeatStrs = []<br>  const repeatRe = /(.+)\1+/g<br>  // 很多时候replace并不是用来做替换，而是做数据提取用<br>  str.replace(repeatRe, ($0, $1) =&gt; {<br>    $1 &amp;&amp; repeatStrs.push($1)<br>  })</p>
+<p>  return repeatStrs<br>}</p>
+<p>console.log(collectRepeatStr(‘11’)) // [“1”]<br>console.log(collectRepeatStr(‘12323’)) // [“23”]<br>console.log(collectRepeatStr(‘12323454545666’)) // [“23”, “45”, “6”]</p>
+<ol start="2">
+<li>实现一个trim函数<br>老生常谈的题了，这里我们用两种思路实现 去除字符串的首尾空格<br>正则结果</li>
+</ol>
+<p>// 去除空格法<br>const trim = (str) =&gt; {<br>  return str.replace(/^\s<em>|\s</em>$/g, ‘’)<br>}<br>// 提取非空格法<br>const trim = (str) =&gt; {<br>  return str.replace(/^\s<em>(.</em>?)\s*$/g, ‘$1’)<br>}</p>
+<p>图片</p>
+<p><img src="/images/pasted-13.png" alt="upload successful"><br>图片</p>
+<p><img src="/images/pasted-14.png" alt="upload successful"><br>分析过程</p>
+<p>初看题目我们脑海中闪过的做法是把空格部分删除掉，保留非空格的部分，但是也可以换一种思路，也可以把非空格的部分提取出来，不管空格的部分。接下来我们来写一下两种trim方法的实现<br>方式一、去除空格法</p>
+<p>const trim = (str) =&gt; {<br>  return str.replace(/^\s<em>|\s</em>$/g, ‘’)<br>}</p>
+<p>console.log(trim(‘  前端胖头鱼’)) // 前端胖头鱼<br>console.log(trim(‘前端胖头鱼  ‘)) // 前端胖头鱼<br>console.log(trim(‘  前端胖头鱼  ‘)) // 前端胖头鱼<br>console.log(trim(‘  前端 胖头鱼  ‘)) // 前端 胖头鱼</p>
+<p>方式二、提取非空格法</p>
+<p>const trim = (str) =&gt; {<br>  return str.replace(/^\s<em>(.</em>?)\s*$/g, ‘$1’)<br>}</p>
+<p>console.log(trim(‘  前端胖头鱼’)) // 前端胖头鱼<br>console.log(trim(‘前端胖头鱼  ‘)) // 前端胖头鱼<br>console.log(trim(‘  前端胖头鱼  ‘)) // 前端胖头鱼<br>console.log(trim(‘  前端 胖头鱼  ‘)) // 前端 胖头鱼</p>
+<ol start="3">
+<li>数字价格千分位分割<br>将123456789变成123,456,789<br>这道题估计大家在面试和工作中也经常遇到，出现频率比较高。<br>正则结果</li>
+</ol>
+<p>‘123456789’.replace(/(?!^)(?=(\d{3})+$)/g, ‘,’) // 123,456,789<br>图片</p>
+<p><img src="/images/pasted-15.png" alt="upload successful"><br>补充小数千分位支持<br>图片</p>
+<p><img src="/images/pasted-16.png" alt="upload successful"><br>分析过程</p>
+<p>题目意思大概是：<br>从后往前每三个数字前加一个逗号<br>开头不能加逗号(比如：123 最后不能变成,123)<br>是不是很符合(?=p)的规律呢？p可以表示每三个数字，要添加的逗号所处的位置正好是(?=p)匹配出来的位置。<br>第一步，尝试先把后面第一个逗号弄出来</p>
+<p>let price = ‘123456789’<br>let priceReg = /(?=\d{3}$)/</p>
+<p>console.log(price.replace(proceReg, ‘,’)) // 123456,789<br>第二步，把所有的逗号都弄出来<br>要把所有的逗号都弄出来，主要要解决的问题是怎么表示三个数字一组,也就是3的倍数。我们知道正则中括号可以把一个p模式变成一个小整体，所以利用括号的特性，可以这样写</p>
+<p>let price = ‘123456789’<br>let priceReg = /(?=(\d{3})+$)/g</p>
+<p>console.log(price.replace(priceReg, ‘,’)) // ,123,456,789</p>
+<p>第三步，去掉首位的逗号，<br>上面已经基本上实现需求了，但是还不够，首位还会出现逗号，那怎么把首位的逗号去除呢？想想是不是有一个知识正好满足这个场景？没错(?!p)，就是他了，两者结合就是从后往前每三个数字的位置前添加逗号，但是这个位置不能是^首位。</p>
+<p>let price = ‘123456789’<br>let priceReg = /(?!^)(?=(\d{3})+$)/g</p>
+<p>console.log(price.replace(priceReg, ‘,’)) // 123,456,789</p>
+<ol start="4">
+<li>手机号3-4-4分割<br>将手机号18379836654转化为183-7983-6654<br>表单搜集场景，经常遇到的手机格式化<br>正则结果</li>
+</ol>
+<p>let mobile = ‘18379836654’<br>let mobileReg = /(?=(\d{4})+$)/g </p>
+<p>console.log(mobile.replace(mobileReg, ‘-‘)) // 183-7983-6654</p>
+<p>图片</p>
+<p><img src="/images/pasted-17.png" alt="upload successful"><br>分析过程</p>
+<p>有了上面数字的千分位分割法，做这个题相信会简单很多，也就是从后往前找到这样的位置：<br>每四个数字前的位置，并把这个位置替换为-</p>
+<p>let mobile = ‘18379836654’<br>let mobileReg = /(?=(\d{4})+$)/g</p>
+<p>console.log(mobile.replace(mobileReg, ‘-‘)) // 183-7983-6654</p>
+<ol start="5">
+<li>将字符串驼峰化<br>如下规则，将对应字符串变成驼峰写法</li>
+<li><p>foo Bar =&gt; fooBar</p>
+</li>
+<li><p>foo-bar—- =&gt; fooBar</p>
+</li>
+<li><p>foo_bar__ =&gt; fooBar</p>
+</li>
+</ol>
+<p>正则结果</p>
+<p>const camelCase = (string) =&gt; {<br>  const camelCaseRegex = /[-_\s]+(.)?/g</p>
+<p>  return string.replace(camelCaseRegex, (match, char) =&gt; {<br>    return char ? char.toUpperCase() : ‘’<br>  })<br>}</p>
+<p>图片</p>
+<p><img src="/images/pasted-18.png" alt="upload successful"><br>分析过程</p>
+<p>分析题目的规律<br>每个单词的前面都有0个或者多个- 空格 _ 如(Foo、–foo、__FOO、_BAR、Bar)</p>
+<ul>
+<li><p>空格 <em>后面有可能不跟任何东西 如(__、–)<br>const camelCase = (string) =&gt; {<br>// 注意(.)?这里的?是为了满足条件2<br>const camelCaseRegex = /[-</em>\s]+(.)?/g</p>
+<p>return string.replace(camelCaseRegex, (match, char) =&gt; {<br>  return char ? char.toUpperCase() : ‘’<br>})<br>}</p>
+</li>
+</ul>
+<p>console.log(camelCase(‘foo Bar’)) // fooBar<br>console.log(camelCase(‘foo-bar–’)) // fooBar<br>console.log(camelCase(‘foo_bar__’)) // fooBar</p>
+<ol start="6">
+<li>将字符串首字母转化为大写，剩下为小写<br>例如 hello world 转为为Hello World<br>正则结果</li>
+</ol>
+<p>const capitalize = (string) =&gt; {<br>  const capitalizeRegex = /(?:^|\s+)\w/g</p>
+<p>  return string.toLowerCase().replace(capitalizeRegex, (match) =&gt; match.toUpperCase())<br>}</p>
+<p><img src="/images/pasted-12.png" alt="upload successful"></p>
+<p>找到单词的首字母然后将其转化为大写字母就可以，单词前面可能是开头也可能是多个空格。</p>
+<p>const capitalize = (string) =&gt; {<br>  const capitalizeRegex = /(?:^|\s+)\w/g</p>
+<p>  return string.toLowerCase().replace(capitalizeRegex, (match) =&gt; match.toUpperCase())<br>}</p>
+<p>console.log(capitalize(‘hello world’)) // Hello World<br>console.log(capitalize(‘hello WORLD’)) // Hello World</p>
+<p>7.通过name获取url query参数<br>正则结果</p>
+<p>const getQueryByName = (name) =&gt; {<br>  const queryNameRegex = new RegExp(<code>[?&amp;]${name}=([^&amp;]*)(&amp;|$)</code>)<br>  const queryNameMatch = window.location.search.match(queryNameRegex)<br>  // 一般都会通过decodeURIComponent解码处理<br>  return queryNameMatch ? decodeURIComponent(queryNameMatch[1]) : ‘’<br>}</p>
+<p>分析过程</p>
+<p>url query上的参数 name=前端胖头鱼 所处的位置可能是<br>紧跟着问号 ?name=前端胖头鱼&amp;sex=boy<br>在最后的位置 ?sex=boy&amp;name=前端胖头鱼<br>在1和2之间 ?sex=boy&amp;name=前端胖头鱼&amp;age=100<br>所以只要处理三个地方基本就可以通过正则来取了<br>name前面只能是?或者&amp;<br>value的值可以除了是&amp;以为的任意东西<br>value后面只能是跟着&amp;或者是结束位置</p>
+<p>const getQueryByName = (name) =&gt; {<br>  const queryNameRegex = new RegExp(<code>[?&amp;]${name}=([^&amp;]*)(?:&amp;|$)</code>)<br>  const queryNameMatch = window.location.search.match(queryNameRegex)<br>  // 一般都会通过decodeURIComponent解码处理<br>  return queryNameMatch ? decodeURIComponent(queryNameMatch[1]) : ‘’<br>}<br>// 1. name在最前面<br>// <a href="https://juejin.cn/?name=前端胖头鱼&amp;sex=boy" target="_blank" rel="noopener">https://juejin.cn/?name=前端胖头鱼&amp;sex=boy</a><br>console.log(getQueryByName(‘name’)) // 前端胖头鱼</p>
+<p>// 2. name在最后<br>// <a href="https://juejin.cn/?sex=boy&amp;name=前端胖头鱼" target="_blank" rel="noopener">https://juejin.cn/?sex=boy&amp;name=前端胖头鱼</a><br>console.log(getQueryByName(‘name’)) // 前端胖头鱼</p>
+<p>// 2. name在中间<br>// <a href="https://juejin.cn/?sex=boy&amp;name=前端胖头鱼&amp;age=100" target="_blank" rel="noopener">https://juejin.cn/?sex=boy&amp;name=前端胖头鱼&amp;age=100</a><br>console.log(getQueryByName(‘name’)) // 前端胖头鱼</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-git操作" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/11/02/git操作/">git操作</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/11/02/git操作/" class="article-date">
+  <time datetime="2021-11-02T12:10:57.000Z" itemprop="datePublished">2021-11-02</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="在-Git-开发中通常会控制主干分支的质量，但有时还是会把错误的代码合入到远程主干。-虽然可以直接回滚远程分支，-但有时新的代码也已经合入，直接回滚后最近的提交都要重新操作。-那么有没有只移除某些-Commit-的方式呢？可以一次-revert操作来完成。"><a href="#在-Git-开发中通常会控制主干分支的质量，但有时还是会把错误的代码合入到远程主干。-虽然可以直接回滚远程分支，-但有时新的代码也已经合入，直接回滚后最近的提交都要重新操作。-那么有没有只移除某些-Commit-的方式呢？可以一次-revert操作来完成。" class="headerlink" title="在 Git 开发中通常会控制主干分支的质量，但有时还是会把错误的代码合入到远程主干。 虽然可以直接回滚远程分支， 但有时新的代码也已经合入，直接回滚后最近的提交都要重新操作。 那么有没有只移除某些 Commit 的方式呢？可以一次 revert操作来完成。"></a>在 Git 开发中通常会控制主干分支的质量，但有时还是会把错误的代码合入到远程主干。 虽然可以直接回滚远程分支， 但有时新的代码也已经合入，直接回滚后最近的提交都要重新操作。 那么有没有只移除某些 Commit 的方式呢？可以一次 revert操作来完成。</h2><p>考虑这个例子，我们提交了 6 个版本，其中 3-4 包含了错误的代码需要被回滚掉。 同时希望不影响到后续的 5-6。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">* 982d4f6 (HEAD -&gt; master) version 6</span><br><span class="line">* 54cc9dc version 5</span><br><span class="line">* 551c408 version 4, harttle screwed it up again</span><br><span class="line">* 7e345c9 version 3, harttle screwed it up</span><br><span class="line">* f7742cd version 2</span><br><span class="line">* 6c4db3f version 1</span><br></pre></td></tr></table></figure></p>
+<p>这种情况在团队协作的开发中会很常见：可能是流程或认为原因不小心合入了错误的代码， 也可能是合入一段时间后才发现存在问题。 总之已经存在后续提交，使得直接回滚不太现实。</p>
+<p>下面的部分就开始介绍具体操作了，同时我们假设远程分支是受保护的（不允许 Force Push）。 思路是从产生一个新的 Commit 撤销之前的错误提交。</p>
+<p>使用 git revert <commit> 可以撤销指定的提交， 要撤销一串提交可以用 <commit1>..<commit2> 语法。 注意这是一个前开后闭区间，即不包括 commit1，但包括 commit2。</commit2></commit1></commit></p>
+<p>git revert –no-commit f7742cd..551c408<br>git commit -a -m ‘This reverts commit 7e345c9 and 551c408’<br>其中 f7742cd 是 version 2，551c408 是 version 4，这样被移除的是 version 3 和 version 4。 注意 revert 命令会对每个撤销的 commit 进行一次提交，–no-commit 后可以最后一起手动提交。</p>
+<p>此时 Git 记录是这样的：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">* 8fef80a (HEAD -&gt; master) This reverts commit 7e345c9 and 551c408</span><br><span class="line">* 982d4f6 version 6</span><br><span class="line">* 54cc9dc version 5</span><br><span class="line">* 551c408 version 4, harttle screwed it up again</span><br><span class="line">* 7e345c9 version 3, harttle screwed it up</span><br><span class="line">* f7742cd version 2</span><br><span class="line">* 6c4db3f version 1</span><br></pre></td></tr></table></figure></p>
+<p>现在的 HEAD（8fef80a）就是我们想要的版本，把它 Push 到远程即可。</p>
+<p>确认 diff<br>如果你像不确定是否符合预期，毕竟批量干掉了别人一堆 Commit，可以做一下 diff 来确认。 首先产生 version 4（551c408）与 version 6（982d4f6）的 diff，这些是我们想要保留的：</p>
+<p>git diff 551c408..982d4f6<br>然后再产生 version 2（f7742cd）与当前状态（HEAD）的 diff：</p>
+<p>git diff f7742cd..HEAD<br>如果 version 3, version 4 都被 version 6 撤销的话，上述两个 diff 为空。 可以人工确认一下，或者 grep 掉 description 之后做一次 diff。 下面介绍的另一种方法可以容易地确认 diff。</p>
+<p>示例</p>
+<p>bd1b80cb 和0f2f7e4a 是错误的提交可以通过git revert bd1b80cb 0f2f7e4a 来进行单独提交的回滚</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-useragent" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/07/09/useragent/">User-agent</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/07/09/useragent/" class="article-date">
+  <time datetime="2021-07-09T06:54:58.000Z" itemprop="datePublished">2021-07-09</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>User-agent</p>
+<p>iOS</p>
+<p>iOS环境下，小程序原生和微信公众号H5的UA一致，无法通过UA对环境进行区分。小程序内的H5页面可通过miniProgram来判断。app中区分全屏页面和弹窗两种内嵌H5的场景，modalWebview为true为弹窗模式，否则则为全屏页面模式。wptFullScreen可理解为是否需要navigate-bar</p>
+<p>小程序原生：<br>Mozilla/5.0 (iPhone; CPU iPhone OS 13_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.6(0x18000633) NetType/WIFI Language/zh_CN</p>
+<p>小程序内H5:<br>Mozilla/5.0 (iPhone; CPU iPhone OS 13_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.6(0x18000633) NetType/WIFI Language/zh_CN miniProgram</p>
+<p>公众号H5：<br>Mozilla/5.0 (iPhone; CPU iPhone OS 13_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.6(0x18000633) NetType/4G Language/zh_CN</p>
+<p>iOS原生：<br>NetType/ Language/zh_CN WptMessenger/4.5.8 DeviceId/78CCE389-7C9E-409D-825F-A886305A5591 Idfa/78CCE389-7C9E-409D-825F-A886305A5591 Uuid/46D4AFCD-C7DA-4529-8278-68CF6E7E5F96 Channel/default OS/iOS Ar/1 PhoneModel/iPhone11 ver/13.6 wptAid/default identity/c7c64ba3176686ce86fbf1d3e90797e9 secretKey/secretKey wifiName/d3B0LW1hYzIwMTg=</p>
+<p>安卓：<br>安卓环境下，小程序原生比公众号H5多一个MiniProgramEnv/android的标示，可用于区分是小程序还是公众号H5。小程序内H5同ios，可通过miniProgram进行判断。app中区分全屏页面和弹窗两种内嵌H5的场景，modalWebview为true为弹窗模式，wptfullscreen为true则为全屏页面模式，statusBarHeight用于statusBar高度。</p>
+<p>小程序原生：<br>Mozilla/5.0 (Linux; Android 10; EML-AL00 Build/HUAWEIEML-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.62 XWEB/2853 MMWEBSDK/20210501 Mobile Safari/537.36 MMWEBID/9235 MicroMessenger/8.0.6.1900(0x28000651) Process/appbrand0 WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64 MiniProgramEnv/android</p>
+<p>小程序内H5:<br>Mozilla/5.0 (Linux; Android 10; EML-AL00 Build/HUAWEIEML-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.62 XWEB/2853 MMWEBSDK/20210501 Mobile Safari/537.36 MMWEBID/9235 MicroMessenger/8.0.6.1900(0x28000651) Process/appbrand0 WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64 miniProgram</p>
+<p>H5：<br>Mozilla/5.0 (Linux; Android 10; EML-AL00 Build/HUAWEIEML-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045617 Mobile Safari/537.36 MMWEBID/9235 MicroMessenger/8.0.6.1900(0x28000651) Process/tools WeChat/arm64 Weixin NetType/WIFI Language/zh_CN ABI/arm64</p>
+<p>安卓原生：<br>NetType/NETWORK_WIFI Language/zh_CN WptMessenger/4.5.9 Channel/wpt DeviceId/fe717b86a4c04380 DeviceIdType/androidId os/android oVersion/10 cVersion/4.5.9 ua/EML-AL00 brand/HUAWEI Ar/1 wifiName/d3B0LW1hYzIwMTg= secretKey/secretKey oaid/d42edfa5-f5ff-0186-fd47-ff9ffa65dbae androidId/fe717b86a4c04380</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-手写promise" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/04/02/手写promise/">手写promise</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/04/02/手写promise/" class="article-date">
+  <time datetime="2021-04-02T02:40:44.000Z" itemprop="datePublished">2021-04-02</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 先定义三个常量表示状态</span></span><br><span class="line"><span class="keyword">const</span> PENDING = <span class="string">'pending'</span>;</span><br><span class="line"><span class="keyword">const</span> FULFILLED = <span class="string">'fulfilled'</span>;</span><br><span class="line"><span class="keyword">const</span> REJECTED = <span class="string">'rejected'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 新建 MyPromise 类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPromise</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(executor)&#123;</span><br><span class="line">    <span class="comment">// executor 是一个执行器，进入会立即执行</span></span><br><span class="line">    <span class="comment">// 并传入resolve和reject方法</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      executor(<span class="keyword">this</span>.resolve, <span class="keyword">this</span>.reject)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">      <span class="keyword">this</span>.reject(error)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 储存状态的变量，初始值是 pending</span></span><br><span class="line">  status = PENDING;</span><br><span class="line">  <span class="comment">// 成功之后的值</span></span><br><span class="line">  value = <span class="literal">null</span>;</span><br><span class="line">  <span class="comment">// 失败之后的原因</span></span><br><span class="line">  reason = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 存储成功回调函数</span></span><br><span class="line">  onFulfilledCallbacks = [];</span><br><span class="line">  <span class="comment">// 存储失败回调函数</span></span><br><span class="line">  onRejectedCallbacks = [];</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 更改成功后的状态</span></span><br><span class="line">  resolve = <span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 只有状态是等待，才执行状态修改</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.status === PENDING) &#123;</span><br><span class="line">      <span class="comment">// 状态修改为成功</span></span><br><span class="line">      <span class="keyword">this</span>.status = FULFILLED;</span><br><span class="line">      <span class="comment">// 保存成功之后的值</span></span><br><span class="line">      <span class="keyword">this</span>.value = value;</span><br><span class="line">      <span class="comment">// resolve里面将所有成功的回调拿出来执行</span></span><br><span class="line">      <span class="keyword">while</span> (<span class="keyword">this</span>.onFulfilledCallbacks.length) &#123;</span><br><span class="line">        <span class="comment">// Array.shift() 取出数组第一个元素，然后（）调用，shift不是纯函数，取出后，数组将失去该元素，直到数组为空</span></span><br><span class="line">        <span class="keyword">this</span>.onFulfilledCallbacks.shift()(value)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 更改失败后的状态</span></span><br><span class="line">  reject = <span class="function">(<span class="params">reason</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 只有状态是等待，才执行状态修改</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.status === PENDING) &#123;</span><br><span class="line">      <span class="comment">// 状态成功为失败</span></span><br><span class="line">      <span class="keyword">this</span>.status = REJECTED;</span><br><span class="line">      <span class="comment">// 保存失败后的原因</span></span><br><span class="line">      <span class="keyword">this</span>.reason = reason;</span><br><span class="line">      <span class="comment">// resolve里面将所有失败的回调拿出来执行</span></span><br><span class="line">      <span class="keyword">while</span> (<span class="keyword">this</span>.onRejectedCallbacks.length) &#123;</span><br><span class="line">        <span class="keyword">this</span>.onRejectedCallbacks.shift()(reason)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  then(onFulfilled, onRejected) &#123;</span><br><span class="line">    <span class="keyword">const</span> realOnFulfilled = <span class="keyword">typeof</span> onFulfilled === <span class="string">'function'</span> ? onFulfilled : <span class="function"><span class="params">value</span> =&gt;</span> value;</span><br><span class="line">    <span class="keyword">const</span> realOnRejected = <span class="keyword">typeof</span> onRejected === <span class="string">'function'</span> ? onRejected : <span class="function"><span class="params">reason</span> =&gt;</span> &#123;<span class="keyword">throw</span> reason&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 为了链式调用这里直接创建一个 MyPromise，并在后面 return 出去</span></span><br><span class="line">    <span class="keyword">const</span> promise2 = <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> fulfilledMicrotask = <span class="function"><span class="params">()</span> =&gt;</span>  &#123;</span><br><span class="line">        <span class="comment">// 创建一个微任务等待 promise2 完成初始化</span></span><br><span class="line">        queueMicrotask(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 获取成功回调函数的执行结果</span></span><br><span class="line">            <span class="keyword">const</span> x = realOnFulfilled(<span class="keyword">this</span>.value);</span><br><span class="line">            <span class="comment">// 传入 resolvePromise 集中处理</span></span><br><span class="line">            resolvePromise(promise2, x, resolve, reject);</span><br><span class="line">          &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">            reject(error)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">const</span> rejectedMicrotask = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 创建一个微任务等待 promise2 完成初始化</span></span><br><span class="line">        queueMicrotask(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 调用失败回调，并且把原因返回</span></span><br><span class="line">            <span class="keyword">const</span> x = realOnRejected(<span class="keyword">this</span>.reason);</span><br><span class="line">            <span class="comment">// 传入 resolvePromise 集中处理</span></span><br><span class="line">            resolvePromise(promise2, x, resolve, reject);</span><br><span class="line">          &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">            reject(error)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 判断状态</span></span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.status === FULFILLED) &#123;</span><br><span class="line">        fulfilledMicrotask()</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.status === REJECTED) &#123;</span><br><span class="line">        rejectedMicrotask()</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.status === PENDING) &#123;</span><br><span class="line">        <span class="comment">// 等待</span></span><br><span class="line">        <span class="comment">// 因为不知道后面状态的变化情况，所以将成功回调和失败回调存储起来</span></span><br><span class="line">        <span class="comment">// 等到执行成功失败函数的时候再传递</span></span><br><span class="line">        <span class="keyword">this</span>.onFulfilledCallbacks.push(fulfilledMicrotask);</span><br><span class="line">        <span class="keyword">this</span>.onRejectedCallbacks.push(rejectedMicrotask);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> promise2;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// resolve 静态方法</span></span><br><span class="line">  <span class="keyword">static</span> resolve (parameter) &#123;</span><br><span class="line">    <span class="comment">// 如果传入 MyPromise 就直接返回</span></span><br><span class="line">    <span class="keyword">if</span> (parameter <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">      <span class="keyword">return</span> parameter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 转成常规方式</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function"><span class="params">resolve</span> =&gt;</span>  &#123;</span><br><span class="line">      resolve(parameter);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// reject 静态方法</span></span><br><span class="line">  <span class="keyword">static</span> reject (reason) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      reject(reason);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">resolvePromise</span>(<span class="params">promise2, x, resolve, reject</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 如果相等了，说明return的是自己，抛出类型错误并返回</span></span><br><span class="line">  <span class="keyword">if</span> (promise2 === x) &#123;</span><br><span class="line">    <span class="keyword">return</span> reject(<span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'Chaining cycle detected for promise #&lt;Promise&gt;'</span>))</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 判断x是不是 MyPromise 实例对象</span></span><br><span class="line">  <span class="keyword">if</span>(x <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">    <span class="comment">// 执行 x，调用 then 方法，目的是将其状态变为 fulfilled 或者 rejected</span></span><br><span class="line">    <span class="comment">// x.then(value =&gt; resolve(value), reason =&gt; reject(reason))</span></span><br><span class="line">    <span class="comment">// 简化之后</span></span><br><span class="line">    x.then(resolve, reject)</span><br><span class="line">  &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="comment">// 普通值</span></span><br><span class="line">    resolve(x)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = MyPromise;</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-关系数据库和非关系数据库的-区别" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/03/06/关系数据库和非关系数据库的-区别/">SQL 和 NoSQL 的区别</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/03/06/关系数据库和非关系数据库的-区别/" class="article-date">
+  <time datetime="2021-03-06T00:26:11.000Z" itemprop="datePublished">2021-03-06</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="SQL-和-NoSQL-的区别"><a href="#SQL-和-NoSQL-的区别" class="headerlink" title="SQL 和 NoSQL 的区别"></a>SQL 和 NoSQL 的区别</h1><h2 id="一、概念"><a href="#一、概念" class="headerlink" title="一、概念"></a>一、概念</h2><p>　　SQL (Structured Query Language) 数据库，指关系型数据库。主要代表：SQL Server，Oracle，MySQL(开源)，PostgreSQL(开源)。</p>
+<p>　　NoSQL（Not Only SQL）泛指非关系型数据库。主要代表：MongoDB，Redis，CouchDB。</p>
+<h2 id="二、区别"><a href="#二、区别" class="headerlink" title="二、区别"></a>二、区别</h2><p>1、存储方式</p>
+<p>　　SQL数据存在特定结构的表中；而NoSQL则更加灵活和可扩展，存储方式可以省是JSON文档、哈希表或者其他方式。SQL通常以数据库表形式存储数据。举个栗子，存个学生借书数据：</p>
+<p>而NoSQL存储方式比较灵活，比如使用类JSON文件存储上表中熊大的借阅数据：</p>
+<p>2、表/数据集合的数据的关系</p>
+<p>　　在SQL中，必须定义好表和字段结构后才能添加数据，例如定义表的主键(primary key)，索引(index),触发器(trigger),存储过程(stored procedure)等。表结构可以在被定义之后更新，但是如果有比较大的结构变更的话就会变得比较复杂。在NoSQL中，数据可以在任何时候任何地方添加，不需要先定义表。例如下面这段代码会自动创建一个新的”借阅表”数据集合：</p>
+<p>NoSQL也可以在数据集中建立索引。以MongoDB为例，会自动在数据集合创建后创建唯一值_id字段，这样的话就可以在数据集创建后增加索引。</p>
+<p>从这点来看，NoSQL可能更加适合初始化数据还不明确或者未定的项目中。</p>
+<p>3、外部数据存储</p>
+<p>　　SQL中如何需要增加外部关联数据的话，规范化做法是在原表中增加一个外键，关联外部数据表。例如需要在借阅表中增加审核人信息，先建立一个审核人表：</p>
+<p>再在原来的借阅人表中增加审核人外键：</p>
+<p>这样如果我们需要更新审核人个人信息的时候只需要更新审核人表而不需要对借阅人表做更新。而在NoSQL中除了这种规范化的外部数据表做法以外，我们还能用如下的非规范化方式把外部数据直接放到原数据集中，以提高查询效率。缺点也比较明显，更新审核人数据的时候将会比较麻烦。</p>
+<p>4、SQL中的JOIN查询</p>
+<p>　　SQL中可以使用JOIN表链接方式将多个关系数据表中的数据用一条简单的查询语句查询出来。NoSQL暂未提供类似JOIN的查询方式对多个数据集中的数据做查询。所以大部分NoSQL使用非规范化的数据存储方式存储数据。</p>
+<p>5、数据耦合性</p>
+<p>　　SQL中不允许删除已经被使用的外部数据，例如审核人表中的”熊三”已经被分配给了借阅人熊大，那么在审核人表中将不允许删除熊三这条数据，以保证数据完整性。而NoSQL中则没有这种强耦合的概念，可以随时删除任何数据。</p>
+<p>6、事务</p>
+<p>　　SQL中如果多张表数据需要同批次被更新，即如果其中一张表更新失败的话其他表也不能更新成功。这种场景可以通过事务来控制，可以在所有命令完成后再统一提交事务。而NoSQL中没有事务这个概念，每一个数据集的操作都是原子级的。</p>
+<p>7、增删改查语法</p>
+<p>8、查询性能</p>
+<p>　　在相同水平的系统设计的前提下，因为NoSQL中省略了JOIN查询的消耗，故理论上性能上是优于SQL的。</p>
+<h2 id="三、补充"><a href="#三、补充" class="headerlink" title="三、补充"></a>三、补充</h2><p>　　目前许多大型互联网项目都会选用MySQL（或任何关系型数据库） + NoSQL的组合方案。</p>
+<p>关系型数据库适合存储结构化数据，如用户的帐号、地址：</p>
+<p>　　1）这些数据通常需要做结构化查询（嗯，好像是废话），比如join，这时候，关系型数据库就要胜出一筹</p>
+<p>　　2）这些数据的规模、增长的速度通常是可以预期的</p>
+<p>　　3）事务性、一致性</p>
+<p>NoSQL适合存储非结构化数据，如文章、评论：</p>
+<p>　　1）这些数据通常用于模糊处理，如全文搜索、机器学习</p>
+<p>　　2）这些数据是海量的，而且增长的速度是难以预期的，</p>
+<p>　　3）根据数据的特点，NoSQL数据库通常具有无限（至少接近）伸缩性</p>
+<p>　　4）按key获取数据效率很高，但是对join或其他结构化查询的支持就比较差</p>
+<p>　　基于它们的适用范围不同，目前主流架构才会采用组合方案，一个也不能少。目前为止，还没有出现一个能够通吃各种场景的数据库，而且根据CAP理论，这样的数据库是不存在的。�</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-同构SSR" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/01/04/同构SSR/">关于同构SSR</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/01/04/同构SSR/" class="article-date">
+  <time datetime="2021-01-04T06:25:48.000Z" itemprop="datePublished">2021-01-04</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="关于同构SSR"><a href="#关于同构SSR" class="headerlink" title="关于同构SSR"></a>关于同构SSR</h1><p>虽然使用了服务端渲染，但是这个只能叫同构SSR，和传统的服务端渲染还是有区别的。目前同构SSR的本质就是集成页面组件，路由，前端状态，在服务端中运行生成快照，将生成的快照HTML传给客户端。需要注意的是，由于同构的这种快照所需的计算量远大于传统服务端渲染，所以单机性能上，可能要弱于传统服务端渲染。<br>同构SSR的实现得意于虚拟DOM的出现，虚拟DOM的最大好处并非Diff算法而是为前端赋能，把HTML的DOM抽象化，可以在服务端、IOS、安卓甚至智能家电上运行。<br>同构SSR的实质是当用户首次请求时，通过node端生成一个HTML快照给前端，之后用户在当前页面上的操作，其实都是一个SPA的操作交互，前端的路由交互还是依靠history路由去处理，而非传统路由，所以其实还是一个“SPA”。这样的处理，可以在保证首屏速度时，同时，减少服务器压力，提升用户体验，弥补同构渲染性能问题。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-JS-emoji-转码-解码" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/12/11/JS-emoji-转码-解码/">将emoji转成UTF-16</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/12/11/JS-emoji-转码-解码/" class="article-date">
+  <time datetime="2020-12-11T06:03:17.000Z" itemprop="datePublished">2020-12-11</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>将emoji转成UTF-16<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">toUTF16</span>(<span class="params">codePoint</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> TEN_BITS = <span class="built_in">parseInt</span>(<span class="string">'1111111111'</span>, <span class="number">2</span>);</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">u</span>(<span class="params">codeUnit</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'\\u'</span>+codeUnit.toString(<span class="number">16</span>).toUpperCase();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (codePoint &lt;= <span class="number">0xFFFF</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> u(codePoint);</span><br><span class="line">  &#125;</span><br><span class="line">  codePoint -= <span class="number">0x10000</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Shift right to get to most significant 10 bits</span></span><br><span class="line">  <span class="keyword">var</span> leadSurrogate = <span class="number">0xD800</span> + (codePoint &gt;&gt; <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Mask to get least significant 10 bits</span></span><br><span class="line">  <span class="keyword">var</span> tailSurrogate = <span class="number">0xDC00</span> + (codePoint &amp; TEN_BITS);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> u(leadSurrogate) + u(tailSurrogate);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>// using codePointAt, it’s easy to go from emoji<br>// to decimal and back.<br>// Emoji to decimal representation<br>“😀”.codePointAt(0)</p>
+<blockquote>
+<p>128512</p>
+</blockquote>
+<p>// Decimal to emoji<br>String.fromCodePoint(128512)</p>
+<blockquote>
+<p>“😀”</p>
+</blockquote>
+<p>// going from emoji to hexadecimal is a little<br>// bit trickier. To convert from decimal to hexadecimal,<br>// we can use toUTF16.<br>// Decimal to hexadecimal<br>toUTF16(128512)</p>
+<blockquote>
+<p>“\uD83D\uDE00”</p>
+</blockquote>
+<p>// Hexadecimal to emoji<br>“\uD83D\uDE00”</p>
+<blockquote>
+<p>“😀”</p>
+</blockquote>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-GPU" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
 
   <div class="article-inner">
@@ -226,7 +831,7 @@
 <p>同样，对 <weatherinfo> 的修改是隔离的，不会影响 <weatherfetch> 组件。</weatherfetch></weatherinfo></p>
 <p><weatherfetch> 和 <weatherinfo> 有各自的职责。一种组件的变化对另一种组件的影响很小。这就是单一职责原则的作用：修改隔离，对系统的其他组件产生影响很轻微并且可预测。</weatherinfo></weatherfetch></p>
 <h2 id="1-3-案例研究：HOC-偏好单一责任原则"><a href="#1-3-案例研究：HOC-偏好单一责任原则" class="headerlink" title="1.3 案例研究：HOC 偏好单一责任原则"></a>1.3 案例研究：HOC 偏好单一责任原则</h2><p>按职责使用分块组件的组合并不总是有助于遵循单一责任原则。另外一种有效实践是高阶组件(缩写为 HOC)<br>高阶组件是一个接受一个组件并返回一个新组件的函数。<br>HOC 的一个常见用法是为封装的组件增加新属性或修改现有的属性值。这种技术称为属性代理：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">withNewFunctionality</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">NewFunctionality</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">        render() &#123;</span><br><span class="line">            <span class="keyword">const</span> newProp = <span class="string">'Value'</span>;</span><br><span class="line">            <span class="keyword">const</span> propsProxy = &#123;</span><br><span class="line">                ...this.props,</span><br><span class="line">                <span class="comment">// 修改现有属性:</span></span><br><span class="line">                ownProp: <span class="keyword">this</span>.props.ownProp + <span class="string">' was modified'</span>,</span><br><span class="line">                <span class="comment">// 增加新属性:</span></span><br><span class="line">                newProp</span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="keyword">return</span> &lt;WrappedComponent &#123;...propsProxy&#125; /&gt;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">const MyNewComponent = withNewFunctionality(MyComponent);</span><br></pre></td></tr></table></figure></p>
-<p>你还可以通过控制输入组件的渲染过程从而控制渲染结果。这种 HOC 技术被称为渲染劫持：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">withModifiedChildren</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">ModifiedChildren</span> <span class="keyword">extends</span> <span class="title">WrappedComponent</span> </span>&#123;</span><br><span class="line">        render() &#123;</span><br><span class="line">            <span class="keyword">const</span> rootElement = <span class="keyword">super</span>.render();</span><br><span class="line">            <span class="keyword">const</span> newChildren = [</span><br><span class="line">                ...rootElement.props.children,</span><br><span class="line">                <span class="comment">// 插入一个元素</span></span><br><span class="line">                &lt;div&gt;New child&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">            ];</span></span><br><span class="line"><span class="regexp">            return cloneElement(</span></span><br><span class="line"><span class="regexp">                rootElement,</span></span><br><span class="line"><span class="regexp">                rootElement.props,</span></span><br><span class="line"><span class="regexp">                newChildren</span></span><br><span class="line"><span class="regexp">            );</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">const MyNewComponent = withModifiedChildren(MyComponent);</span></span><br></pre></td></tr></table></figure></p>
+<p>你还可以通过控制输入组件的渲染过程从而控制渲染结果。这种 HOC 技术被称为渲染劫持：<br>通过return cloneElement(rootElement=super.render(),rootElement.props,newChildren)<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">withModifiedChildren</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">ModifiedChildren</span> <span class="keyword">extends</span> <span class="title">WrappedComponent</span> </span>&#123;</span><br><span class="line">        render() &#123;</span><br><span class="line">            <span class="keyword">const</span> rootElement = <span class="keyword">super</span>.render();</span><br><span class="line">            <span class="keyword">const</span> newChildren = [</span><br><span class="line">                ...rootElement.props.children,</span><br><span class="line">                <span class="comment">// 插入一个元素</span></span><br><span class="line">                &lt;div&gt;New child&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">            ];</span></span><br><span class="line"><span class="regexp">            return cloneElement(</span></span><br><span class="line"><span class="regexp">                rootElement,</span></span><br><span class="line"><span class="regexp">                rootElement.props,</span></span><br><span class="line"><span class="regexp">                newChildren</span></span><br><span class="line"><span class="regexp">            );</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">const MyNewComponent = withModifiedChildren(MyComponent);</span></span><br></pre></td></tr></table></figure></p>
 <p>如果您想深入了解HOCS实践，我建议您阅读“深入响应高阶组件”。<br>让我们通过一个例子来看看HOC的属性代理技术如何帮助分离职责。<br>组件 <persistentform> 由 input 输入框和按钮 save to storage 组成。更改输入值后，点击 save to storage 按钮将其写入到 localStorage 中。<br>input 的状态在 handlechange(event) 方法中更新。点击按钮，值将保存到本地存储，在 handleclick() 中处理：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PersistentForm</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123; <span class="attr">inputValue</span>: localStorage.getItem(<span class="string">'inputValue'</span>) &#125;;</span><br><span class="line">        <span class="keyword">this</span>.handleChange = <span class="keyword">this</span>.handleChange.bind(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">this</span>.handleClick = <span class="keyword">this</span>.handleClick.bind(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; inputValue &#125; = <span class="keyword">this</span>.state;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div className=<span class="string">"persistent-form"</span>&gt;</span><br><span class="line">                &lt;input type=<span class="string">"text"</span> value=&#123;inputValue&#125;</span><br><span class="line">                    onChange=&#123;<span class="keyword">this</span>.handleChange&#125; /&gt;</span><br><span class="line">                &lt;button onClick=&#123;<span class="keyword">this</span>.handleClick&#125;&gt;Save to storage&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>div&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">    handleChange(event) &#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            inputValue: event.target.value</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    handleClick() &#123;</span><br><span class="line">        localStorage.setItem(<span class="string">'inputValue'</span>, <span class="keyword">this</span>.state.inputValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></persistentform></p>
 <p>遗憾的是： <persistentform> 有2个职责：管理表单字段；将输入只保存中 localStorage。<br>让我们重构一下 <persistentform> 组件，使其只有一个职责：展示表单字段和附加的事件处理程序。它不应该知道如何直接使用存储：<br>  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PersistentForm</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123; <span class="attr">inputValue</span>: props.initialValue &#125;;</span><br><span class="line">        <span class="keyword">this</span>.handleChange = <span class="keyword">this</span>.handleChange.bind(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">this</span>.handleClick = <span class="keyword">this</span>.handleClick.bind(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; inputValue &#125; = <span class="keyword">this</span>.state;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div className=<span class="string">"persistent-form"</span>&gt;</span><br><span class="line">                &lt;input type=<span class="string">"text"</span> value=&#123;inputValue&#125;</span><br><span class="line">                    onChange=&#123;<span class="keyword">this</span>.handleChange&#125; /&gt;</span><br><span class="line">                &lt;button onClick=&#123;<span class="keyword">this</span>.handleClick&#125;&gt;Save to storage&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">            &lt;/</span>div&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">    handleChange(event) &#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            inputValue: event.target.value</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    handleClick() &#123;</span><br><span class="line">        <span class="keyword">this</span>.props.saveValue(<span class="keyword">this</span>.state.inputValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></persistentform></persistentform></p>
 <p>组件从属性初始值接收存储的输入值，并使用属性函数 saveValue(newValue) 来保存输入值。这些props 由使用属性代理技术的 withpersistence() HOC提供。<br>现在 <persistentform> 符合 SRP。更改的唯一原因是修改表单字段。<br>查询和保存到本地存储的职责由 withPersistence() HOC承担：<br>  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">withPersistence</span>(<span class="params">storageKey, storage</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">PersistentComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">            <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">                <span class="keyword">super</span>(props);</span><br><span class="line">                <span class="keyword">this</span>.state = &#123; <span class="attr">initialValue</span>: storage.getItem(storageKey) &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            render() &#123;</span><br><span class="line">                <span class="keyword">return</span> (</span><br><span class="line">                    &lt;WrappedComponent</span><br><span class="line">                        initialValue=&#123;<span class="keyword">this</span>.state.initialValue&#125;</span><br><span class="line">                        saveValue=&#123;<span class="keyword">this</span>.saveValue&#125;</span><br><span class="line">                        &#123;...this.props&#125;</span><br><span class="line">                    /&gt;</span><br><span class="line">                );</span><br><span class="line">            &#125;</span><br><span class="line">            saveValue(value) &#123;</span><br><span class="line">                storage.setItem(storageKey, value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></persistentform></p>
@@ -322,519 +927,24 @@
       
 
       
-      <h1 id="1-userContext123"><a href="#1-userContext123" class="headerlink" title="1.userContext123"></a>1.userContext123</h1><p>关于React Hooks中使用useContext 进行父子组件传值（父子组件不在同一个文件中）<br>1、封装的公共文件<br>// createContext.js文件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createContext &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">const</span> myContext = createContext(<span class="literal">null</span>);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> myContext;</span><br></pre></td></tr></table></figure></p>
+      <h1 id="1-userContext"><a href="#1-userContext" class="headerlink" title="1.userContext"></a>1.userContext</h1><p>关于React Hooks中使用useContext 进行父子组件传值（父子组件不在同一个文件中）<br>1、封装的公共文件<br>// createContext.js文件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createContext &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">const</span> myContext = createContext(<span class="literal">null</span>);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> myContext;</span><br></pre></td></tr></table></figure></p>
 <p>2、父组件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState&#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> Counter <span class="keyword">from</span> <span class="string">'./Counter'</span></span><br><span class="line"><span class="keyword">import</span> myContext <span class="keyword">from</span> <span class="string">'./createContext'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;h4&gt;我是父组件&lt;<span class="regexp">/h4&gt;</span></span><br><span class="line"><span class="regexp">      &lt;p&gt;点击了 &#123;count&#125; 次!&lt;/</span>p&gt;</span><br><span class="line">      &lt;button</span><br><span class="line">        onClick=&#123;() =&gt; &#123;</span><br><span class="line">          setCount(count + <span class="number">1</span>);</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      &gt;</span><br><span class="line">        点我</span><br><span class="line">      &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">      &#123;/</span>* 关键代码 *<span class="regexp">/&#125;</span></span><br><span class="line"><span class="regexp">      &#123;/</span>* 提供器 *<span class="regexp">/&#125;</span></span><br><span class="line"><span class="regexp">      &lt;myContext.Provider value=&#123;count&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;Counter /</span>&gt;</span><br><span class="line">      &lt;<span class="regexp">/myContext.Provider&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> App;</span><br></pre></td></tr></table></figure></p>
 <p>3、子组件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useContext&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> myContext <span class="keyword">from</span> <span class="string">'./createContext'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 关键代码</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Counter</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> count = useContext(myContext);  <span class="comment">// 得到父组件传的值</span></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;h4&gt;我是子组件&lt;<span class="regexp">/h4&gt;</span></span><br><span class="line"><span class="regexp">            &lt;p&gt;这是父组件传过来的值：&#123;count&#125;&lt;/</span>p&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default Counter;</span></span><br></pre></td></tr></table></figure></p>
 <h1 id="2-useCallback"><a href="#2-useCallback" class="headerlink" title="2.useCallback"></a>2.useCallback</h1><p>它会返回相同的引用，避免子组件进行无意义的重复渲染：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> memoizedHandleClick = useCallback(</span><br><span class="line">    () =&gt; <span class="built_in">console</span>.log(<span class="string">`Click happened with dependency: <span class="subst">$&#123;count&#125;</span>`</span>), [count],</span><br><span class="line">  ); </span><br><span class="line">  <span class="keyword">return</span> &lt;Button onClick=&#123;memoizedHandleClick&#125;&gt;Click Me&lt;/Button&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h1 id="3-useMemo-、-React-memo"><a href="#3-useMemo-、-React-memo" class="headerlink" title="3.useMemo 、 React.memo"></a>3.useMemo 、 React.memo</h1><p>useCallback缓存的是方法的引用，而useMemo缓存的则是方法的返回值。使用场景是减少不必要的子组件渲染：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params">&#123; a, b &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 当 a 改变时才会重新渲染</span></span><br><span class="line">  <span class="keyword">const</span> child1 = useMemo(<span class="function"><span class="params">()</span> =&gt;</span> &lt;Child1 a=&#123;a&#125; /&gt;, [a]);</span><br><span class="line">  <span class="comment">// 当 b 改变时才会重新渲染</span></span><br><span class="line">  <span class="keyword">const</span> child2 = useMemo(<span class="function"><span class="params">()</span> =&gt;</span> &lt;Child2 b=&#123;b&#125; /&gt;, [b]);</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &#123;child1&#125;</span><br><span class="line">      &#123;child2&#125;</span><br><span class="line">    &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></p>
 <p>如果想实现Class Component的shouldComponentUpdate方法，可以使用React.memo方法，区别是它只能比较 props，不会比较 state：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Parent = React.memo(<span class="function">(<span class="params">&#123; a, b &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 当 a 改变时才会重新渲染</span></span><br><span class="line">  <span class="keyword">const</span> child1 = useMemo(<span class="function"><span class="params">()</span> =&gt;</span> &lt;Child1 a=&#123;a&#125; /&gt;, [a]);</span><br><span class="line">  <span class="comment">// 当 b 改变时才会重新渲染</span></span><br><span class="line">  <span class="keyword">const</span> child2 = useMemo(<span class="function"><span class="params">()</span> =&gt;</span> &lt;Child2 b=&#123;b&#125; /&gt;, [b]);</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &#123;child1&#125;</span><br><span class="line">      &#123;child2&#125;</span><br><span class="line">    &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;);</span></span><br></pre></td></tr></table></figure></p>
 <h1 id="封装自定义-usePrevious"><a href="#封装自定义-usePrevious" class="headerlink" title="封装自定义 usePrevious"></a>封装自定义 usePrevious</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> usePrevious = <span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> ref = useRef();</span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    ref.current = value;</span><br><span class="line">  &#125;, [value]);</span><br><span class="line">  <span class="keyword">return</span> ref.current;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Counter</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> prevCountRef = usePrevious(count);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">0</span>);</span><br><span class="line">  <span class="comment">// useEffect(() =&gt; &#123;</span></span><br><span class="line">  <span class="comment">//   console.log(1);</span></span><br><span class="line">  <span class="comment">//   prevCountRef.current = count;</span></span><br><span class="line">  <span class="comment">// &#125;);</span></span><br><span class="line">  <span class="keyword">const</span> prevCount = prevCountRef;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;h1&gt;</span><br><span class="line">        Now: &#123;count&#125;, <span class="attr">before</span>: &#123;prevCount&#125;</span><br><span class="line">      &lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;() =&gt; setCount(count + 1)&#125;&gt;click here&lt;/</span>button&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-Chrome-time-分析" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/07/03/Chrome-time-分析/">Chrome time 分析</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/07/03/Chrome-time-分析/" class="article-date">
-  <time datetime="2020-07-03T02:18:39.000Z" itemprop="datePublished">2020-07-03</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h1 id="Stalled（阻塞）"><a href="#Stalled（阻塞）" class="headerlink" title="Stalled（阻塞）"></a>Stalled（阻塞）</h1><p>　　浏览器对同一个主机域名的并发连接数有限制，因此如果当前的连接数已经超过上限，那么其余请求就会被阻塞，等待新的可用连接；此外脚本也会阻塞其他组件的下载；</p>
-<p>　　优化措施：</p>
-<p>　　1、将资源合理分布到多台主机上，可以提高并发数，但是增加并行下载数量也会增大开销，这取决于带宽和CPU速度，过多的并行下载会降低性能；</p>
-<p>　　2、脚本置于页面底部；</p>
-<h1 id="DNS-Lookup（域名解析）"><a href="#DNS-Lookup（域名解析）" class="headerlink" title="DNS Lookup（域名解析）"></a>DNS Lookup（域名解析）</h1><p>　　请求某域名下的资源，浏览器需要先通过DNS解析器得到该域名服务器的IP地址。在DNS查找完成之前，浏览器不能从主机名那里下载到任何东西。</p>
-<p>　　优化措施：</p>
-<p>　　1、利用DNS缓存（设置TTL时间）；</p>
-<p>　　2、利用Connection:keep-alive特性建立持久连接，可以在当前连接上进行多个请求，无需再进行域名解析；</p>
-<h1 id="Initial-connection（初始化连接）"><a href="#Initial-connection（初始化连接）" class="headerlink" title="Initial connection（初始化连接）"></a>Initial connection（初始化连接）</h1><p>　　TCP建立连接的三次握手时间</p>
-<h1 id="SSL（包含于HTTPS连接中）"><a href="#SSL（包含于HTTPS连接中）" class="headerlink" title="SSL（包含于HTTPS连接中）"></a>SSL（包含于HTTPS连接中）</h1><p>　　http是超文本传输协议，以明文方式发送内容，不提供任何方式的数据加密，如果被不法分子截取浏览器和服务器之间的传输报文，会获取其中的信息。</p>
-<p>　　https 是安全套接字层超文本传输协议，就是在HTTP的基础上加入了SSL协议，SSL依靠证书来验证服务器的身份，并为浏览器和服务器之间的通信加密。</p>
-<p>　　因此建立HTTPS连接的时间相当于三次握手的时间+SSL时间。</p>
-<h1 id="Request-sent（发送请求）"><a href="#Request-sent（发送请求）" class="headerlink" title="Request sent（发送请求）"></a>Request sent（发送请求）</h1><p>　　发送HTTP请求的时间（从第一个bit到最后一个bit）</p>
-<p>　　优化措施：</p>
-<p>　　1、减少HTTP请求，可以使用CSS Sprites、内联图片、合并脚本和样式表等；</p>
-<p>　　2、对不常变化的组件添加长久的Expires头（相当于设置久远的过期时间），在后续的页面浏览中可以避免不必要的HTTP请求；</p>
-<h1 id="Waiting（等待响应）"><a href="#Waiting（等待响应）" class="headerlink" title="Waiting（等待响应）"></a>Waiting（等待响应）</h1><p>　　通常是耗费时间最长的。从发送请求到收到响应之间的空隙，会受到线路、服务器距离等因素的影响。</p>
-<p>　　优化措施：</p>
-<p>　　1、使用CDN，将用户的访问指向距离最近的工作正常的缓存服务器上，由缓存服务器直接响应用户请求，提高响应速度；</p>
-<h1 id="Content-Download（下载）"><a href="#Content-Download（下载）" class="headerlink" title="Content Download（下载）"></a>Content Download（下载）</h1><p>　　下载HTTP响应的时间（包含头部和响应体）</p>
-<p>　　优化措施：</p>
-<p>　　1、通过条件Get请求，对比If-Modified-Since和Last-Modified时间，确定是否使用缓存中的组件，服务器会返回“304 Not Modified”状态码，减小响应的大小；</p>
-<p>　　2、移除重复脚本，精简和压缩代码，如借助自动化构建工具grunt、gulp等；</p>
-<p>　　3、压缩响应内容，服务器端启用gzip压缩，可以减少下载时间</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-nodejs相关记录" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/06/30/nodejs相关记录/">nodejs相关记录</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/06/30/nodejs相关记录/" class="article-date">
-  <time datetime="2020-06-30T08:09:28.000Z" itemprop="datePublished">2020-06-30</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h1 id="nvm管理node-版本号"><a href="#nvm管理node-版本号" class="headerlink" title="nvm管理node 版本号"></a>nvm管理node 版本号</h1><p>在mac和liunx系统里边  nvm use 切换的是当次版本   下次打开终端  还是之前的node版本</p>
-<p>要想永久切换   使用nvm alias default （版本号）</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-React-HOC-ref-用法" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/06/04/React-HOC-ref-用法/">React HOC ref 用法</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/06/04/React-HOC-ref-用法/" class="article-date">
-  <time datetime="2020-06-04T02:26:11.000Z" itemprop="datePublished">2020-06-04</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>昨天参加面试被问到hoc 父组件的static 方法的传递</p>
-<p>关键点就是React.forwardRef的API中ref必须指向dom元素而不是React组件。</p>
-<p>一、React.forwardRef使用示例<br>下面就是应用到React组件的错误示例：</p>
-<p>const A=React.forwardRef((props,ref)=&gt;<b {...props}="" ref="{ref}/">)<br>这就是我之前经常犯的错误， 这里的ref是无法生效的。</b></p>
-<p>前面提到ref必须指向dom元素，那么正确方法就应用而生：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span>  A=React.forwardRef(<span class="function">(<span class="params">props,ref</span>)=&gt;</span>(</span><br><span class="line">&lt;div ref=&#123;ref&#125;&gt;</span><br><span class="line">&lt;B &#123;...props&#125; /&gt;</span><br><span class="line">&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">))</span></span><br></pre></td></tr></table></figure></p>
-<p>二、React.forwardRef应用到高阶组件中<br>2.1. withComponent类型的高阶组件【1】<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;</span><br><span class="line">import A from &apos;./a.jsx&apos;</span><br><span class="line">import PropTypes from &apos;prop-types&apos;;</span><br><span class="line"></span><br><span class="line">function withA(Component)&#123;</span><br><span class="line">    const ForWardedComponent = React.forwardRef((props, ref) =&gt; &lt;div ref=&#123;ref&#125;&gt;</span><br><span class="line">               &lt;Component &#123;...props&#125; /&gt;</span><br><span class="line">           &lt;/div&gt;);</span><br><span class="line">     class MidComponent extends React.Component &#123;</span><br><span class="line">        render() &#123;</span><br><span class="line">            const props = this.props</span><br><span class="line">            return (</span><br><span class="line">                &lt;A &#123;...props&#125;&gt;</span><br><span class="line">                  &lt;ForWardedComponent  ref=&#123;props.forwardedRef&#125; &#123;...props&#125;/&gt;</span><br><span class="line">            &lt;/A&gt;</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //对MidComponent组件属性进行类型经查 </span><br><span class="line">    MidComponent.propTypes = &#123;</span><br><span class="line">        forwardedRef: PropTypes.object,</span><br><span class="line">    &#125;</span><br><span class="line">    return  MidComponent</span><br><span class="line">&#125;</span><br><span class="line">exports.withA=withA</span><br><span class="line">这样，在上述示例的组件A中，A的周期componentDidMount() 调用 this.props.forwardedRef.current ,指向的就是上述示例中ForWardedComponent对应的dom元素。</span><br><span class="line">是B组件对应的dom的父元素，而不是该dom</span><br><span class="line">在a.jsx中某处:</span><br><span class="line"></span><br><span class="line">    componentDidMount()&#123;</span><br><span class="line">     console.log(this.props.forwardedRef.current)</span><br><span class="line">    &#125;</span><br><span class="line">最后应用实例：</span><br><span class="line"></span><br><span class="line">import React from &apos;react&apos;</span><br><span class="line">import ReactDOM from  &apos;react-dom&apos;</span><br><span class="line">//假设withA存储于withA.js文件。</span><br><span class="line">import &#123;withA&#125;   from  &apos;./withA.js&apos;  </span><br><span class="line"> const B=()=&gt;&lt;h2&gt;hello world&lt;/h2&gt;</span><br><span class="line">const B2=withA(B)</span><br><span class="line">class App extends React.Component &#123;</span><br><span class="line">      constructor(props) &#123;</span><br><span class="line">        super(props)</span><br><span class="line">        this.forwardedRef=React.creactRef()        </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        render() &#123;</span><br><span class="line">           return  &lt;div&gt;</span><br><span class="line">               &lt;B2  forwardedRef=&#123;this.forwardedRef&#125;/&gt;</span><br><span class="line">           &lt;/div&gt;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;App/&gt;,document.getElementById(&apos;app&apos;))</span><br><span class="line">     </span><br><span class="line">2.2 纯粹的高阶组件（Parent-Child）</span><br><span class="line">【1】中并不是React组件，只是一个React组件为参数的函数，调用以后才成为React组件。那么直接写入一个Parent组件又该如何呢？</span><br><span class="line"></span><br><span class="line">import React from &apos;react&apos;</span><br><span class="line">import A from &apos;./a.jsx&apos;</span><br><span class="line">import PropTypes from &apos;prop-types&apos;;</span><br><span class="line"></span><br><span class="line">function AasParent(props)&#123;</span><br><span class="line">    const ForWardedComponent = React.forwardRef((props, ref) =&gt; &lt;div ref=&#123;ref&#125;&gt;</span><br><span class="line">               &#123;props.children&#125;</span><br><span class="line">           &lt;/div&gt;);</span><br><span class="line">      return (</span><br><span class="line">                &lt;A &#123;...props&#125;&gt;</span><br><span class="line">                  &lt;ForWardedComponent  ref=&#123;props.forwardedRef&#125; &#123;...props&#125;/&gt;</span><br><span class="line">            &lt;/A&gt;)</span><br><span class="line">&#125;</span><br><span class="line">AasParent.propTypes = &#123;</span><br><span class="line">        forwardedRef: PropTypes.object,</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">module.exports=AasParent</span><br><span class="line">最后应用实例：</span><br><span class="line"></span><br><span class="line">import React from &apos;react&apos;</span><br><span class="line">import ReactDOM from  &apos;react-dom&apos;</span><br><span class="line">//假设AasParent存储于AasParent.jsx文件。注意与【1】中的区别</span><br><span class="line">import AasParent   from  &apos;./AasParent.jsx&apos;  </span><br><span class="line"> const B=(props)=&gt;&lt;h2&gt;&#123;props.greetings&#125;&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">class App extends React.Component &#123;</span><br><span class="line">      constructor(props) &#123;</span><br><span class="line">        super(props)</span><br><span class="line">        this.forwardedRef=React.creactRef()        </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        render() &#123;</span><br><span class="line">           return  &lt;AasParent forwardedRef=&#123;this.forwardedRef&#125;&gt;</span><br><span class="line">               &lt;B2  greetings=&quot;你好，Melo&quot;/&gt;</span><br><span class="line">           &lt;/AasParent&gt;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;App/&gt;,document.getElementById(&apos;app&apos;))</span><br></pre></td></tr></table></figure></p>
-<p>三、总结<br>1.React.forwardRef的API中ref必须指向dom元素而不是React组件。<br>2.在【1】的组件A中，A的周期componentDidMount() 调用 this.props.forwardedRef.current ,指向的就是【1】中ForWardedComponent对应的dom元素。是【1】中B组件对应的dom的父dom元素，而不是该dom。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-Http协议相关" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/12/Http协议相关/">Http协议相关</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/12/Http协议相关/" class="article-date">
-  <time datetime="2020-05-12T09:16:40.000Z" itemprop="datePublished">2020-05-12</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>1.强缓存离不开两个响应头Expires与Cache-Control</p>
-<p>Expires：Expires是http1.0提出的一个表示资源过期时间的header，它描述的是一个绝对时间，由服务器返回，Expires 受限于本地时间，如果修改了本地时间，可能会造成缓存失效<br>Expires: Wed, 11 May 2018 07:20:00 GMT</p>
-<p>Cache-Control: Cache-Control 出现于 HTTP / 1.1，优先级高于 Expires ,表示的是相对时间<br>Cache-Control: max-age=315360000</p>
-<p>2.协商缓存<br>协商缓存就是强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程，主要有以下两种情况：</p>
-<p>协商缓存生效，返回304和Not Modified<br>协商缓存失效，返回200和请求结果</p>
-<p>协商缓存可以通过设置两种 HTTP Header 实现：Last-Modified 和 ETag 。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-V2Ray断流异常" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/03/15/V2Ray断流异常/">V2Ray断流异常</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/03/15/V2Ray断流异常/" class="article-date">
-  <time datetime="2020-03-15T15:54:38.000Z" itemprop="datePublished">2020-03-15</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <ol>
-<li><p>问题描述<br>最近一段时间发现，代理十分不稳定，经常出现“断流”，具体表现为：打开需要代理的站点，需要访问两次，第一次访问失败，需要再刷新一次。<br>查看错误日志内容：</p>
-</li>
-<li><p>Proxy|HTTP: failed to read response from r16—sn-ni57dn7z.gvt1.com &gt; io: read/write on closed pipe</p>
-</li>
-<li><p>问题原因<br>后翻阅issue检查发现，我的代理服务器时间比客户端慢了3分钟，两端时间不一致。</p>
-</li>
-<li><p>解决办法<br>同步服务器时间</p>
-</li>
-</ol>
-<p>查看当前服务当前时间</p>
-<ol>
-<li>date -R</li>
-<li>timedatectl set-ntp no</li>
-<li>timedatectl set-time ‘23:51:00’</li>
-</ol>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-React-高阶组件-属性代理和反向继承-生命周期调研" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/22/React-高阶组件-属性代理和反向继承-生命周期调研/">React 高阶组件 属性代理和反向继承 生命周期调研</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/12/22/React-高阶组件-属性代理和反向继承-生命周期调研/" class="article-date">
-  <time datetime="2019-12-21T17:43:58.000Z" itemprop="datePublished">2019-12-22</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="属性代理-Props-Proxy-：-HOC-对传给-WrappedComponent-W-的-porps-进行操作，反向继承-Inheritance-Inversion-：-HOC-继承-WrappedComponent-W。"><a href="#属性代理-Props-Proxy-：-HOC-对传给-WrappedComponent-W-的-porps-进行操作，反向继承-Inheritance-Inversion-：-HOC-继承-WrappedComponent-W。" class="headerlink" title="属性代理(Props Proxy)： HOC 对传给 WrappedComponent W 的 porps 进行操作，反向继承(Inheritance Inversion)： HOC 继承 WrappedComponent W。"></a>属性代理(Props Proxy)： HOC 对传给 WrappedComponent W 的 porps 进行操作，反向继承(Inheritance Inversion)： HOC 继承 WrappedComponent W。</h2><h3 id="1-属性代理"><a href="#1-属性代理" class="headerlink" title="1.属性代理"></a>1.属性代理</h3><p>使用 Props Proxy 可以做什么？</p>
-<p>操作 props<br>通过 Refs 访问到组件实例<br>提取 state<br>用其他元素包裹 WrappedComponent<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.message = <span class="string">'World'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  componentWillMount()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"属性代理1 willmount"</span>);  </span><br><span class="line">        &#125;</span><br><span class="line">        componentDidMount()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"属性代理1 didmount"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (&lt;h1&gt;Hello &#123;this.message&#125;&lt;/h1&gt;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> MyContainer = <span class="function">(<span class="params">WrappedComponent</span>) =&gt;</span> </span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">        componentWillMount()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"HOC属性代理1 willmount"</span>);  </span><br><span class="line">        &#125;</span><br><span class="line">        componentDidMount()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"HOC属性代理1 didmount"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      </span><br><span class="line">        render()&#123;</span><br><span class="line">            <span class="keyword">return</span> &lt;WrappedComponent &#123;...this.props&#125; /&gt;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">const Hocfirst=MyContainer(App);</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;Hocfirst/&gt;, window.root);</span><br><span class="line"></span><br><span class="line">\\\</span><br><span class="line"></span><br><span class="line">"HOC属性代理1 willmount"</span><br><span class="line">"属性代理1 willmount"</span><br><span class="line">"属性代理1 didmount"</span><br><span class="line">"HOC属性代理1 didmount"</span><br></pre></td></tr></table></figure></p>
-<h3 id="2-反向继承"><a href="#2-反向继承" class="headerlink" title="2.反向继承"></a>2.反向继承</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">replacer</span>(<span class="params">key, value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">'function'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`function <span class="subst">$&#123;value.name&#125;</span>() &#123;...&#125;`</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stringify</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">JSON</span>.stringify(value, replacer, <span class="number">2</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// II debug example</span></span><br><span class="line"><span class="comment">// We are using the Inheritance Inversion technique to display</span></span><br><span class="line"><span class="comment">// the current state and props of the WrappedComponent (the component you want to debug).</span></span><br><span class="line"><span class="comment">// This is based on the technique that Mickael Jackson and Ryan Florence recommend</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">IIHOC</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">II</span> <span class="keyword">extends</span> <span class="title">WrappedComponent</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">      <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">          &lt;h2&gt;</span><br><span class="line">            HOC Debugger Component</span><br><span class="line">          &lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">          &lt;p&gt;</span></span><br><span class="line"><span class="regexp">            Props</span></span><br><span class="line"><span class="regexp">          &lt;/</span>p&gt;</span><br><span class="line">          &lt;pre&gt;&#123;stringify(<span class="keyword">this</span>.props)&#125;&lt;<span class="regexp">/pre&gt;</span></span><br><span class="line"><span class="regexp">          &lt;p&gt;</span></span><br><span class="line"><span class="regexp">            State</span></span><br><span class="line"><span class="regexp">          &lt;/</span>p&gt;</span><br><span class="line">          &lt;pre&gt;&#123;stringify(<span class="keyword">this</span>.state)&#125;&lt;<span class="regexp">/pre&gt;</span></span><br><span class="line"><span class="regexp">          &#123;super.render()&#125;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>div&gt;</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Example</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      name: <span class="string">'fran'</span>,</span><br><span class="line">      email: <span class="string">'franleplant@gmail.com'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h2&gt;</span><br><span class="line">          Wrapped Component</span><br><span class="line">        &lt;<span class="regexp">/h2&gt;</span></span><br><span class="line"><span class="regexp">        &lt;p&gt;Im a wrapped component&lt;/</span>p&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">const EnhancedExample = IIHOC(Example)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">ReactDOM.render(&lt;EnhancedExample date=&#123;(new Date).toISOString()&#125; callback=&#123;function test() &#123;&#125;&#125;/</span>&gt;, <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">E2：</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ComponentChild</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      num: <span class="number">2019</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"child component Did Mount"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  clickComponent() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Component click"</span>)</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> ( &lt;div &gt; &#123;</span><br><span class="line">        this.state.num</span><br><span class="line">      &#125; &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> iihoc = <span class="function">(<span class="params">WrapComponet</span>) =&gt;</span> <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">WrapComponet</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">super</span>(props)</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">this</span>.state = &#123;</span><br><span class="line"> </span><br><span class="line">          num: <span class="number">2000</span></span><br><span class="line"> </span><br><span class="line">      &#125;</span><br><span class="line"> </span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line"> </span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'iihoc componentDidMount'</span>)</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">this</span>.clickComponent()</span><br><span class="line"> </span><br><span class="line">  &#125;</span><br><span class="line">render()&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line"> </span><br><span class="line">    &lt;div&gt;</span><br><span class="line"> </span><br><span class="line">        &lt;div onClick=&#123;<span class="keyword">this</span>.clickComponent&#125;&gt;iiHoc 点击&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp">       &#123;/</span>* &lt;div&gt;&lt;WrapComponet /&gt;&lt;/div&gt; *<span class="regexp">/&#125;/</span><span class="regexp">/用的是父组件的state；</span></span><br><span class="line"><span class="regexp">       &lt;div&gt;&#123;super.render()&#125;&lt;/</span>div&gt;<span class="comment">//反向继承，用的是子组件的state；并且会劫持父组件的生命周期钩子函数componentDidMount，不会执行父组件的componentDidMount</span></span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp">)</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp">var App = iihoc(ComponentChild)</span></span><br><span class="line"><span class="regexp"> </span></span><br><span class="line"><span class="regexp">ReactDOM.render(&lt;App/</span>&gt;, <span class="built_in">window</span>.root);</span><br></pre></td></tr></table></figure>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-h5-hybird-webview页面兼容性" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/20/h5-hybird-webview页面兼容性/">h5 hybird webview页面兼容性</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/12/20/h5-hybird-webview页面兼容性/" class="article-date">
-  <time datetime="2019-12-20T14:53:07.000Z" itemprop="datePublished">2019-12-20</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>1.在滚动容器上增加滚动 touch 方法<br>将-webkit-overflow-scrolling 值设置为 touch</p>
-<p>.wrapper {<br>    -webkit-overflow-scrolling: touch;<br>}</p>
-<p>2.iOS 上拉边界下拉出现白色空白<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'touchmove'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(e._isScroller) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">// 阻止默认事件</span></span><br><span class="line">    e.preventDefault();</span><br><span class="line">&#125;, &#123;</span><br><span class="line">    passive: <span class="literal">false</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>3.软键盘将页面顶起来、收起未回落问题<br>表现<br>Android 手机中，点击 input 框时，键盘弹出，将页面顶起来，导致页面样式错乱。<br>移开焦点时，键盘收起，键盘区域空白，未回落。<br>产生原因<br>我们在app 布局中会有个固定的底部。安卓一些版本中，输入弹窗出来，会将解压 absolute 和 fixed 定位的元素。导致可视区域变小，布局错乱。<br>原理与解决方案<br>软键盘将页面顶起来的解决方案，主要是通过监听页面高度变化，强制恢复成弹出前的高度。<br>// 记录原有的视口高度<br>const originalHeight = document.body.clientHeight || document.documentElement.clientHeight;</p>
-<p>window.onresize = function(){<br>  var resizeHeight = document.documentElement.clientHeight || document.body.clientHeight;<br>  if(resizeHeight &lt; originalHeight ){<br>    document.body.clientHeight = originalHeight;<br>  }<br>}<br>复制代码键盘不能回落问题出现在 iOS 12+ 和 wechat 6.7.4+ 中，而在微信 H5 开发中是比较常见的 Bug。<br>兼容原理，1.判断版本类型 2.更改滚动的可视区域<br>const isWechat = window.navigator.userAgent.match(/MicroMessenger\/([\d.]+)/i);<br>if (!isWechat) return;<br>const wechatVersion = wechatInfo[1];<br>const version = (navigator.appVersion).match(/OS (\d+)<em>(\d+)</em>?(\d+)?/);</p>
-<p> // 如果设备类型为iOS 12+ 和wechat 6.7.4+，恢复成原来的视口<br>if (+wechatVersion.replace(/./g, ‘’) &gt;= 674 &amp;&amp; +version[1] &gt;= 12) {<br>  window.scrollTo(0, Math.max(document.body.clientHeight, document.documentElement.clientHeight));<br>}<br>复制代码<br>window.scrollTo(x-coord, y-coord)，其中window.scrollTo(0, clientHeight)恢复成原来的视口</p>
-<p>4.微信公众号分享问题<br>表现<br>在微信公众号 H5 开发中，页面内部点击分享按钮调用 SDK，方法不生效。<br>解决方案<br>解决方法：添加一层蒙层，做分享引导。<br>因为页面内部点击分享按钮无法直接调用，而分享功能需要点击右上角更多来操作。<br>然后用户可能不知道通过右上角小标里面的功能分享。又想引导用户分享，这时应该怎么做呢？<br>技术无法实现的，从产品出发。</p>
-
+<h1 id="Hooks-的坑"><a href="#Hooks-的坑" class="headerlink" title="Hooks 的坑"></a>Hooks 的坑</h1><p>Hooks 的坑 99% 都是闭包引起的，我们通过一个例子来了解下什么情况下会因为闭包导致问题。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [state, setState] = React.useState(<span class="number">0</span>)</span><br><span class="line">  <span class="comment">// 连点三次你觉得答案会是什么？</span></span><br><span class="line">  <span class="keyword">const</span> handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setState(state + <span class="number">1</span>)</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(state)</span><br><span class="line">    &#125;, <span class="number">2000</span>)</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;div&gt;&#123;state&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;handleClick&#125; /</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>复制代码<br>上述代码触发三次 handleClick 后你觉得答案会是什么？可能答案与你所想的不大一样，结果是：</p>
+<p>0 1 2</p>
+<p>因为每次 render 都有一份新的状态，因此上述代码中的 setTimeout 使用产生了一个闭包，捕获了每次 render 后的 state，也就导致了输出了 0、1、2。</p>
+<p>如果你希望输出的内容是最新的 state 的话，可以通过 useRef 来保存 state。前文讲过 ref 在组件中只存在一份，无论何时使用它的引用都不会产生变化，因此可以来解决闭包引发的问题。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [state, setState] = React.useState(<span class="number">0</span>)</span><br><span class="line">  <span class="comment">// 用 ref 存一下</span></span><br><span class="line">  <span class="keyword">const</span> currentState = React.useRef(state)</span><br><span class="line">  <span class="comment">// 每次渲染后更新下值</span></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    currentState.current = state</span><br><span class="line">  &#125;)</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">const</span> handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setState(state + <span class="number">1</span>)</span><br><span class="line">    <span class="comment">// 这样定时器里通过 ref 拿到最新值</span></span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(currentState.current)</span><br><span class="line">    &#125;, <span class="number">2000</span>)</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;div&gt;&#123;state&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;handleClick&#125; /</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>其实闭包引发的问题多半是保存了 old 的值，只要想办法拿到最新的值其实基本上就解决问题了。</p>
+<h1 id="函数式组件-usestate-render"><a href="#函数式组件-usestate-render" class="headerlink" title="函数式组件 usestate render"></a>函数式组件 usestate render</h1><h2 id="react合成事件里的setState操作也是batch操作"><a href="#react合成事件里的setState操作也是batch操作" class="headerlink" title="react合成事件里的setState操作也是batch操作"></a>react合成事件里的setState操作也是batch操作</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./styles.css"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [counter1, setCounter1] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [counter2, setCounter2] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [counter3, setCounter3] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [renderCount, setRenderCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setRenderCount(renderCount + <span class="number">1</span>);</span><br><span class="line">  &#125;, [counter1, counter2, counter3]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setCounter1(counter1 + <span class="number">1</span>);</span><br><span class="line">    setCounter2(counter2 + <span class="number">1</span>);</span><br><span class="line">    setCounter3(counter3 + <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">123</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">'App'</span>&gt;</span><br><span class="line">      &lt;h1&gt;<span class="built_in">Function</span> Component&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">      &lt;div&gt;</span></span><br><span class="line"><span class="regexp">        Counter1: &#123;counter1&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        Counter2: &#123;counter2&#125;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;div&gt;</span></span><br><span class="line"><span class="regexp">        Counter3: &#123;counter3&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">      &lt;br/&gt;</span><br><span class="line">      &lt;div&gt;Component was rendered &#123;renderCount&#125; times&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;handleClick&#125;&gt;Click me&lt;/</span>button&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="不会批处理的情况"><a href="#不会批处理的情况" class="headerlink" title="不会批处理的情况"></a>不会批处理的情况</h2><p>请注意，此功能并不总是有效。在使用不同种类的，例如一个异步操作的事件处理程序async/await，then/catch，setTimeout，fetch，等独立的状态更新将不会进行批处理。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./styles.css"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [counter1, setCounter1] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [counter2, setCounter2] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [counter3, setCounter3] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [renderCount, setRenderCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setRenderCount(renderCount + <span class="number">1</span>);</span><br><span class="line">  &#125;, [counter1, counter2, counter3]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleClickAsync = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">await</span> setCounter1(counter1 + <span class="number">1</span>);</span><br><span class="line">    setCounter2(counter2 + <span class="number">1</span>);</span><br><span class="line">    setCounter3(counter3 + <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleClickThen = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">      setCounter1(counter1 + <span class="number">1</span>);</span><br><span class="line">      setCounter2(counter2 + <span class="number">1</span>);</span><br><span class="line">      setCounter3(counter3 + <span class="number">1</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">'App'</span>&gt;</span><br><span class="line">      &lt;h1&gt;<span class="built_in">Function</span> Component&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">      &lt;div&gt;</span></span><br><span class="line"><span class="regexp">        Counter1: &#123;counter1&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        Counter2: &#123;counter2&#125;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;div&gt;</span></span><br><span class="line"><span class="regexp">        Counter3: &#123;counter3&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">      &lt;br/&gt;</span><br><span class="line">      &lt;div&gt;Component was rendered &#123;renderCount&#125; times&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;handleClickAsync&#125;&gt;Async handler&lt;/</span>button&gt;</span><br><span class="line">      &lt;button onClick=&#123;handleClickThen&#125;&gt;Then handler&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="如何强制分批处理？"><a href="#如何强制分批处理？" class="headerlink" title="如何强制分批处理？"></a>如何强制分批处理？</h2><p>幸运的是，通过使用，我们可以克服这一问题ReactDOM.unstable_batchUpdate，并且仍然可以根据需要从状态批处理更新中受益。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">"react-dom"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./styles.css"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [counter1, setCounter1] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [counter2, setCounter2] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [counter3, setCounter3] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [renderCount, setRenderCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setRenderCount(renderCount + <span class="number">1</span>);</span><br><span class="line">  &#125;, [counter1, counter2, counter3]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleClickThen = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">      ReactDOM.unstable_batchedUpdates(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      setCounter1(counter1 + <span class="number">1</span>);</span><br><span class="line">      setCounter2(counter2 + <span class="number">1</span>);</span><br><span class="line">      setCounter3(counter3 + <span class="number">1</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">'App'</span>&gt;</span><br><span class="line">      &lt;h1&gt;<span class="built_in">Function</span> Component&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">      &lt;div&gt;</span></span><br><span class="line"><span class="regexp">        Counter1: &#123;counter1&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        Counter2: &#123;counter2&#125;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;div&gt;</span></span><br><span class="line"><span class="regexp">        Counter3: &#123;counter3&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">      &lt;br/&gt;</span><br><span class="line">      &lt;div&gt;Component was rendered &#123;renderCount&#125; times&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;handleClickThen&#125;&gt;Then handler&lt;/</span>button&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
       
       <!-- reward -->
       
@@ -867,7 +977,7 @@
   
   <nav class="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
   </nav>
   
 </section>
@@ -878,7 +988,7 @@
     <ul class="list-inline">
       <li>
         &copy;
-        2015-2020
+        2015-2022
         Steady
       </li>
       <li>
