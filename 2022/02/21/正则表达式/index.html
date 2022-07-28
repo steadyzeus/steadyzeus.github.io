@@ -54,7 +54,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.9k字</span>
+            <span class="post-count">2k字</span>
         </span>
     </span>
 
@@ -74,6 +74,8 @@
 
     
     
+    <div class="tocbot"></div>
+
 
 
 
@@ -177,6 +179,9 @@
 <p>const getQueryByName = (name) =&gt; {<br>  const queryNameRegex = new RegExp(<code>[?&amp;]${name}=([^&amp;]*)(?:&amp;|$)</code>)<br>  const queryNameMatch = window.location.search.match(queryNameRegex)<br>  // 一般都会通过decodeURIComponent解码处理<br>  return queryNameMatch ? decodeURIComponent(queryNameMatch[1]) : ‘’<br>}<br>// 1. name在最前面<br>// <a href="https://juejin.cn/?name=前端胖头鱼&amp;sex=boy" target="_blank" rel="noopener">https://juejin.cn/?name=前端胖头鱼&amp;sex=boy</a><br>console.log(getQueryByName(‘name’)) // 前端胖头鱼</p>
 <p>// 2. name在最后<br>// <a href="https://juejin.cn/?sex=boy&amp;name=前端胖头鱼" target="_blank" rel="noopener">https://juejin.cn/?sex=boy&amp;name=前端胖头鱼</a><br>console.log(getQueryByName(‘name’)) // 前端胖头鱼</p>
 <p>// 2. name在中间<br>// <a href="https://juejin.cn/?sex=boy&amp;name=前端胖头鱼&amp;age=100" target="_blank" rel="noopener">https://juejin.cn/?sex=boy&amp;name=前端胖头鱼&amp;age=100</a><br>console.log(getQueryByName(‘name’)) // 前端胖头鱼</p>
+<p>与其他语言中的正则表达式类似，模式中使用的所有元字符都必须转义。正则表达式中的元字符包括：</p>
+<h1 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h1><p>( [ { \ ^ $ | ) ? * + .] }<br>这些元字符在正则表达式中都有一或多种特殊用途，因此如果想要匹配字符串中包含的这些字符，就必须对它们进行转义。</p>
+<p>// 匹配 .docx<br>var exp = /.docx/gi ;</p>
 
       
       <!-- reward -->
@@ -256,6 +261,15 @@
   
   
   <nav class="article-nav">
+    
+      <a href="/2022/07/18/Untitled-1/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            前端性能优化(偏运维篇) 
+          
+        </div>
+      </a>
     
     
       <a href="/2021/11/02/git操作/" class="article-nav-link">

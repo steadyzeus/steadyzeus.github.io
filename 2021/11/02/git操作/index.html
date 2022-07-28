@@ -54,7 +54,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">664字</span>
+            <span class="post-count">780字</span>
         </span>
     </span>
 
@@ -63,7 +63,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">2分钟</span>
+            <span class="post-count">3分钟</span>
         </span>
     </span>
 </div>
@@ -90,7 +90,8 @@
       
 
       
-      <h2 id="在-Git-开发中通常会控制主干分支的质量，但有时还是会把错误的代码合入到远程主干。-虽然可以直接回滚远程分支，-但有时新的代码也已经合入，直接回滚后最近的提交都要重新操作。-那么有没有只移除某些-Commit-的方式呢？可以一次-revert操作来完成。"><a href="#在-Git-开发中通常会控制主干分支的质量，但有时还是会把错误的代码合入到远程主干。-虽然可以直接回滚远程分支，-但有时新的代码也已经合入，直接回滚后最近的提交都要重新操作。-那么有没有只移除某些-Commit-的方式呢？可以一次-revert操作来完成。" class="headerlink" title="在 Git 开发中通常会控制主干分支的质量，但有时还是会把错误的代码合入到远程主干。 虽然可以直接回滚远程分支， 但有时新的代码也已经合入，直接回滚后最近的提交都要重新操作。 那么有没有只移除某些 Commit 的方式呢？可以一次 revert操作来完成。"></a>在 Git 开发中通常会控制主干分支的质量，但有时还是会把错误的代码合入到远程主干。 虽然可以直接回滚远程分支， 但有时新的代码也已经合入，直接回滚后最近的提交都要重新操作。 那么有没有只移除某些 Commit 的方式呢？可以一次 revert操作来完成。</h2><p>考虑这个例子，我们提交了 6 个版本，其中 3-4 包含了错误的代码需要被回滚掉。 同时希望不影响到后续的 5-6。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">* 982d4f6 (HEAD -&gt; master) version 6</span><br><span class="line">* 54cc9dc version 5</span><br><span class="line">* 551c408 version 4, harttle screwed it up again</span><br><span class="line">* 7e345c9 version 3, harttle screwed it up</span><br><span class="line">* f7742cd version 2</span><br><span class="line">* 6c4db3f version 1</span><br></pre></td></tr></table></figure></p>
+      <h1 id="git-revert"><a href="#git-revert" class="headerlink" title="git revert"></a>git revert</h1><p>在 Git 开发中通常会控制主干分支的质量，但有时还是会把错误的代码合入到远程主干。 虽然可以直接回滚远程分支， 但有时新的代码也已经合入，直接回滚后最近的提交都要重新操作。 那么有没有只移除某些 Commit 的方式呢？可以一次 revert操作来完成。</p>
+<p>考虑这个例子，我们提交了 6 个版本，其中 3-4 包含了错误的代码需要被回滚掉。 同时希望不影响到后续的 5-6。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">* 982d4f6 (HEAD -&gt; master) version 6</span><br><span class="line">* 54cc9dc version 5</span><br><span class="line">* 551c408 version 4, harttle screwed it up again</span><br><span class="line">* 7e345c9 version 3, harttle screwed it up</span><br><span class="line">* f7742cd version 2</span><br><span class="line">* 6c4db3f version 1</span><br></pre></td></tr></table></figure></p>
 <p>这种情况在团队协作的开发中会很常见：可能是流程或认为原因不小心合入了错误的代码， 也可能是合入一段时间后才发现存在问题。 总之已经存在后续提交，使得直接回滚不太现实。</p>
 <p>下面的部分就开始介绍具体操作了，同时我们假设远程分支是受保护的（不允许 Force Push）。 思路是从产生一个新的 Commit 撤销之前的错误提交。</p>
 <p>使用 git revert <commit> 可以撤销指定的提交， 要撤销一串提交可以用 <commit1>..<commit2> 语法。 注意这是一个前开后闭区间，即不包括 commit1，但包括 commit2。</commit2></commit1></commit></p>
@@ -102,6 +103,13 @@
 <p>git diff f7742cd..HEAD<br>如果 version 3, version 4 都被 version 6 撤销的话，上述两个 diff 为空。 可以人工确认一下，或者 grep 掉 description 之后做一次 diff。 下面介绍的另一种方法可以容易地确认 diff。</p>
 <p>示例</p>
 <p>bd1b80cb 和0f2f7e4a 是错误的提交可以通过git revert bd1b80cb 0f2f7e4a 来进行单独提交的回滚</p>
+<h1 id="git-rebase"><a href="#git-rebase" class="headerlink" title="git rebase"></a>git rebase</h1><p>重新复习，这个变基线命令，很多公司是不允许提交代码的时候变基的，但我们公司例外，在提交pr的时候需要执行变基操作，原因？</p>
+<ul>
+<li>git checkout master</li>
+<li>git pull origin master –rebase</li>
+<li>git checkout currentBranch</li>
+<li>git rebase master    //这一步就是在执行变基操作，但在这之前会执行一个操作，就是找到同master分支相同的commit号，然后整理commit：git reset –soft xxxxhash</li>
+</ul>
 
       
       <!-- reward -->

@@ -38,6 +38,85 @@
     
     
     
+    <article id="post-vue生命周期" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/02/vue生命周期/">vue生命周期</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/12/02/vue生命周期/" class="article-date">
+  <time datetime="2019-12-01T18:05:07.000Z" itemprop="datePublished">2019-12-02</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p><img src="/images/pasted-8.png" alt="upload successful"></p>
+<p><img src="/images/pasted-9.png" alt="upload successful"></p>
+<p>beforeCreate:在实例初始化之后，数据观测data observer(props、data、computed) 和 event/watcher 事件配置之前被调用。</p>
+<p>created:实例已经创建完成之后被调用。在这一步，实例已完成以下的配置：数据观测(data observer)，属性和方法的运算， watch/event 事件回调。然而，挂载阶段还没开始，$el 属性目前不可见。</p>
+<p>beforeMount:在挂载开始之前被调用：相关的 render 函数首次被调用。</p>
+<p>mounted: el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。</p>
+<p>beforeUpdate:数据更新时调用，发生在虚拟 DOM 重新渲染和打补丁之前。 你可以在这个钩子中进一步地更改状态，这不会触发附加的重渲染过程。</p>
+<p>updated：无论是组件本身的数据变更，还是从父组件接收到的 props 或者从vuex里面拿到的数据有变更，都会触发虚拟 DOM 重新渲染和打补丁，并在之后调用 updated。</p>
+<p>beforeDestroy:实例销毁之前调用。在这一步，实例仍然完全可用。</p>
+<p>destroyed:Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。 该钩子在服务器端渲染期间不被调用。<br>注意:</p>
+<p>created阶段的ajax请求与mounted请求的区别：前者页面视图未出现，如果请求信息过多，页面会长时间处于白屏状态。</p>
+<p>单个组件的生命周期</p>
+<p>初始化组件时，仅执行了beforeCreate/Created/beforeMount/mounted四个钩子函数<br>当改变data中定义的变量（响应式变量）时，会执行beforeUpdate/updated钩子函数<br>当切换组件（当前组件未缓存）时，会执行beforeDestory/destroyed钩子函数<br>初始化和销毁时的生命钩子函数均只会执行一次，beforeUpdate/updated可多次执行</p>
+<h2 id="Vue-nextTick-："><a href="#Vue-nextTick-：" class="headerlink" title="Vue.nextTick()："></a>Vue.nextTick()：</h2><p>在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。</p>
+<p>获取更新后的DOM言外之意就是什么操作需要用到了更新后的DOM而不能使用之前的DOM或者使用更新前的DOM会出问题，所以就衍生出了这个获取更新后的 DOM的Vue方法。所以放在Vue.nextTick()回调函数中的执行的应该是会对DOM进行操作的 js代码，比如Swiper扩展包的:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var swiper = new Swiper(&apos;.swiper-container&apos;, &#123;</span><br><span class="line">                    pagination: &apos;.swiper-pagination&apos;,</span><br><span class="line">                    nextButton: &apos;.swiper-button-next&apos;,</span><br><span class="line">                    prevButton: &apos;.swiper-button-prev&apos;,</span><br><span class="line">                    paginationClickable: true,</span><br><span class="line">                    spaceBetween: 30,</span><br><span class="line">                    centeredSlides: true,</span><br><span class="line">                    autoplay: 2500,</span><br><span class="line">                    autoplayDisableOnInteraction: false</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="什么时候需要用Vue-nextTick"><a href="#什么时候需要用Vue-nextTick" class="headerlink" title="什么时候需要用Vue.nextTick():"></a>什么时候需要用Vue.nextTick():</h2><p>你在Vue生命周期的created()钩子函数进行的DOM操作一定要放在Vue.nextTick()的回调函数中。原因是什么呢，原因是在created()钩子函数执行的时候DOM 其实并未进行任何渲染，而此时进行DOM操作无异于徒劳，所以此处一定要将DOM操作的js代码放进Vue.nextTick()的回调函数中。与之对应的就是mounted钩子函数，因为该钩子函数执行时所有的DOM挂载和渲染都已完成，此时在该钩子函数中进行任何DOM操作都不会有问题 。<br>在数据变化后要执行的某个操作，当你设置 vm.someData = ‘new value’，DOM并不会马上更新，而是在异步队列被清除，也就是下一个事件循环开始时执行更新时才会进行必要的DOM更新。如果此时你想要根据更新的 DOM 状态去做某些事情，就会出现问题。。为了在数据变化之后等待 Vue 完成更新 DOM ，可以在数据变化之后立即使用 Vue.nextTick(callback) 。这样回调函数在 DOM 更新完成后就会调用。<br>mounted 不会承诺所有的子组件也都一起被挂载。如果你希望等到整个视图都渲染完毕，可以用 vm.$nextTick 替换掉 mounted：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mounted: function () &#123;</span><br><span class="line">this.$nextTick(function () &#123;</span><br><span class="line"></span><br><span class="line">// Code that will run only after the</span><br><span class="line">// entire view has been rendered</span><br><span class="line">&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-浅谈vue和react的数据流和绑定" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
 
   <div class="article-inner">
@@ -1086,70 +1165,6 @@
 
       
       <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">export default &#123;</span><br><span class="line"> </span><br><span class="line">  namespace: &apos;example&apos;,   </span><br><span class="line"> </span><br><span class="line">  state: &#123;num:1&#125;,     //表示当前的example中的state状态，这里可以给初始值，这里num初始为1</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">  effects: &#123; //这里是做异步处理的</span><br><span class="line">    *addByONe(&#123; param&#125;, &#123; call, put,select &#125;) &#123; //这里使用select</span><br><span class="line"> </span><br><span class="line">      const num = yield select(state =&gt; state.num)    //这里就获取到了当前state中的数据num</span><br><span class="line">     //方式二： const num = yield select((&#123;num&#125;) =&gt;num)</span><br><span class="line"> </span><br><span class="line">    //方式三： const num = yield select(_ =&gt;_.num)</span><br><span class="line"> </span><br><span class="line">      let param1;</span><br><span class="line">       param1 = num + param;   这里就可以使用num进行操作了</span><br><span class="line">  </span><br><span class="line">      yield put(&#123;</span><br><span class="line">         type: &apos;save&apos;,   </span><br><span class="line">         num:param1</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line"> </span><br><span class="line">  &#125;,</span><br><span class="line">    </span><br><span class="line">  //用来保存更新state值 上面的put方法调用这里的方法</span><br><span class="line">  reducers: &#123;</span><br><span class="line">    save(state, action) &#123; //这里的state是当前总的state，这里的action包含了上面传递的参数和type</span><br><span class="line">      return &#123; ...state, ...action.num &#125;; //这里用ES6语法来更新当前state中num的值</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-微信小程序知识点" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/04/11/微信小程序知识点/">微信小程序知识点</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/04/11/微信小程序知识点/" class="article-date">
-  <time datetime="2019-04-11T13:47:54.000Z" itemprop="datePublished">2019-04-11</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="componet-amp-template"><a href="#componet-amp-template" class="headerlink" title="componet &amp;  template"></a>componet &amp;  template</h2><p>除了component，微信小程序中还有另一种组件化你的方式template模板，这两者之间的区别是，template主要是展示，方法则需要在调用的页面中定义。而component组件则有自己的业务逻辑，可以看做一个独立的page页面。简单来说，如果只是展示，使用template就足够了，如果涉及到的业务逻辑交互比较多，那就最好使用component组件了。 </p>
 
       
       <!-- reward -->

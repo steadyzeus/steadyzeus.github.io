@@ -38,6 +38,280 @@
     
     
     
+    <article id="post-Untitled-1" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/07/18/Untitled-1/">前端性能优化(偏运维篇) </a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2022/07/18/Untitled-1/" class="article-date">
+  <time datetime="2022-07-18T13:23:00.000Z" itemprop="datePublished">2022-07-18</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>#前端性能优化(偏运维篇)</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>   在日常工作中，前端和运维沟通不会太频繁，大多数时候是前端项目在测试环境、生产环境部署、CI/CD集成的时候会做一些沟通，无非就是提供一些shell ci语句，配置一下Nginx转发。<br>   但实际上遇到性能优化的时候，前端和运维两个部门有太多优化点需要一起来治理和维护。前端的性能优化会更直接与用户的体验挂钩。从用户体验侧来说，前端服务 5s 的加载时间优化缩减 80%(1s) 与后端服务 50ms 的响应优化缩减 80%(10ms) 相比，用户的体验提升会更大。因此很多时候，与体验相关的性能的瓶颈会出现在前端。<br>   面试的一个经典题目：”从用户在浏览器地址栏输入网址，到看到整个页面，中间发生了哪些事情？” 这个问题看似简单，但实际要说明白这个过程，需要较强的技术能力。在这个过程中，也包含了众多前端优化的细节点。<br>   下面就由一个前端同学的视角来展开聊聊，如何优化前端性能。</p>
+<h1 id="为什么要解决性能问题"><a href="#为什么要解决性能问题" class="headerlink" title="为什么要解决性能问题"></a>为什么要解决性能问题</h1><p>几个好的案例</p>
+<ol>
+<li>亚马逊（美国最大电商公司）：通过调查得出，网页打开的速度每快100毫秒，就会让网站增加1%的收益</li>
+<li>Pinterest（世界最大图片社交分享平台）：重建了他们的页面以实现性能优化，使感知等待时间减少了40％，从而将搜索引擎流量和注册量提高了15％</li>
+<li>COOK（医疗贸易公司）：通过将平均页面加载时间减少850毫秒，发现他们能够将转化率提高7％，将跳出率降低7％</li>
+</ol>
+<p>从以上例子中，我们可以得出结论，网站的性能极度影响业务结果。</p>
+<h1 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h1><p>  前端缓存是解决性能的一把利刃，同时也是前端bug的重灾区，运维同学如果没有设置好缓存，那么就会导致前端缓存bug。所以有必要一起来学习下前端缓存</p>
+<p>  1）.强缓存 </p>
+<p>  我们先看图1<br>    <img src="/images/pasted-21.png" alt="upload successful"><br>   再看图2<br>    <img src="/images/pasted-22.png" alt="upload successful"><br>    图1的缓存使用了memory cache，而图2使用了disk cache</p>
+<p>   谁决定这个资源「from disk cache」与「from memory cache」？<br>   当然，最终决定使用哪种缓存的应该是客户端，也就是浏览器了。浏览器对于缓存什么策略或者机制？</p>
+<p>   三级缓存原理</p>
+<ul>
+<li><p>先去内存看，如果有，直接加载</p>
+</li>
+<li><p>如果内存没有，择取硬盘获取，如果有直接加载</p>
+</li>
+<li><p>如果硬盘也没有，那么就进行网络请求</p>
+</li>
+<li><p>加载到的资源缓存到硬盘和内存</p>
+<p>比如：访问静态资源=&gt; 200 =&gt; 关闭tab栏；再次访问同样一个静态资源=&gt; 200(from disk cache) =&gt; 刷新页面 =&gt; 200(from memory cache);</p>
+<p>已上两种浏览器缓存，都属于强缓存类型，遵守强缓存规则</p>
+<p>在强缓存的情况下，浏览器不会向服务器发送请求，而是直接从本地缓存中读取内容，这个“本地”也就是我们在 Chrome DevTools 上看到的「from disk cache」与「from memory cache」<br>与其相关的响应头则是 Expires 和 Cache-Control。在 Expires 上可以设置一个过期时间，浏览器通过将其与当前本地时间对比，判断资源是否过期，未过期则直接从本地取即可。而 Cache-Control 则可以通过给它设置一个 max-age，来控制过期时间。例如，max-age=300 就是表示在响应成功后 300 秒内，资源请求会走强缓存。<br>运维同学，需要注意前端页面html的请求，大多数情况下都是不需要设置强缓存的，那么Cache-Control需要设置为no-store。</p>
+</li>
+<li><p>no-cache 和 no-store 的区别</p>
+<p>no-cache 和 no-store 用作控制缓存，被服务器通过响应头 Cache-Control 传递给客户端<br>no-store永远都不要在客户端存储资源，永远都去原始服务器去获取资源。<br>no-cache可以在客户端存储资源，每次都必须去服务端做新鲜度校验，来决定从服务端获取新的资源（200）还是使用客户端缓存（304）。也就是所谓的协商缓存。</p>
+<p>一般情况下对于 index.html 或者现代构建环境下不加 hash 的静态资源都需要设置 Cache-Control: no-cache，用来强制每次在服务器端的新鲜度校验。甚至直接设置no-store来及时保持html的新鲜度，为了任何情况下获取html文档head标签中最新的hash静态资源。比如，对于chrome，no-cache用于在重新访问时重新加载页面，但如果您返回历史记录（后退按钮），它仍然会缓存它，不会发起网络请求。比如下图就是生产环境index.html的响应头设置<br><img src="/images/pasted-24.png" alt="upload successful"></p>
+</li>
+</ul>
+<p>  2）.协商缓存</p>
+<p>  刚才我们设置的强缓存，也有过期失效的时候。这个时候就需要通过发起请求到服务器询问一下，该资源是否有过期，如果没有过期，就可以避免发起不必要的静态资源http请求，导致用户需要等待下载完成。<br>  一种协防缓存的方式是：服务器第一次响应时返回 Last-Modified，而浏览器在后续请求时带上其值作为 If-Modified-Since，相当于问服务端：XX 时间点之后，这个资源更新了么？服务器根据实际情况回答即可：更新了（状态码 200）或没更新（状态码 304）。</p>
+<p>上面是通过时间来判断是否更新，如果更新时间间隔过短，例如 1s 一下，那么使用更新时间的方式精度就不够了。所以还有一种是通过标识 —— ETag。服务器第一次响应时返回 ETag，而浏览器在后续请求时带上其值作为 If-None-Match。一般会用文件的 MD5 作为 ETag。</p>
+<p>  3）.一张图看懂强缓存和协商缓存如何工作的<br><img src="/images/pasted-23.png" alt="浏览器缓存流程图"></p>
+<p>  4）.总结<br> 运维同学需要熟悉缓存的设置，才能在生产环境中帮助业务提升缓存的命中，减少网络请求</p>
+<h1 id="网络请求"><a href="#网络请求" class="headerlink" title="网络请求"></a>网络请求</h1><p>访问一个页面第一步就是检查缓存，当缓存没有命中，我们才能真正发起一个网络请求。</p>
+<p>1）.HTTP 2.0</p>
+<p>HTTP 2.0 相⽐于 HTTP 1.X，可以说是⼤幅度提⾼了 web 的性能。<br>在 HTTP 1.X 中，为了性能考虑，我们会引⼊雪碧图、将⼩图内联、使⽤多个域名等等的⽅<br>式。这⼀切都是因为浏览器限制了同⼀个域名下的请求数量，当⻚⾯中需要请求很多资源的<br>时候，队头阻塞（Head of line blocking）会导致在达到最⼤请求数量时，剩余的资源需要等<br>待其他资源请求完成后才能发起请求。<br>你可以通过 <a href="https://http2.akamai.com/demo" target="_blank" rel="noopener">https://http2.akamai.com/demo</a> 感受下 HTTP 2.0 ⽐ HTTP 1.X 到底快了多少。</p>
+<p><img src="/images/pasted-25.png" alt="upload successful"><br>在 HTTP 1.X 中，因为队头阻塞的原因，你会发现请求是这样的</p>
+<p><img src="/images/pasted-28.png" alt="upload successful"></p>
+<p>在 HTTP 2.0 中，因为引⼊了多路复⽤，你会发现请求是这样的</p>
+<p><img src="/images/pasted-27.png" alt="upload successful"></p>
+<p>⼆进制传输<br>HTTP 2.0 中所有加强性能的核⼼点在于此。在之前的 HTTP 版本中，我们是通过⽂本的⽅式<br>传输数据。在 HTTP 2.0 中引⼊了新的编码机制，所有传输的数据都会被分割，并采⽤⼆进制<br>格式编码</p>
+<p><img src="/images/pasted-29.png" alt="upload successful"></p>
+<p>运维同学们看到这里，是不是已经迫不及待要开启HTTP 2.0了</p>
+<p>2）.DNS预解析</p>
+<p>DNS 的作⽤就是通过域名查询到具体的 IP。<br>因为 IP 存在数字和英⽂的组合（IPv6），很不利于⼈类记忆，所以就出现了域名。你可以把<br>域名看成是某个 IP 的别名，DNS 就是去查询这个别名的真正名称是什么。<br>在 TCP 握⼿之前就已经进⾏了 DNS 查询，这个查询是操作系统⾃⼰做的。当你在浏览器中<br>想访问 <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> 时，会进⾏⼀下操作：</p>
+<ol>
+<li>操作系统会⾸先在本地缓存中查询</li>
+<li>没有的话会去系统配置的 DNS 服务器中查询</li>
+<li>如果这时候还没得话，会直接去 DNS 根服务器查询，这⼀步查询会找出负责 com 这个<br>⼀级域名的服务器</li>
+<li>然后去该服务器查询 google 这个⼆级域名</li>
+<li>接下来三级域名的查询其实是我们配置的，你可以给 www 这个域名配置⼀个 IP，然后还<br>可以给别的三级域名配置⼀个 IP<br>以上介绍的是 DNS 迭代查询，还有种是递归查询，区别就是前者是由客户端去做请求，后者<br>是由系统配置的 DNS 服务器做请求，得到结果后将数据返回给客户端。<br>PS：DNS 是基于 UDP 做的查询</li>
+</ol>
+<p>这里我们需要了解的是：</p>
+<p>首先，DNS 解析流程可能会很长，耗时很高，所以整个 DNS 服务，包括客户端都会有缓存机制，这个作为前端不好涉入；<br>其次，在 DNS 解析上，前端还是可以通过浏览器提供的其他手段来“加速”的。<br><a href="https://www.w3.org/TR/resource-hints/#dns-prefetch" target="_blank" rel="noopener">DNS Prefetch</a><br>就是浏览器提供给我们的一个 API。它是 Resource Hint 的一部分。它可以告诉浏览器：过会我就可能要去 yourwebsite.com 上下载一个资源啦，帮我先解析一下域名吧。这样之后用户点击某个按钮，触发了 yourwebsite.com 域名下的远程请求时，就略去了 DNS 解析的步骤。使用方式很简单：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"dns-prefetch"</span> href=<span class="string">"//yourwebsite.com"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>当然，浏览器并不保证一定会去解析域名，可能会根据当前的网络、负载等状况做决定。标准里也明确写了,user agent SHOULD resolve as early as possible。</p>
+<p>3）.预先建立连接</p>
+<p>我们知道，建立连接不仅需要 DNS 查询，还需要进行 TCP 协议握手，有些还会有 TLS/SSL 协议，这些都会导致连接的耗时。使用 Preconnect 可以帮助你告诉浏览器：“我有一些资源会用到某个源（origin），你可以帮我预先建立连接。”</p>
+<p>根据规范，当你使用 Preconnect 时，浏览器大致做了如下处理：</p>
+<ul>
+<li>首先，解析 Preconnect 的 url；</li>
+<li>其次，根据当前 link 元素中的属性进行 cors 的设置；</li>
+<li>然后，默认先将 credential 设为 true，如果 cors 为 Anonymous 并且存在跨域，则将 credential 置为 false；</li>
+<li>最后，进行连接。</li>
+</ul>
+<p>使用 Preconnect 只需要将 rel 属性设为 preconnect 即可：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"preconnect"</span> href=<span class="string">"//sample.com"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>当然，你也可以设置 CORS：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"preconnect"</span> href=<span class="string">"//sample.com"</span> crossorigin&gt;</span><br></pre></td></tr></table></figure></p>
+<p>需要注意的是，标准并没有硬性规定浏览器一定要（而是 SHOULD）完成整个连接过程，与 DNS Prefetch 类似，浏览器可以视情况完成部分工作。</p>
+<p>4) .服务器应该避免过多重定向</p>
+<p>重定向是一个比较常用的技术手段。在一些情况下，你可能进行了服务迁移，修改了原有的 url。这时候就可以使用重定向，把访问原网址的用户重定向到新的 url。还有是在一些登录场景下，会使用到重定向技术。</p>
+<p>重定向分为 301 的永久重定向和 302 的临时重定向。建议贴合语义，例如服务迁移的情况下，使用 301 重定向。对 SEO 也会更友好。</p>
+<p>运维同学需要注意在配置反向代理服务器时，不要滥用重定向。曾今也见过有业务在访问后重定向 3 次的情况，其实里面有些是不必要的。每次重定向都是有请求耗时的，建议避免过多的重定向。</p>
+<p>5) .静态资源使用CDN服务</p>
+<p>当我们实际把网络包发向我们的目标地址时，肯定希望越快到达目的地越好（对应的，也会希望越快获得响应）。而网络传输是有极限的，同样一个北京的用户，访问北京的服务器显然要比广州快很多。同时，服务的负载也会影响响应的速度。</p>
+<p>对于静态资源，我们可以考虑通过 CDN 来降低时延。</p>
+<p>对于使用 CDN 的资源，DNS 解析会将 CDN 资源的域名解析到 CDN 服务的负载均衡器上，负载均衡器可以通过请求的信息获取用户对应的地理区域，从而通过负载均衡算法，在背后的诸多服务器中，综合选择一台地理位置近、负载低的机器来提供服务。例如为北京联通用户解析北京的服务器 IP。这样，用户在之后访问 CDN 资源时都是访问北京服务器，距离近，速度快。</p>
+<p>想了解更多 CDN 的工作方式可以阅读<a href="https://developer.aliyun.com/article/577708" target="_blank" rel="noopener">这篇文章</a></p>
+<h1 id="BFF-amp-SSR"><a href="#BFF-amp-SSR" class="headerlink" title="BFF&amp;SSR"></a>BFF&amp;SSR</h1><p>许多大厂的组织架构都有大前端部门的存在，随着 NodeJS 的兴起，很多业务都引入了基于 NodeJS 的 BFF 来为前端（客户端端）提供服务或者是为了SEO需要使用服务器渲染框架SSR比如next.js(React)，nuxt.js(Vue)</p>
+<p>1.BFF层</p>
+<ul>
+<li><p>Nodejs BFF 模式下，整体分工很清晰，后端通过 php,go 等语言负责服务实现，理想情况下给前端提供的是基于领域模型的 RPC 接口，前端则在 BFF 层直接调用服务端 RPC 接口拿到数据，按需加工消费数据。基于 BFF 模式的研发，很适合拥有前端技术背景的全栈型工程师。这种模式的好处很明显，后端可以专注于业务领域，更多从领域模型的视角去思考问题，页面视角的数据则交给前端型全栈工程师去搞定。领域模型与页面数据是两种思维模式，通过 BFF 可以很好地解耦开，后端的service可以在Node这层分发成多端接口(app,小程序,h5等)，省去了字段撕逼问题，让彼此更专业高效。</p>
+</li>
+<li><p>适合新项目孵化，类似前端小程序，用Node开发接口。1个前端人员就能搞定，节省人力成本，快速迭代上线。</p>
+</li>
+<li><p>Nodejs人才问题，前端会Node.js后端的人才特别多，虽然不能算专业但至少是能做业务，稍加熟悉也能成为不错的人才。类似Golang，Python基本想要招直接可用的人才，比Node.js成本高。可以让前端人员投入更多的全栈开发需求项目中，动态平衡人员紧缺问题。</p>
+</li>
+<li><p>Nodejs 语言的优势，由于 Node.js 遵循事件驱动的非阻塞I/O模型，与传统的后端技术相比，Node.js 能够处理大量的服务器请求，支持高并发。</p>
+</li>
+<li><p>服务端设计的API接口，面向通用服务，不需要面向UI。各种端的UI差异，由BFF层负责适配。这样的话，可以让后端更加专注于业务逻辑和数据服务，不需要操心各种端的差异</p>
+</li>
+<li><p>在toB业务需求里，很多时候前后端工作量经常匹配不到一起去，Node 增加了这中间的弹性，避免出现一个需求前端过度依赖后端开发进度的情况</p>
+</li>
+<li><p>原来的模式是由后端推着前端走，现在的模式是产品和前端拉着后端走，思维模式是完全不一样的。</p>
+</li>
+</ul>
+<p>2.SSR</p>
+<ul>
+<li><p>Next.js 是 React 服务端渲染（SSR）应用框架. 用于构建 SEO 友好的 SPA 应用.</p>
+<p>支持两种预渲染方式, 静态生成和服务器端渲染.<br>基于页面的路由系统, 路由零配置<br>自动代码拆分. 优化页面加载速度.<br>支持静态导出, 可将应用导出为静态网站.<br>内置 CSS-in-JS 库 styled-jsx<br>方案成熟, 可用于生产环境, 世界许多公司都在使用<br>应用部署简单, 拥有专属部署环境 Vercel, 也可以部署在其他环境</p>
+</li>
+</ul>
+<ul>
+<li><p>SSR预渲染概述</p>
+<p>预渲染是指数据和HTML的拼接在服务器端提前完成.<br>预渲染可以使 SEO 更加友好.<br>预渲染会带来更好的用户体验, 可以无需运行 JavaScript 即可查看应用程序UI.<br>预渲染的两种形式</p>
+<p>在 Next.js 中支持两种形式的预渲染: 静态生成和服务器端渲染.<br>静态生成和服务器端渲染是生成 HTML 的时机不同.<br>静态生成: 静态生成是在构建时生成 HTML. 以后的每个请求都共用构建时生成好的 HTML.<br>服务器端渲染: 服务器端渲染是在请求时生成 HTML. 每个请求都会重新生成 HTML.<br>两种预渲染方式的选择</p>
+<p>Next.js 允许开发者为每个页面选择不同的预渲染方式. 不同的预渲染方式拥有不同的特点. 应根据场景进行渲染.<br>但建议大多数页面建议使用静态生成.<br>静态生成一次构建, 反复使用, 访问速度快. 因为页面都是事先生成好的.<br>适用场景：营销页面、博客文章、电子商务产品列表、帮助和文档<br>服务器端渲染访问速度不如静态生成快, 但是由于每次请求都会重新渲染, 所以适用数据频繁更新的页面或页面内容随请求变化而变化的页面</p>
+</li>
+</ul>
+<p>以下是前端同学在写服务端时，遇到的比较常见问题,我们应该怎样快速排查Nodejs作为服务端产生的问题呢？</p>
+<ul>
+<li>使用中间件没有调用next()方法，导致不能执行下一个中间件，请求超时；</li>
+<li>async await 的不当使用导致并行请求被串行化了；</li>
+<li>频繁地 JSON.parse 和 JSON.stringify 大对象，使CPU使用率上升；</li>
+<li>正则表达式的灾难性回溯，使CPU使用率上升，阻塞运算；</li>
+<li>闭包导致的内存泄漏，导致内存溢出；</li>
+<li>CPU 密集型任务导致事件循环 delay 严重；</li>
+<li>未捕获的异常导致进程频繁退出，守护进程（pm2/supervisor）又将进程重启，频繁启停非常消耗资源；</li>
+</ul>
+<h2 id="利用node-clinic工具"><a href="#利用node-clinic工具" class="headerlink" title="利用node-clinic工具"></a>利用node-clinic工具</h2><p>node-clinic（简称 clinic） 是一个开箱即用的 Node.js 应用诊断工具。</p>
+<p>首先，安装 Node.js@9+<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nvm install <span class="number">9</span></span><br></pre></td></tr></table></figure></p>
+<p>全局安装 clinic：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm i clinic -g</span><br></pre></td></tr></table></figure></p>
+<p>创建测试代码：app.js</p>
+<p>使用 clinic doctor 启动并诊断 Node.js 应用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ clinic doctor -- node app.js</span><br></pre></td></tr></table></figure>
+<p>使用 ab 压测：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ab -c <span class="number">10</span> -n <span class="number">200</span> <span class="string">"http://localhost:3000/"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ clinic flame -- node app.js</span><br></pre></td></tr></table></figure>
+<p>可以用以下命令代替：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ clinic flame --collect-only -- node app.js # 收集数据</span><br><span class="line">$ clinic flame --visualize-only PID.flamegraph # 将数据生成fire图</span><br></pre></td></tr></table></figure></p>
+<h2 id="alinode（Node-js-性能平台）"><a href="#alinode（Node-js-性能平台）" class="headerlink" title="alinode（Node.js 性能平台）"></a>alinode（Node.js 性能平台）</h2><p>Node.js 性能平台（Node.js Performance Platform）是面向中大型 Node.js 应用提供性能监控、安全提醒、故障排查、性能优化等服务的整体性解决方案。凭借对 Node.js 内核深入的理解，我们提供完善的工具链和服务，协助客户主动、快速发现和定位线上问题。</p>
+<p>推荐访问官网了解更多alinode性能平台 <a href="https://www.aliyun.com/product/nodejs" target="_blank" rel="noopener">https://www.aliyun.com/product/nodejs</a></p>
+<h1 id="浏览器页面渲染"><a href="#浏览器页面渲染" class="headerlink" title="浏览器页面渲染"></a>浏览器页面渲染</h1><p>在前面的缓存章节，我们有提到对index.html的缓存，确保我们能加载正确的静态资源。我们在这个章节，开始聊聊index.html被请求回来后，是怎么触发浏览器页面渲染流程的</p>
+<ul>
+<li><p>浏览器的渲染机制⼀般分为以下⼏个步骤</p>
+<ol>
+<li>处理 HTML 并构建 DOM 树。</li>
+<li>处理 CSS 构建 CSSOM 树。</li>
+<li>将 DOM 与 CSSOM 合并成⼀个渲染树。</li>
+<li>根据渲染树来布局，计算每个节点的位置。</li>
+<li>调⽤ GPU 绘制，合成图层，显示在屏幕上。<br><img src="/images/pasted-34.png" alt="upload successful"></li>
+</ol>
+</li>
+<li><p>标签执行顺序</p>
+<p>当 HTML 解析到 script 标签时，会暂停构建 DOM，完成后才会从暂停的地⽅重新开始。也就是说，如果你想⾸屏渲染的越快，就越不应该在⾸屏就加载过多JS ⽂件。并且 CSS 也会影响JS 的执⾏，只有当解析完样式表才会执⾏ JS，所以也可以认为这种情况下，CSS 也会暂停构建 DOM。</p>
+<p>但是我们可以script 标签上添加defer或者async。defer 会在 HTML 解析完成后，按照脚本出现的次序再顺序执行；而 async 则是下载完成就立即开始执行，同时阻塞页面解析，不保证脚本间的执行顺序。</p>
+<p>所以如果我们的页面首屏渲染慢，可以把 CSS 样式表放在 <head><meta name="generator" content="Hexo 3.8.0"> 之中（即页面的头部），把 JavaScript 脚本放在 </head><body> 的最后（即页面的尾部），还可以尝试让没那么重要的js脚本添加defer属性来避免阻塞页面解析。  </body></p>
+</li>
+<li><p>运维可以利用Nginx开启文档压缩</p>
+<p>使用文本压缩算法（例如 gzip）进行文本的压缩</p>
+<p>  <img src="/images/pasted-37.png" alt="upload successful"></p>
+<p>  可以看到home这个html请求的真实资源 size是154KB,经过gzip压缩后缩减为了30KB<br>  <img src="/images/pasted-36.png" alt="upload successful"></p>
+</li>
+</ul>
+<h1 id="页面静态资源"><a href="#页面静态资源" class="headerlink" title="页面静态资源"></a>页面静态资源</h1><p>  网页上的静态资源包括，JavaScript，css,image,font,audio,video等等，但他们的优化方向都比较相似</p>
+<ul>
+<li>压缩静态资源的体积大小</li>
+<li>减少不必要的请求，比如对列表图片做懒加载，滚动到可视区域才发起真是的静态资源网络请求</li>
+<li><p>cdn的分发加速，缓存机制</p>
+<p>前端工程化，目前模块化打包，用得最多的就是webpack。webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。<br>我们可以使用webpack提供的各种plugin工具，来对我们的静态资源做优化：压缩，模块打包，Tree Shaking等等。比如，可以使用按需加载功能，尤其在当下组件化盛行的潮流里，哪些页面需要该组件才会发起一个网络请求静态资源，不会全部一次性加载完，组件的按需加载就可能会包括了 JavaScript 脚本、CSS 样式表、图标图片等。<br>对图片的优化，我们可以利用cdn提供的裁剪和格式转化功能进行页面渲染优化，比如：<a href="https://cdn.weipaitang.com/skywebp/fapai/tupian/image/20220726/77341d9a31a04681bdee06b754070b49-W3024H3024/w/320" target="_blank" rel="noopener">https://cdn.weipaitang.com/skywebp/fapai/tupian/image/20220726/77341d9a31a04681bdee06b754070b49-W3024H3024/w/320</a><br>这张图片就使用了cdn的webp格式转换，并且把3024<em>3024像素裁剪为了320</em>320尺寸，总体积压缩了50倍，极大减少了网络请求，加快了图片的展示，提高了用户体验。所以，对于其它类型的静态资源优化可以举一反三。</p>
+</li>
+</ul>
+<p><img src="/images/pasted-43.png" alt="upload successful"></p>
+<p>参考资料： <a href="https://www.webpackjs.com/" target="_blank" rel="noopener">https://www.webpackjs.com/</a></p>
+<h1 id="客户端优化的案例"><a href="#客户端优化的案例" class="headerlink" title="客户端优化的案例"></a>客户端优化的案例</h1><p> 在我们电商APP日常开发中，经常会有一些分享图片给好友的需求。要求分享的图片和客户端当前展示的效果差不多。这个时候我们往往会让服务端去做一个海报服务接口，让每个用户在分享的时候调用生成海报服务接口，合成一张分享图片。这个时候我们的性能问题就出现了，如果一个活动分享的人够多，那么我们海报服务的服务器CPU占用率会直线飙升，甚至让挂掉。<br> 在2022年，我们自己手里的手机，其实已经有非常强大的算力。像这种合成图片的功能，我们实际上是可以把算力分散到客户端的，不要让请求海报服务造成瓶颈，让用户长时间等待服务端合成图片，造成非常不好的用户体验。<br> 此例子只是抛砖迎玉，提醒我们应该把此类需要大量运算的功能做到客户端中，不应该让服务器性能成为阻塞。<br><img src="/images/pasted-39.png" alt="upload successful">此图出自微拍堂APP</p>
+<h1 id="为什么要做预加载"><a href="#为什么要做预加载" class="headerlink" title="为什么要做预加载"></a>为什么要做预加载</h1><ol>
+<li><p>当一个项目越来越大的时候，往往会导致项目的首屏加载时间越来越长，我们可以应用 ssr，懒加载等方案来减少首屏的加载时间。</p>
+<p>随之带来的问题就是非首屏会有一定的初始化时间。我们可能会应用 loading 或者骨架屏来优化加载时的体验。在混合开发中，我们希望尽可能地与原生体验接近。在不同页面间切换的时候尽可能地减少 loading 时间。</p>
+<p>通过预加载资源可以减少页面切换时的等待时间。与纯页面应用有所区别的是，在纯网页应用中，一个页面就是一个进程，只包含一个 webview。而在混合开发中，我们可以借助主进程来开启多个渲染进程。对于网页来说即开启多个 webview。我们可以创建一个新的 webview 进程来加载即将打开的页面，在新的 webview 中，我们完成了页面的预加载和预渲染。在跳转的时候，通过切换 webview 的层级即可跳转到新页面。在回退页面的时候，也可以通过切换 webview 层级来回到原来的页面。</p>
+<p>每次发布的时候 app 中存在一定数量的缓存 webview，所以我们在发布新项目的时候需要注意兼容旧版本的代码。</p>
+<p>一般情况下 webview 的底色是白色的，但是有些页面的背景是深色的，在页面加载完之前，可能会显示 webview 的底色，通过调用 jsbridge，我们可以修改 webview 的底色。在业务页面中，我们可以配置当前页面的 webview 底色，到达渲染过程更丝滑的目的，不会出现从白屏到有底色的界面的突兀感觉。</p>
+<p>具体效果可以参考微拍堂APP,从原生首页点击商品 跳转到H5商品详情页的一个体验过程。</p>
+</li>
+<li><p>我们在之前的网络请求章节提到DNS prefetch技术，我们的静态资源也可以有相似的预加载优化</p>
+<ul>
+<li><p>Prefetch</p>
+<p>用于标识下一个页面可能需要的资源，以及浏览器端应获取的资源，以便浏览器端可以在将来请求资源时提供更快的响应。由于仅仅是提前获取资源，因此浏览器不会对资源进行预处理，像 CSS 样式表、JavaScript 脚本这样的资源是不会自动执行并应用于当前文档的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"prefetch"</span> href=<span class="string">"/prefetch.js"</span> <span class="keyword">as</span>=<span class="string">"script"</span>&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>Prerender</p>
+<p>用于标识下一个页面可能需要的资源，以及浏览器端应获取的资源，以便浏览器端可以在将来请求资源时提供更快的响应，同Prefetch不一样的点在于Prerender还会执行该资源。指定浏览器应该在后台预呈现(加载)指定的网页。因此，如果用户访问到这个页面，它会加速页面加载(因为页面已经加载了)。警告!这浪费了用户的带宽!只有在你绝对确定网页在用户旅途中的某个时刻是必需的时候才使用预渲染</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"prerender"</span> href=<span class="string">"//sample.com/nextpage.html"</span>&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p>Preload</p>
+<p>指定浏览器必须根据“as”属性给出的类型(以及与该类型关联的优先级)抢先获取和缓存指定的目标资源。同Prefetch的区别在于，Preload优先级更高。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"preload"</span> href=<span class="string">"./nextpage.js"</span> <span class="keyword">as</span>=<span class="string">"script"</span>&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Prefetch 和 Preload 区别 ？</p>
+<ul>
+<li>preload chunk 会在父 chunk 加载时，以并行方式开始加载。prefetch chunk 会在父 chunk 加载结束后开始加载。</li>
+<li>preload chunk 具有中等优先级，并立即下载。prefetch chunk 在浏览器闲置时下载。</li>
+<li>preload chunk 会在父 chunk 中立即请求，用于当下时刻。prefetch chunk 会用于未来的某个时刻。</li>
+<li>浏览器支持程度不同。</li>
+</ul>
+</li>
+</ul>
+<pre><code>参考资料：https://www.w3.org/TR/resource-hints/，https://www.w3schools.com/tags/att_link_rel.asp
+</code></pre><h1 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h1><p>   前端的性能指标，现在有非常多的工具可以进行统计，浏览器也提供了Performance方法来检测页面性能的能力，完全可以自主开发一套前端性能监控平台。在这里推荐Google的一个网页性能分析工具pagespeed，输入<a href="https://pagespeed.web.dev/" target="_blank" rel="noopener">https://pagespeed.web.dev/</a>, 进入页面，输入想要分析的网址稍等片刻，便会有需要详细的分析，比如：网页的LCP,FID,CLS,FCP,INP,TTFB等指标</p>
+<p><img src="/images/pasted-40.png" alt="upload successful"></p>
+<p>并且还能给出网页的一个性能分析评分</p>
+<p><img src="/images/pasted-41.png" alt="upload successful"></p>
+<p>还能给出一些优化建议</p>
+<p><img src="/images/pasted-42.png" alt="upload successful"></p>
+<p>   最后，希望运维小伙伴们在阅读了《前端性能优化(偏运维篇)》后对前端的性能优化有更深入的了解</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-正则表达式" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
 
   <div class="article-inner">
@@ -163,6 +437,9 @@
 <p>const getQueryByName = (name) =&gt; {<br>  const queryNameRegex = new RegExp(<code>[?&amp;]${name}=([^&amp;]*)(?:&amp;|$)</code>)<br>  const queryNameMatch = window.location.search.match(queryNameRegex)<br>  // 一般都会通过decodeURIComponent解码处理<br>  return queryNameMatch ? decodeURIComponent(queryNameMatch[1]) : ‘’<br>}<br>// 1. name在最前面<br>// <a href="https://juejin.cn/?name=前端胖头鱼&amp;sex=boy" target="_blank" rel="noopener">https://juejin.cn/?name=前端胖头鱼&amp;sex=boy</a><br>console.log(getQueryByName(‘name’)) // 前端胖头鱼</p>
 <p>// 2. name在最后<br>// <a href="https://juejin.cn/?sex=boy&amp;name=前端胖头鱼" target="_blank" rel="noopener">https://juejin.cn/?sex=boy&amp;name=前端胖头鱼</a><br>console.log(getQueryByName(‘name’)) // 前端胖头鱼</p>
 <p>// 2. name在中间<br>// <a href="https://juejin.cn/?sex=boy&amp;name=前端胖头鱼&amp;age=100" target="_blank" rel="noopener">https://juejin.cn/?sex=boy&amp;name=前端胖头鱼&amp;age=100</a><br>console.log(getQueryByName(‘name’)) // 前端胖头鱼</p>
+<p>与其他语言中的正则表达式类似，模式中使用的所有元字符都必须转义。正则表达式中的元字符包括：</p>
+<h1 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h1><p>( [ { \ ^ $ | ) ? * + .] }<br>这些元字符在正则表达式中都有一或多种特殊用途，因此如果想要匹配字符串中包含的这些字符，就必须对它们进行转义。</p>
+<p>// 匹配 .docx<br>var exp = /.docx/gi ;</p>
 
       
       <!-- reward -->
@@ -226,7 +503,8 @@
       
 
       
-      <h2 id="在-Git-开发中通常会控制主干分支的质量，但有时还是会把错误的代码合入到远程主干。-虽然可以直接回滚远程分支，-但有时新的代码也已经合入，直接回滚后最近的提交都要重新操作。-那么有没有只移除某些-Commit-的方式呢？可以一次-revert操作来完成。"><a href="#在-Git-开发中通常会控制主干分支的质量，但有时还是会把错误的代码合入到远程主干。-虽然可以直接回滚远程分支，-但有时新的代码也已经合入，直接回滚后最近的提交都要重新操作。-那么有没有只移除某些-Commit-的方式呢？可以一次-revert操作来完成。" class="headerlink" title="在 Git 开发中通常会控制主干分支的质量，但有时还是会把错误的代码合入到远程主干。 虽然可以直接回滚远程分支， 但有时新的代码也已经合入，直接回滚后最近的提交都要重新操作。 那么有没有只移除某些 Commit 的方式呢？可以一次 revert操作来完成。"></a>在 Git 开发中通常会控制主干分支的质量，但有时还是会把错误的代码合入到远程主干。 虽然可以直接回滚远程分支， 但有时新的代码也已经合入，直接回滚后最近的提交都要重新操作。 那么有没有只移除某些 Commit 的方式呢？可以一次 revert操作来完成。</h2><p>考虑这个例子，我们提交了 6 个版本，其中 3-4 包含了错误的代码需要被回滚掉。 同时希望不影响到后续的 5-6。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">* 982d4f6 (HEAD -&gt; master) version 6</span><br><span class="line">* 54cc9dc version 5</span><br><span class="line">* 551c408 version 4, harttle screwed it up again</span><br><span class="line">* 7e345c9 version 3, harttle screwed it up</span><br><span class="line">* f7742cd version 2</span><br><span class="line">* 6c4db3f version 1</span><br></pre></td></tr></table></figure></p>
+      <h1 id="git-revert"><a href="#git-revert" class="headerlink" title="git revert"></a>git revert</h1><p>在 Git 开发中通常会控制主干分支的质量，但有时还是会把错误的代码合入到远程主干。 虽然可以直接回滚远程分支， 但有时新的代码也已经合入，直接回滚后最近的提交都要重新操作。 那么有没有只移除某些 Commit 的方式呢？可以一次 revert操作来完成。</p>
+<p>考虑这个例子，我们提交了 6 个版本，其中 3-4 包含了错误的代码需要被回滚掉。 同时希望不影响到后续的 5-6。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">* 982d4f6 (HEAD -&gt; master) version 6</span><br><span class="line">* 54cc9dc version 5</span><br><span class="line">* 551c408 version 4, harttle screwed it up again</span><br><span class="line">* 7e345c9 version 3, harttle screwed it up</span><br><span class="line">* f7742cd version 2</span><br><span class="line">* 6c4db3f version 1</span><br></pre></td></tr></table></figure></p>
 <p>这种情况在团队协作的开发中会很常见：可能是流程或认为原因不小心合入了错误的代码， 也可能是合入一段时间后才发现存在问题。 总之已经存在后续提交，使得直接回滚不太现实。</p>
 <p>下面的部分就开始介绍具体操作了，同时我们假设远程分支是受保护的（不允许 Force Push）。 思路是从产生一个新的 Commit 撤销之前的错误提交。</p>
 <p>使用 git revert <commit> 可以撤销指定的提交， 要撤销一串提交可以用 <commit1>..<commit2> 语法。 注意这是一个前开后闭区间，即不包括 commit1，但包括 commit2。</commit2></commit1></commit></p>
@@ -238,6 +516,13 @@
 <p>git diff f7742cd..HEAD<br>如果 version 3, version 4 都被 version 6 撤销的话，上述两个 diff 为空。 可以人工确认一下，或者 grep 掉 description 之后做一次 diff。 下面介绍的另一种方法可以容易地确认 diff。</p>
 <p>示例</p>
 <p>bd1b80cb 和0f2f7e4a 是错误的提交可以通过git revert bd1b80cb 0f2f7e4a 来进行单独提交的回滚</p>
+<h1 id="git-rebase"><a href="#git-rebase" class="headerlink" title="git rebase"></a>git rebase</h1><p>重新复习，这个变基线命令，很多公司是不允许提交代码的时候变基的，但我们公司例外，在提交pr的时候需要执行变基操作，原因？</p>
+<ul>
+<li>git checkout master</li>
+<li>git pull origin master –rebase</li>
+<li>git checkout currentBranch</li>
+<li>git rebase master    //这一步就是在执行变基操作，但在这之前会执行一个操作，就是找到同master分支相同的commit号，然后整理commit：git reset –soft xxxxhash</li>
+</ul>
 
       
       <!-- reward -->
@@ -865,86 +1150,6 @@
 <h2 id="一个字-一个概念"><a href="#一个字-一个概念" class="headerlink" title="一个字-一个概念"></a>一个字-一个概念</h2><p>一个词代表一个概念。例如，呈现项目概念的集合由列表词表示。<br>每个概念选择一个词，然后在整个应用程序中保持关系的一致性。结果是可预测的单词心理映射-您已经习惯了概念。<br>当同一概念由许多单词表示时，可读性会受到影响。例如，您定义一个呈现订单列表的组件，<orderslist>另一个定义呈现费用列表的组件<expensestable>。<br>呈现项目集合的相同概念由两个不同的词表示：list和table。没有理由为同一概念使用不同的词。它增加了混乱并破坏了命名的一致性。<br>命名组件<orderslist>和<expenseslist>（使用列表词）或<orderstable>和<expensestable>（使用表词）。使用您认为更好的任何单词，只要保持一致即可。<br>测试不仅是自动检测错误的方法。如果您发现难以测试的组件，则很可能是设计错误的组件。</expensestable></orderstable></expenseslist></orderslist></expensestable></orderslist></p>
 <h1 id="在封装一个组件的时候应该先思考什么"><a href="#在封装一个组件的时候应该先思考什么" class="headerlink" title="在封装一个组件的时候应该先思考什么?"></a>在封装一个组件的时候应该先思考什么?</h1><p>这个组件应该是做什么的<br>这个组件应该至少需要知道那些信息<br>这个组件会反馈什么东西<br>在设计一个组件的时候我们不应该仅限于实现当前的需求，<br>设计出一个只适用于单一项目的组件，而是应该是一个可以适应大部分同种需求的通用组件。<br>所以我们在碰到一个需求的时候应该首先对需求进行抽象，而不是看到设计稿就撸着袖子上。<br>例如碰到一个轮播图组件的需求的时候，我们拆分以下这个需求，可以得到：<br>（1） 这个组件要做什么：<br>可以展示多张图片<br>可以向左向右翻页，或者是可以是上下翻页<br>PageControl的状态会根据图片的滚动而相应改变 还有可能有一些隐藏的需求，类似于：<br>应该支持左右两侧或者上下无限循环滚动<br>可以选择的是否自动轮播<br>支持手动滑动切换图片<br>图片有点击事件，可以点击来进行相关的事件反应<br>（2）这个组件至少应该知道什么信息<br>一个好的组件应该是要像存在魔法一样，只需要极其少数的参数和条件就可以得到期望的效果。就像这个轮播图组件一样，组件应该至少知道的信息有：<br>图片的url地址数组<br>当图片不存在时候的占位图<br>其他可以知道也可以不知道的信息可以有：<br>是否开启自动轮播，默认是开启或者不开启<br>图片滚动是左右还是上下，默认是左右<br>等等 ………………………………<br>（3）这个组件会反馈什么<br>一个可用的轮播图效果</p>
 
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-react-hooks" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/08/25/react-hooks/">react hooks</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/08/25/react-hooks/" class="article-date">
-  <time datetime="2020-08-25T07:25:12.000Z" itemprop="datePublished">2020-08-25</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h1 id="1-userContext"><a href="#1-userContext" class="headerlink" title="1.userContext"></a>1.userContext</h1><p>关于React Hooks中使用useContext 进行父子组件传值（父子组件不在同一个文件中）<br>1、封装的公共文件<br>// createContext.js文件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createContext &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">const</span> myContext = createContext(<span class="literal">null</span>);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> myContext;</span><br></pre></td></tr></table></figure></p>
-<p>2、父组件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState&#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> Counter <span class="keyword">from</span> <span class="string">'./Counter'</span></span><br><span class="line"><span class="keyword">import</span> myContext <span class="keyword">from</span> <span class="string">'./createContext'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;h4&gt;我是父组件&lt;<span class="regexp">/h4&gt;</span></span><br><span class="line"><span class="regexp">      &lt;p&gt;点击了 &#123;count&#125; 次!&lt;/</span>p&gt;</span><br><span class="line">      &lt;button</span><br><span class="line">        onClick=&#123;() =&gt; &#123;</span><br><span class="line">          setCount(count + <span class="number">1</span>);</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      &gt;</span><br><span class="line">        点我</span><br><span class="line">      &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">      &#123;/</span>* 关键代码 *<span class="regexp">/&#125;</span></span><br><span class="line"><span class="regexp">      &#123;/</span>* 提供器 *<span class="regexp">/&#125;</span></span><br><span class="line"><span class="regexp">      &lt;myContext.Provider value=&#123;count&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;Counter /</span>&gt;</span><br><span class="line">      &lt;<span class="regexp">/myContext.Provider&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> App;</span><br></pre></td></tr></table></figure></p>
-<p>3、子组件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useContext&#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> myContext <span class="keyword">from</span> <span class="string">'./createContext'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 关键代码</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Counter</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> count = useContext(myContext);  <span class="comment">// 得到父组件传的值</span></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;h4&gt;我是子组件&lt;<span class="regexp">/h4&gt;</span></span><br><span class="line"><span class="regexp">            &lt;p&gt;这是父组件传过来的值：&#123;count&#125;&lt;/</span>p&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default Counter;</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="2-useCallback"><a href="#2-useCallback" class="headerlink" title="2.useCallback"></a>2.useCallback</h1><p>它会返回相同的引用，避免子组件进行无意义的重复渲染：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> memoizedHandleClick = useCallback(</span><br><span class="line">    () =&gt; <span class="built_in">console</span>.log(<span class="string">`Click happened with dependency: <span class="subst">$&#123;count&#125;</span>`</span>), [count],</span><br><span class="line">  ); </span><br><span class="line">  <span class="keyword">return</span> &lt;Button onClick=&#123;memoizedHandleClick&#125;&gt;Click Me&lt;/Button&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h1 id="3-useMemo-、-React-memo"><a href="#3-useMemo-、-React-memo" class="headerlink" title="3.useMemo 、 React.memo"></a>3.useMemo 、 React.memo</h1><p>useCallback缓存的是方法的引用，而useMemo缓存的则是方法的返回值。使用场景是减少不必要的子组件渲染：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params">&#123; a, b &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 当 a 改变时才会重新渲染</span></span><br><span class="line">  <span class="keyword">const</span> child1 = useMemo(<span class="function"><span class="params">()</span> =&gt;</span> &lt;Child1 a=&#123;a&#125; /&gt;, [a]);</span><br><span class="line">  <span class="comment">// 当 b 改变时才会重新渲染</span></span><br><span class="line">  <span class="keyword">const</span> child2 = useMemo(<span class="function"><span class="params">()</span> =&gt;</span> &lt;Child2 b=&#123;b&#125; /&gt;, [b]);</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &#123;child1&#125;</span><br><span class="line">      &#123;child2&#125;</span><br><span class="line">    &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></p>
-<p>如果想实现Class Component的shouldComponentUpdate方法，可以使用React.memo方法，区别是它只能比较 props，不会比较 state：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Parent = React.memo(<span class="function">(<span class="params">&#123; a, b &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 当 a 改变时才会重新渲染</span></span><br><span class="line">  <span class="keyword">const</span> child1 = useMemo(<span class="function"><span class="params">()</span> =&gt;</span> &lt;Child1 a=&#123;a&#125; /&gt;, [a]);</span><br><span class="line">  <span class="comment">// 当 b 改变时才会重新渲染</span></span><br><span class="line">  <span class="keyword">const</span> child2 = useMemo(<span class="function"><span class="params">()</span> =&gt;</span> &lt;Child2 b=&#123;b&#125; /&gt;, [b]);</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &#123;child1&#125;</span><br><span class="line">      &#123;child2&#125;</span><br><span class="line">    &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;);</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="封装自定义-usePrevious"><a href="#封装自定义-usePrevious" class="headerlink" title="封装自定义 usePrevious"></a>封装自定义 usePrevious</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> usePrevious = <span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> ref = useRef();</span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    ref.current = value;</span><br><span class="line">  &#125;, [value]);</span><br><span class="line">  <span class="keyword">return</span> ref.current;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Counter</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> prevCountRef = usePrevious(count);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">0</span>);</span><br><span class="line">  <span class="comment">// useEffect(() =&gt; &#123;</span></span><br><span class="line">  <span class="comment">//   console.log(1);</span></span><br><span class="line">  <span class="comment">//   prevCountRef.current = count;</span></span><br><span class="line">  <span class="comment">// &#125;);</span></span><br><span class="line">  <span class="keyword">const</span> prevCount = prevCountRef;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;h1&gt;</span><br><span class="line">        Now: &#123;count&#125;, <span class="attr">before</span>: &#123;prevCount&#125;</span><br><span class="line">      &lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;() =&gt; setCount(count + 1)&#125;&gt;click here&lt;/</span>button&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
-<h1 id="Hooks-的坑"><a href="#Hooks-的坑" class="headerlink" title="Hooks 的坑"></a>Hooks 的坑</h1><p>Hooks 的坑 99% 都是闭包引起的，我们通过一个例子来了解下什么情况下会因为闭包导致问题。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [state, setState] = React.useState(<span class="number">0</span>)</span><br><span class="line">  <span class="comment">// 连点三次你觉得答案会是什么？</span></span><br><span class="line">  <span class="keyword">const</span> handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setState(state + <span class="number">1</span>)</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(state)</span><br><span class="line">    &#125;, <span class="number">2000</span>)</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;div&gt;&#123;state&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;handleClick&#125; /</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></p>
-<p>复制代码<br>上述代码触发三次 handleClick 后你觉得答案会是什么？可能答案与你所想的不大一样，结果是：</p>
-<p>0 1 2</p>
-<p>因为每次 render 都有一份新的状态，因此上述代码中的 setTimeout 使用产生了一个闭包，捕获了每次 render 后的 state，也就导致了输出了 0、1、2。</p>
-<p>如果你希望输出的内容是最新的 state 的话，可以通过 useRef 来保存 state。前文讲过 ref 在组件中只存在一份，无论何时使用它的引用都不会产生变化，因此可以来解决闭包引发的问题。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [state, setState] = React.useState(<span class="number">0</span>)</span><br><span class="line">  <span class="comment">// 用 ref 存一下</span></span><br><span class="line">  <span class="keyword">const</span> currentState = React.useRef(state)</span><br><span class="line">  <span class="comment">// 每次渲染后更新下值</span></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    currentState.current = state</span><br><span class="line">  &#125;)</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">const</span> handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setState(state + <span class="number">1</span>)</span><br><span class="line">    <span class="comment">// 这样定时器里通过 ref 拿到最新值</span></span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(currentState.current)</span><br><span class="line">    &#125;, <span class="number">2000</span>)</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;div&gt;&#123;state&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;handleClick&#125; /</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></p>
-<p>其实闭包引发的问题多半是保存了 old 的值，只要想办法拿到最新的值其实基本上就解决问题了。</p>
-<h1 id="函数式组件-usestate-render"><a href="#函数式组件-usestate-render" class="headerlink" title="函数式组件 usestate render"></a>函数式组件 usestate render</h1><h2 id="react合成事件里的setState操作也是batch操作"><a href="#react合成事件里的setState操作也是batch操作" class="headerlink" title="react合成事件里的setState操作也是batch操作"></a>react合成事件里的setState操作也是batch操作</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./styles.css"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [counter1, setCounter1] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [counter2, setCounter2] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [counter3, setCounter3] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [renderCount, setRenderCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setRenderCount(renderCount + <span class="number">1</span>);</span><br><span class="line">  &#125;, [counter1, counter2, counter3]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setCounter1(counter1 + <span class="number">1</span>);</span><br><span class="line">    setCounter2(counter2 + <span class="number">1</span>);</span><br><span class="line">    setCounter3(counter3 + <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">123</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">'App'</span>&gt;</span><br><span class="line">      &lt;h1&gt;<span class="built_in">Function</span> Component&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">      &lt;div&gt;</span></span><br><span class="line"><span class="regexp">        Counter1: &#123;counter1&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        Counter2: &#123;counter2&#125;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;div&gt;</span></span><br><span class="line"><span class="regexp">        Counter3: &#123;counter3&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">      &lt;br/&gt;</span><br><span class="line">      &lt;div&gt;Component was rendered &#123;renderCount&#125; times&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;handleClick&#125;&gt;Click me&lt;/</span>button&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
-<h2 id="不会批处理的情况"><a href="#不会批处理的情况" class="headerlink" title="不会批处理的情况"></a>不会批处理的情况</h2><p>请注意，此功能并不总是有效。在使用不同种类的，例如一个异步操作的事件处理程序async/await，then/catch，setTimeout，fetch，等独立的状态更新将不会进行批处理。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./styles.css"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [counter1, setCounter1] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [counter2, setCounter2] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [counter3, setCounter3] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [renderCount, setRenderCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setRenderCount(renderCount + <span class="number">1</span>);</span><br><span class="line">  &#125;, [counter1, counter2, counter3]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleClickAsync = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">await</span> setCounter1(counter1 + <span class="number">1</span>);</span><br><span class="line">    setCounter2(counter2 + <span class="number">1</span>);</span><br><span class="line">    setCounter3(counter3 + <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleClickThen = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">      setCounter1(counter1 + <span class="number">1</span>);</span><br><span class="line">      setCounter2(counter2 + <span class="number">1</span>);</span><br><span class="line">      setCounter3(counter3 + <span class="number">1</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">'App'</span>&gt;</span><br><span class="line">      &lt;h1&gt;<span class="built_in">Function</span> Component&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">      &lt;div&gt;</span></span><br><span class="line"><span class="regexp">        Counter1: &#123;counter1&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        Counter2: &#123;counter2&#125;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;div&gt;</span></span><br><span class="line"><span class="regexp">        Counter3: &#123;counter3&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">      &lt;br/&gt;</span><br><span class="line">      &lt;div&gt;Component was rendered &#123;renderCount&#125; times&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;handleClickAsync&#125;&gt;Async handler&lt;/</span>button&gt;</span><br><span class="line">      &lt;button onClick=&#123;handleClickThen&#125;&gt;Then handler&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="如何强制分批处理？"><a href="#如何强制分批处理？" class="headerlink" title="如何强制分批处理？"></a>如何强制分批处理？</h2><p>幸运的是，通过使用，我们可以克服这一问题ReactDOM.unstable_batchUpdate，并且仍然可以根据需要从状态批处理更新中受益。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">"react-dom"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./styles.css"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [counter1, setCounter1] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [counter2, setCounter2] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [counter3, setCounter3] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">const</span> [renderCount, setRenderCount] = useState(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setRenderCount(renderCount + <span class="number">1</span>);</span><br><span class="line">  &#125;, [counter1, counter2, counter3]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleClickThen = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">      ReactDOM.unstable_batchedUpdates(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      setCounter1(counter1 + <span class="number">1</span>);</span><br><span class="line">      setCounter2(counter2 + <span class="number">1</span>);</span><br><span class="line">      setCounter3(counter3 + <span class="number">1</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">'App'</span>&gt;</span><br><span class="line">      &lt;h1&gt;<span class="built_in">Function</span> Component&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">      &lt;div&gt;</span></span><br><span class="line"><span class="regexp">        Counter1: &#123;counter1&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        Counter2: &#123;counter2&#125;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;div&gt;</span></span><br><span class="line"><span class="regexp">        Counter3: &#123;counter3&#125;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">      &lt;br/&gt;</span><br><span class="line">      &lt;div&gt;Component was rendered &#123;renderCount&#125; times&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;handleClickThen&#125;&gt;Then handler&lt;/</span>button&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
       
       <!-- reward -->
       

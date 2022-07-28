@@ -38,6 +38,70 @@
     
     
     
+    <article id="post-微信小程序知识点" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/04/11/微信小程序知识点/">微信小程序知识点</a>
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/04/11/微信小程序知识点/" class="article-date">
+  <time datetime="2019-04-11T13:47:54.000Z" itemprop="datePublished">2019-04-11</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="componet-amp-template"><a href="#componet-amp-template" class="headerlink" title="componet &amp;  template"></a>componet &amp;  template</h2><p>除了component，微信小程序中还有另一种组件化你的方式template模板，这两者之间的区别是，template主要是展示，方法则需要在调用的页面中定义。而component组件则有自己的业务逻辑，可以看做一个独立的page页面。简单来说，如果只是展示，使用template就足够了，如果涉及到的业务逻辑交互比较多，那就最好使用component组件了。 </p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-记录package-json字段用处" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
 
   <div class="article-inner">
@@ -621,6 +685,7 @@
 <p>url()<br>URL函数接受一个XML文件，该文件设置了 一个SVG滤镜，且可以包含一个锚点来指定一个具体的滤镜元素。</p>
 <p>例如：</p>
 <p>filter: url(svg-url#element-id)</p>
+<h1 id="10-transition"><a href="#10-transition" class="headerlink" title="10. transition"></a>10. transition</h1><p>todo</p>
 
       
       <!-- reward -->
@@ -761,82 +826,6 @@
       <p>待学习：</p>
 <h1 id="一-flex-弹性布局"><a href="#一-flex-弹性布局" class="headerlink" title="一. flex 弹性布局"></a>一. flex 弹性布局</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">        &lt;title&gt;&lt;/title&gt;</span><br><span class="line">        &lt;style <span class="built_in">type</span>=<span class="string">"text/css"</span>&gt;</span><br><span class="line">            <span class="comment">#box&#123;</span></span><br><span class="line">                display: flex;</span><br><span class="line">                display: -webkit-flex;</span><br><span class="line">                border: 1px solid <span class="comment">#0000FF;</span></span><br><span class="line">                height: 200px;</span><br><span class="line">                width: 400px;</span><br><span class="line">                align-items:center;</span><br><span class="line">                justify-content:center;</span><br><span class="line">            &#125;</span><br><span class="line">            .item&#123;</span><br><span class="line">                width: 50px;</span><br><span class="line">                height: 40px;</span><br><span class="line">                border: 1px solid <span class="comment">#00C1B3;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &lt;/style&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;div id=<span class="string">"box"</span>&gt;</span><br><span class="line">            &lt;div class=<span class="string">"item"</span>&gt;1&lt;/div&gt;</span><br><span class="line">            &lt;div class=<span class="string">"item"</span>&gt;2&lt;/div&gt;</span><br><span class="line">            &lt;div class=<span class="string">"item"</span>&gt;3&lt;/div&gt;</span><br><span class="line">            &lt;div class=<span class="string">"item"</span>&gt;4&lt;/div&gt;</span><br><span class="line">            &lt;div class=<span class="string">"item"</span>&gt;5&lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
 <p>// 4<br>.wraper {<br>  display: table;<br>  .box {<br>    display: table-cell;<br>    vertical-align: middle;<br>  }<br>}</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-JavaScript-原生语法" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/11/23/JavaScript-原生语法/">JavaScript 原生语法</a>
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2018/11/23/JavaScript-原生语法/" class="article-date">
-  <time datetime="2018-11-22T16:57:24.000Z" itemprop="datePublished">2018-11-23</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>var anv=document.getElementsByTagName(‘body’)[0]<br>var abc=document.createElement(‘div’)</p>
-<p>e.preventDefault()阻止事件默认行为。<br>e.stopPropagation()阻止事件冒泡</p>
-<h1 id="屏蔽tmall的广告下载"><a href="#屏蔽tmall的广告下载" class="headerlink" title="屏蔽tmall的广告下载"></a>屏蔽tmall的广告下载</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> links=<span class="built_in">document</span>.getElementsByTagName(<span class="string">'div'</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;links.length;i++)&#123;  </span><br><span class="line">  <span class="keyword">if</span>( links[i].style.zIndex==<span class="string">"99999"</span>)&#123; </span><br><span class="line">     <span class="built_in">console</span>.log(links[i]); links[i].parentNode.removeChild(links[i]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="promise-wiki"><a href="#promise-wiki" class="headerlink" title="promise wiki"></a>promise wiki</h1><p><a href="https://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/0014345008539155e93fc16046d4bb7854943814c4f9dc2000#0" target="_blank" rel="noopener">https://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/0014345008539155e93fc16046d4bb7854943814c4f9dc2000#0</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> multiply(input) &#123;</span><br><span class="line">    <span class="built_in">return</span> new Promise(<span class="keyword">function</span> (resolve, reject) &#123;</span><br><span class="line">        <span class="built_in">log</span>(<span class="string">'calculating '</span> + input + <span class="string">' x '</span> + input + <span class="string">'...'</span>);</span><br><span class="line">        setTimeout(resolve, 500, input * input);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 0.5秒后返回input+input的计算结果:</span><br><span class="line"><span class="keyword">function</span> add(input) &#123;</span><br><span class="line">    <span class="built_in">return</span> new Promise(<span class="keyword">function</span> (resolve, reject) &#123;</span><br><span class="line">        <span class="built_in">log</span>(<span class="string">'calculating '</span> + input + <span class="string">' + '</span> + input + <span class="string">'...'</span>);</span><br><span class="line">        setTimeout(resolve, 500, input + input);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p = new Promise(<span class="keyword">function</span> (resolve, reject) &#123;</span><br><span class="line">    <span class="built_in">log</span>(<span class="string">'start new Promise...'</span>);</span><br><span class="line">    resolve(123);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">p.then(multiply)</span><br><span class="line"> .<span class="keyword">then</span>(add)</span><br><span class="line"> .<span class="keyword">then</span>(multiply)</span><br><span class="line"> .<span class="keyword">then</span>(add)</span><br><span class="line"> .<span class="keyword">then</span>(<span class="keyword">function</span> (result) &#123;</span><br><span class="line">    <span class="built_in">log</span>(<span class="string">'Got value: '</span> + result);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<h1 id="js递归方法需要return-这个方法，不然开始调用的地方收不到这个值"><a href="#js递归方法需要return-这个方法，不然开始调用的地方收不到这个值" class="headerlink" title="js递归方法需要return 这个方法，不然开始调用的地方收不到这个值"></a>js递归方法需要return 这个方法，不然开始调用的地方收不到这个值</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">this.findMin=function()&#123;</span><br><span class="line">  return findMinPrivate(root);</span><br><span class="line">&#125;</span><br><span class="line">   var findMinPrivate=function(node)&#123;</span><br><span class="line">debugger;</span><br><span class="line">if(node &amp;&amp; node.left==null)&#123;</span><br><span class="line">    return node.key;</span><br><span class="line"></span><br><span class="line">&#125;else &#123;</span><br><span class="line">if(node)&#123;</span><br><span class="line">     node=node.left;</span><br><span class="line">   return findMinPrivate(node);</span><br><span class="line">&#125;</span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="这是函数栈-然后想象一下，每次去把执行的函数压栈，执行完毕再出栈。"><a href="#这是函数栈-然后想象一下，每次去把执行的函数压栈，执行完毕再出栈。" class="headerlink" title="这是函数栈,然后想象一下，每次去把执行的函数压栈，执行完毕再出栈。"></a>这是函数栈,然后想象一下，每次去把执行的函数压栈，执行完毕再出栈。</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function foo(i) &#123;</span><br><span class="line">  if (i &lt; 0)</span><br><span class="line">  return;</span><br><span class="line">  console.log(&apos;begin:&apos; + i);</span><br><span class="line">  foo(i - 1);</span><br><span class="line">  console.log(&apos;end:&apos; + i);</span><br><span class="line">&#125;</span><br><span class="line">foo(3);</span><br></pre></td></tr></table></figure>
-<h1 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h1><p>#示例二展示了一个我们工作中常见的场景，我们预期的值应该是0,1,2..实际结果都输出了最后一次循环的值。原因是这里的i我们是在window下声明可以，当我们调用funs数组中的方法时，循环已经结束i的值已经变成了5。们可以用闭包来解决这个问题：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> funs = []</span><br><span class="line"><span class="keyword">var</span> i=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span>(; i&lt;<span class="number">5</span>; i++) &#123;</span><br><span class="line">    (<span class="function"><span class="keyword">function</span> <span class="title">parent</span>(<span class="params">i</span>)</span>&#123;</span><br><span class="line">        funs.push(<span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(i)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)(i)</span><br><span class="line">&#125;</span><br><span class="line">funs[<span class="number">0</span>]() <span class="comment">// 0</span></span><br><span class="line">funs[<span class="number">1</span>]() <span class="comment">// 1</span></span><br><span class="line">funs[<span class="number">2</span>]() <span class="comment">// 2</span></span><br></pre></td></tr></table></figure></p>
-<p>我们声明了一个parent函数并立即调用了它，把i当做参数传入作为parent的部变量，并在child函数中调用i形成了一个闭包。</p>
-<h1 id="Object-assign"><a href="#Object-assign" class="headerlink" title="Object.assign"></a>Object.assign</h1><p>（1）为对象添加方法</p>
-<p>Object.assign(SomeClass.prototype, {<br>  someMethod(arg1, arg2) {<br>    ···<br>  },<br>  anotherMethod() {<br>    ···<br>  }<br>});</p>
-<p>// 等同于下面的写法<br>SomeClass.prototype.someMethod = function (arg1, arg2) {<br>  ···<br>};<br>SomeClass.prototype.anotherMethod = function () {<br>  ···<br>};<br>上面代码使用了对象属性的简洁表示法，直接将两个函数放在大括号中，再使用assign方法添加到SomeClass.prototype之中。</p>
-<p>（2）不过，采用这种方法克隆，只能克隆原始对象自身的值，不能克隆它继承的值。如果想要保持继承链，可以采用下面的代码。</p>
-<p>function clone(origin) {<br>  let originProto = Object.getPrototypeOf(origin);<br>  return Object.assign(Object.create(originProto), origin);<br>}</p>
 
       
       <!-- reward -->

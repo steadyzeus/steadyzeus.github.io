@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    前端性能优化(偏运维篇)  |  Steady&#39;blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-Untitled-1" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  前端性能优化(偏运维篇) 
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2022/07/18/Untitled-1/" class="article-date">
+  <time datetime="2022-07-18T13:23:00.000Z" itemprop="datePublished">2022-07-18</time>
+</a>
+      
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">7.4k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">26分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>#前端性能优化(偏运维篇)</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>   在日常工作中，前端和运维沟通不会太频繁，大多数时候是前端项目在测试环境、生产环境部署、CI/CD集成的时候会做一些沟通，无非就是提供一些shell ci语句，配置一下Nginx转发。<br>   但实际上遇到性能优化的时候，前端和运维两个部门有太多优化点需要一起来治理和维护。前端的性能优化会更直接与用户的体验挂钩。从用户体验侧来说，前端服务 5s 的加载时间优化缩减 80%(1s) 与后端服务 50ms 的响应优化缩减 80%(10ms) 相比，用户的体验提升会更大。因此很多时候，与体验相关的性能的瓶颈会出现在前端。<br>   面试的一个经典题目：”从用户在浏览器地址栏输入网址，到看到整个页面，中间发生了哪些事情？” 这个问题看似简单，但实际要说明白这个过程，需要较强的技术能力。在这个过程中，也包含了众多前端优化的细节点。<br>   下面就由一个前端同学的视角来展开聊聊，如何优化前端性能。</p>
+<h1 id="为什么要解决性能问题"><a href="#为什么要解决性能问题" class="headerlink" title="为什么要解决性能问题"></a>为什么要解决性能问题</h1><p>几个好的案例</p>
+<ol>
+<li>亚马逊（美国最大电商公司）：通过调查得出，网页打开的速度每快100毫秒，就会让网站增加1%的收益</li>
+<li>Pinterest（世界最大图片社交分享平台）：重建了他们的页面以实现性能优化，使感知等待时间减少了40％，从而将搜索引擎流量和注册量提高了15％</li>
+<li>COOK（医疗贸易公司）：通过将平均页面加载时间减少850毫秒，发现他们能够将转化率提高7％，将跳出率降低7％</li>
+</ol>
+<p>从以上例子中，我们可以得出结论，网站的性能极度影响业务结果。</p>
+<h1 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h1><p>  前端缓存是解决性能的一把利刃，同时也是前端bug的重灾区，运维同学如果没有设置好缓存，那么就会导致前端缓存bug。所以有必要一起来学习下前端缓存</p>
+<p>  1）.强缓存 </p>
+<p>  我们先看图1<br>    <img src="/images/pasted-21.png" alt="upload successful"><br>   再看图2<br>    <img src="/images/pasted-22.png" alt="upload successful"><br>    图1的缓存使用了memory cache，而图2使用了disk cache</p>
+<p>   谁决定这个资源「from disk cache」与「from memory cache」？<br>   当然，最终决定使用哪种缓存的应该是客户端，也就是浏览器了。浏览器对于缓存什么策略或者机制？</p>
+<p>   三级缓存原理</p>
+<ul>
+<li><p>先去内存看，如果有，直接加载</p>
+</li>
+<li><p>如果内存没有，择取硬盘获取，如果有直接加载</p>
+</li>
+<li><p>如果硬盘也没有，那么就进行网络请求</p>
+</li>
+<li><p>加载到的资源缓存到硬盘和内存</p>
+<p>比如：访问静态资源=&gt; 200 =&gt; 关闭tab栏；再次访问同样一个静态资源=&gt; 200(from disk cache) =&gt; 刷新页面 =&gt; 200(from memory cache);</p>
+<p>已上两种浏览器缓存，都属于强缓存类型，遵守强缓存规则</p>
+<p>在强缓存的情况下，浏览器不会向服务器发送请求，而是直接从本地缓存中读取内容，这个“本地”也就是我们在 Chrome DevTools 上看到的「from disk cache」与「from memory cache」<br>与其相关的响应头则是 Expires 和 Cache-Control。在 Expires 上可以设置一个过期时间，浏览器通过将其与当前本地时间对比，判断资源是否过期，未过期则直接从本地取即可。而 Cache-Control 则可以通过给它设置一个 max-age，来控制过期时间。例如，max-age=300 就是表示在响应成功后 300 秒内，资源请求会走强缓存。<br>运维同学，需要注意前端页面html的请求，大多数情况下都是不需要设置强缓存的，那么Cache-Control需要设置为no-store。</p>
+</li>
+<li><p>no-cache 和 no-store 的区别</p>
+<p>no-cache 和 no-store 用作控制缓存，被服务器通过响应头 Cache-Control 传递给客户端<br>no-store永远都不要在客户端存储资源，永远都去原始服务器去获取资源。<br>no-cache可以在客户端存储资源，每次都必须去服务端做新鲜度校验，来决定从服务端获取新的资源（200）还是使用客户端缓存（304）。也就是所谓的协商缓存。</p>
+<p>一般情况下对于 index.html 或者现代构建环境下不加 hash 的静态资源都需要设置 Cache-Control: no-cache，用来强制每次在服务器端的新鲜度校验。甚至直接设置no-store来及时保持html的新鲜度，为了任何情况下获取html文档head标签中最新的hash静态资源。比如，对于chrome，no-cache用于在重新访问时重新加载页面，但如果您返回历史记录（后退按钮），它仍然会缓存它，不会发起网络请求。比如下图就是生产环境index.html的响应头设置<br><img src="/images/pasted-24.png" alt="upload successful"></p>
+</li>
+</ul>
+<p>  2）.协商缓存</p>
+<p>  刚才我们设置的强缓存，也有过期失效的时候。这个时候就需要通过发起请求到服务器询问一下，该资源是否有过期，如果没有过期，就可以避免发起不必要的静态资源http请求，导致用户需要等待下载完成。<br>  一种协防缓存的方式是：服务器第一次响应时返回 Last-Modified，而浏览器在后续请求时带上其值作为 If-Modified-Since，相当于问服务端：XX 时间点之后，这个资源更新了么？服务器根据实际情况回答即可：更新了（状态码 200）或没更新（状态码 304）。</p>
+<p>上面是通过时间来判断是否更新，如果更新时间间隔过短，例如 1s 一下，那么使用更新时间的方式精度就不够了。所以还有一种是通过标识 —— ETag。服务器第一次响应时返回 ETag，而浏览器在后续请求时带上其值作为 If-None-Match。一般会用文件的 MD5 作为 ETag。</p>
+<p>  3）.一张图看懂强缓存和协商缓存如何工作的<br><img src="/images/pasted-23.png" alt="浏览器缓存流程图"></p>
+<p>  4）.总结<br> 运维同学需要熟悉缓存的设置，才能在生产环境中帮助业务提升缓存的命中，减少网络请求</p>
+<h1 id="网络请求"><a href="#网络请求" class="headerlink" title="网络请求"></a>网络请求</h1><p>访问一个页面第一步就是检查缓存，当缓存没有命中，我们才能真正发起一个网络请求。</p>
+<p>1）.HTTP 2.0</p>
+<p>HTTP 2.0 相⽐于 HTTP 1.X，可以说是⼤幅度提⾼了 web 的性能。<br>在 HTTP 1.X 中，为了性能考虑，我们会引⼊雪碧图、将⼩图内联、使⽤多个域名等等的⽅<br>式。这⼀切都是因为浏览器限制了同⼀个域名下的请求数量，当⻚⾯中需要请求很多资源的<br>时候，队头阻塞（Head of line blocking）会导致在达到最⼤请求数量时，剩余的资源需要等<br>待其他资源请求完成后才能发起请求。<br>你可以通过 <a href="https://http2.akamai.com/demo" target="_blank" rel="noopener">https://http2.akamai.com/demo</a> 感受下 HTTP 2.0 ⽐ HTTP 1.X 到底快了多少。</p>
+<p><img src="/images/pasted-25.png" alt="upload successful"><br>在 HTTP 1.X 中，因为队头阻塞的原因，你会发现请求是这样的</p>
+<p><img src="/images/pasted-28.png" alt="upload successful"></p>
+<p>在 HTTP 2.0 中，因为引⼊了多路复⽤，你会发现请求是这样的</p>
+<p><img src="/images/pasted-27.png" alt="upload successful"></p>
+<p>⼆进制传输<br>HTTP 2.0 中所有加强性能的核⼼点在于此。在之前的 HTTP 版本中，我们是通过⽂本的⽅式<br>传输数据。在 HTTP 2.0 中引⼊了新的编码机制，所有传输的数据都会被分割，并采⽤⼆进制<br>格式编码</p>
+<p><img src="/images/pasted-29.png" alt="upload successful"></p>
+<p>运维同学们看到这里，是不是已经迫不及待要开启HTTP 2.0了</p>
+<p>2）.DNS预解析</p>
+<p>DNS 的作⽤就是通过域名查询到具体的 IP。<br>因为 IP 存在数字和英⽂的组合（IPv6），很不利于⼈类记忆，所以就出现了域名。你可以把<br>域名看成是某个 IP 的别名，DNS 就是去查询这个别名的真正名称是什么。<br>在 TCP 握⼿之前就已经进⾏了 DNS 查询，这个查询是操作系统⾃⼰做的。当你在浏览器中<br>想访问 <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> 时，会进⾏⼀下操作：</p>
+<ol>
+<li>操作系统会⾸先在本地缓存中查询</li>
+<li>没有的话会去系统配置的 DNS 服务器中查询</li>
+<li>如果这时候还没得话，会直接去 DNS 根服务器查询，这⼀步查询会找出负责 com 这个<br>⼀级域名的服务器</li>
+<li>然后去该服务器查询 google 这个⼆级域名</li>
+<li>接下来三级域名的查询其实是我们配置的，你可以给 www 这个域名配置⼀个 IP，然后还<br>可以给别的三级域名配置⼀个 IP<br>以上介绍的是 DNS 迭代查询，还有种是递归查询，区别就是前者是由客户端去做请求，后者<br>是由系统配置的 DNS 服务器做请求，得到结果后将数据返回给客户端。<br>PS：DNS 是基于 UDP 做的查询</li>
+</ol>
+<p>这里我们需要了解的是：</p>
+<p>首先，DNS 解析流程可能会很长，耗时很高，所以整个 DNS 服务，包括客户端都会有缓存机制，这个作为前端不好涉入；<br>其次，在 DNS 解析上，前端还是可以通过浏览器提供的其他手段来“加速”的。<br><a href="https://www.w3.org/TR/resource-hints/#dns-prefetch" target="_blank" rel="noopener">DNS Prefetch</a><br>就是浏览器提供给我们的一个 API。它是 Resource Hint 的一部分。它可以告诉浏览器：过会我就可能要去 yourwebsite.com 上下载一个资源啦，帮我先解析一下域名吧。这样之后用户点击某个按钮，触发了 yourwebsite.com 域名下的远程请求时，就略去了 DNS 解析的步骤。使用方式很简单：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"dns-prefetch"</span> href=<span class="string">"//yourwebsite.com"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>当然，浏览器并不保证一定会去解析域名，可能会根据当前的网络、负载等状况做决定。标准里也明确写了,user agent SHOULD resolve as early as possible。</p>
+<p>3）.预先建立连接</p>
+<p>我们知道，建立连接不仅需要 DNS 查询，还需要进行 TCP 协议握手，有些还会有 TLS/SSL 协议，这些都会导致连接的耗时。使用 Preconnect 可以帮助你告诉浏览器：“我有一些资源会用到某个源（origin），你可以帮我预先建立连接。”</p>
+<p>根据规范，当你使用 Preconnect 时，浏览器大致做了如下处理：</p>
+<ul>
+<li>首先，解析 Preconnect 的 url；</li>
+<li>其次，根据当前 link 元素中的属性进行 cors 的设置；</li>
+<li>然后，默认先将 credential 设为 true，如果 cors 为 Anonymous 并且存在跨域，则将 credential 置为 false；</li>
+<li>最后，进行连接。</li>
+</ul>
+<p>使用 Preconnect 只需要将 rel 属性设为 preconnect 即可：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"preconnect"</span> href=<span class="string">"//sample.com"</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>当然，你也可以设置 CORS：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"preconnect"</span> href=<span class="string">"//sample.com"</span> crossorigin&gt;</span><br></pre></td></tr></table></figure></p>
+<p>需要注意的是，标准并没有硬性规定浏览器一定要（而是 SHOULD）完成整个连接过程，与 DNS Prefetch 类似，浏览器可以视情况完成部分工作。</p>
+<p>4) .服务器应该避免过多重定向</p>
+<p>重定向是一个比较常用的技术手段。在一些情况下，你可能进行了服务迁移，修改了原有的 url。这时候就可以使用重定向，把访问原网址的用户重定向到新的 url。还有是在一些登录场景下，会使用到重定向技术。</p>
+<p>重定向分为 301 的永久重定向和 302 的临时重定向。建议贴合语义，例如服务迁移的情况下，使用 301 重定向。对 SEO 也会更友好。</p>
+<p>运维同学需要注意在配置反向代理服务器时，不要滥用重定向。曾今也见过有业务在访问后重定向 3 次的情况，其实里面有些是不必要的。每次重定向都是有请求耗时的，建议避免过多的重定向。</p>
+<p>5) .静态资源使用CDN服务</p>
+<p>当我们实际把网络包发向我们的目标地址时，肯定希望越快到达目的地越好（对应的，也会希望越快获得响应）。而网络传输是有极限的，同样一个北京的用户，访问北京的服务器显然要比广州快很多。同时，服务的负载也会影响响应的速度。</p>
+<p>对于静态资源，我们可以考虑通过 CDN 来降低时延。</p>
+<p>对于使用 CDN 的资源，DNS 解析会将 CDN 资源的域名解析到 CDN 服务的负载均衡器上，负载均衡器可以通过请求的信息获取用户对应的地理区域，从而通过负载均衡算法，在背后的诸多服务器中，综合选择一台地理位置近、负载低的机器来提供服务。例如为北京联通用户解析北京的服务器 IP。这样，用户在之后访问 CDN 资源时都是访问北京服务器，距离近，速度快。</p>
+<p>想了解更多 CDN 的工作方式可以阅读<a href="https://developer.aliyun.com/article/577708" target="_blank" rel="noopener">这篇文章</a></p>
+<h1 id="BFF-amp-SSR"><a href="#BFF-amp-SSR" class="headerlink" title="BFF&amp;SSR"></a>BFF&amp;SSR</h1><p>许多大厂的组织架构都有大前端部门的存在，随着 NodeJS 的兴起，很多业务都引入了基于 NodeJS 的 BFF 来为前端（客户端端）提供服务或者是为了SEO需要使用服务器渲染框架SSR比如next.js(React)，nuxt.js(Vue)</p>
+<p>1.BFF层</p>
+<ul>
+<li><p>Nodejs BFF 模式下，整体分工很清晰，后端通过 php,go 等语言负责服务实现，理想情况下给前端提供的是基于领域模型的 RPC 接口，前端则在 BFF 层直接调用服务端 RPC 接口拿到数据，按需加工消费数据。基于 BFF 模式的研发，很适合拥有前端技术背景的全栈型工程师。这种模式的好处很明显，后端可以专注于业务领域，更多从领域模型的视角去思考问题，页面视角的数据则交给前端型全栈工程师去搞定。领域模型与页面数据是两种思维模式，通过 BFF 可以很好地解耦开，后端的service可以在Node这层分发成多端接口(app,小程序,h5等)，省去了字段撕逼问题，让彼此更专业高效。</p>
+</li>
+<li><p>适合新项目孵化，类似前端小程序，用Node开发接口。1个前端人员就能搞定，节省人力成本，快速迭代上线。</p>
+</li>
+<li><p>Nodejs人才问题，前端会Node.js后端的人才特别多，虽然不能算专业但至少是能做业务，稍加熟悉也能成为不错的人才。类似Golang，Python基本想要招直接可用的人才，比Node.js成本高。可以让前端人员投入更多的全栈开发需求项目中，动态平衡人员紧缺问题。</p>
+</li>
+<li><p>Nodejs 语言的优势，由于 Node.js 遵循事件驱动的非阻塞I/O模型，与传统的后端技术相比，Node.js 能够处理大量的服务器请求，支持高并发。</p>
+</li>
+<li><p>服务端设计的API接口，面向通用服务，不需要面向UI。各种端的UI差异，由BFF层负责适配。这样的话，可以让后端更加专注于业务逻辑和数据服务，不需要操心各种端的差异</p>
+</li>
+<li><p>在toB业务需求里，很多时候前后端工作量经常匹配不到一起去，Node 增加了这中间的弹性，避免出现一个需求前端过度依赖后端开发进度的情况</p>
+</li>
+<li><p>原来的模式是由后端推着前端走，现在的模式是产品和前端拉着后端走，思维模式是完全不一样的。</p>
+</li>
+</ul>
+<p>2.SSR</p>
+<ul>
+<li><p>Next.js 是 React 服务端渲染（SSR）应用框架. 用于构建 SEO 友好的 SPA 应用.</p>
+<p>支持两种预渲染方式, 静态生成和服务器端渲染.<br>基于页面的路由系统, 路由零配置<br>自动代码拆分. 优化页面加载速度.<br>支持静态导出, 可将应用导出为静态网站.<br>内置 CSS-in-JS 库 styled-jsx<br>方案成熟, 可用于生产环境, 世界许多公司都在使用<br>应用部署简单, 拥有专属部署环境 Vercel, 也可以部署在其他环境</p>
+</li>
+</ul>
+<ul>
+<li><p>SSR预渲染概述</p>
+<p>预渲染是指数据和HTML的拼接在服务器端提前完成.<br>预渲染可以使 SEO 更加友好.<br>预渲染会带来更好的用户体验, 可以无需运行 JavaScript 即可查看应用程序UI.<br>预渲染的两种形式</p>
+<p>在 Next.js 中支持两种形式的预渲染: 静态生成和服务器端渲染.<br>静态生成和服务器端渲染是生成 HTML 的时机不同.<br>静态生成: 静态生成是在构建时生成 HTML. 以后的每个请求都共用构建时生成好的 HTML.<br>服务器端渲染: 服务器端渲染是在请求时生成 HTML. 每个请求都会重新生成 HTML.<br>两种预渲染方式的选择</p>
+<p>Next.js 允许开发者为每个页面选择不同的预渲染方式. 不同的预渲染方式拥有不同的特点. 应根据场景进行渲染.<br>但建议大多数页面建议使用静态生成.<br>静态生成一次构建, 反复使用, 访问速度快. 因为页面都是事先生成好的.<br>适用场景：营销页面、博客文章、电子商务产品列表、帮助和文档<br>服务器端渲染访问速度不如静态生成快, 但是由于每次请求都会重新渲染, 所以适用数据频繁更新的页面或页面内容随请求变化而变化的页面</p>
+</li>
+</ul>
+<p>以下是前端同学在写服务端时，遇到的比较常见问题,我们应该怎样快速排查Nodejs作为服务端产生的问题呢？</p>
+<ul>
+<li>使用中间件没有调用next()方法，导致不能执行下一个中间件，请求超时；</li>
+<li>async await 的不当使用导致并行请求被串行化了；</li>
+<li>频繁地 JSON.parse 和 JSON.stringify 大对象，使CPU使用率上升；</li>
+<li>正则表达式的灾难性回溯，使CPU使用率上升，阻塞运算；</li>
+<li>闭包导致的内存泄漏，导致内存溢出；</li>
+<li>CPU 密集型任务导致事件循环 delay 严重；</li>
+<li>未捕获的异常导致进程频繁退出，守护进程（pm2/supervisor）又将进程重启，频繁启停非常消耗资源；</li>
+</ul>
+<h2 id="利用node-clinic工具"><a href="#利用node-clinic工具" class="headerlink" title="利用node-clinic工具"></a>利用node-clinic工具</h2><p>node-clinic（简称 clinic） 是一个开箱即用的 Node.js 应用诊断工具。</p>
+<p>首先，安装 Node.js@9+<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nvm install <span class="number">9</span></span><br></pre></td></tr></table></figure></p>
+<p>全局安装 clinic：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm i clinic -g</span><br></pre></td></tr></table></figure></p>
+<p>创建测试代码：app.js</p>
+<p>使用 clinic doctor 启动并诊断 Node.js 应用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ clinic doctor -- node app.js</span><br></pre></td></tr></table></figure>
+<p>使用 ab 压测：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ab -c <span class="number">10</span> -n <span class="number">200</span> <span class="string">"http://localhost:3000/"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ clinic flame -- node app.js</span><br></pre></td></tr></table></figure>
+<p>可以用以下命令代替：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ clinic flame --collect-only -- node app.js # 收集数据</span><br><span class="line">$ clinic flame --visualize-only PID.flamegraph # 将数据生成fire图</span><br></pre></td></tr></table></figure></p>
+<h2 id="alinode（Node-js-性能平台）"><a href="#alinode（Node-js-性能平台）" class="headerlink" title="alinode（Node.js 性能平台）"></a>alinode（Node.js 性能平台）</h2><p>Node.js 性能平台（Node.js Performance Platform）是面向中大型 Node.js 应用提供性能监控、安全提醒、故障排查、性能优化等服务的整体性解决方案。凭借对 Node.js 内核深入的理解，我们提供完善的工具链和服务，协助客户主动、快速发现和定位线上问题。</p>
+<p>推荐访问官网了解更多alinode性能平台 <a href="https://www.aliyun.com/product/nodejs" target="_blank" rel="noopener">https://www.aliyun.com/product/nodejs</a></p>
+<h1 id="浏览器页面渲染"><a href="#浏览器页面渲染" class="headerlink" title="浏览器页面渲染"></a>浏览器页面渲染</h1><p>在前面的缓存章节，我们有提到对index.html的缓存，确保我们能加载正确的静态资源。我们在这个章节，开始聊聊index.html被请求回来后，是怎么触发浏览器页面渲染流程的</p>
+<ul>
+<li><p>浏览器的渲染机制⼀般分为以下⼏个步骤</p>
+<ol>
+<li>处理 HTML 并构建 DOM 树。</li>
+<li>处理 CSS 构建 CSSOM 树。</li>
+<li>将 DOM 与 CSSOM 合并成⼀个渲染树。</li>
+<li>根据渲染树来布局，计算每个节点的位置。</li>
+<li>调⽤ GPU 绘制，合成图层，显示在屏幕上。<br><img src="/images/pasted-34.png" alt="upload successful"></li>
+</ol>
+</li>
+<li><p>标签执行顺序</p>
+<p>当 HTML 解析到 script 标签时，会暂停构建 DOM，完成后才会从暂停的地⽅重新开始。也就是说，如果你想⾸屏渲染的越快，就越不应该在⾸屏就加载过多JS ⽂件。并且 CSS 也会影响JS 的执⾏，只有当解析完样式表才会执⾏ JS，所以也可以认为这种情况下，CSS 也会暂停构建 DOM。</p>
+<p>但是我们可以script 标签上添加defer或者async。defer 会在 HTML 解析完成后，按照脚本出现的次序再顺序执行；而 async 则是下载完成就立即开始执行，同时阻塞页面解析，不保证脚本间的执行顺序。</p>
+<p>所以如果我们的页面首屏渲染慢，可以把 CSS 样式表放在 <head><meta name="generator" content="Hexo 3.8.0"> 之中（即页面的头部），把 JavaScript 脚本放在 </head><body> 的最后（即页面的尾部），还可以尝试让没那么重要的js脚本添加defer属性来避免阻塞页面解析。  </body></p>
+</li>
+<li><p>运维可以利用Nginx开启文档压缩</p>
+<p>使用文本压缩算法（例如 gzip）进行文本的压缩</p>
+<p>  <img src="/images/pasted-37.png" alt="upload successful"></p>
+<p>  可以看到home这个html请求的真实资源 size是154KB,经过gzip压缩后缩减为了30KB<br>  <img src="/images/pasted-36.png" alt="upload successful"></p>
+</li>
+</ul>
+<h1 id="页面静态资源"><a href="#页面静态资源" class="headerlink" title="页面静态资源"></a>页面静态资源</h1><p>  网页上的静态资源包括，JavaScript，css,image,font,audio,video等等，但他们的优化方向都比较相似</p>
+<ul>
+<li>压缩静态资源的体积大小</li>
+<li>减少不必要的请求，比如对列表图片做懒加载，滚动到可视区域才发起真是的静态资源网络请求</li>
+<li><p>cdn的分发加速，缓存机制</p>
+<p>前端工程化，目前模块化打包，用得最多的就是webpack。webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。<br>我们可以使用webpack提供的各种plugin工具，来对我们的静态资源做优化：压缩，模块打包，Tree Shaking等等。比如，可以使用按需加载功能，尤其在当下组件化盛行的潮流里，哪些页面需要该组件才会发起一个网络请求静态资源，不会全部一次性加载完，组件的按需加载就可能会包括了 JavaScript 脚本、CSS 样式表、图标图片等。<br>对图片的优化，我们可以利用cdn提供的裁剪和格式转化功能进行页面渲染优化，比如：<a href="https://cdn.weipaitang.com/skywebp/fapai/tupian/image/20220726/77341d9a31a04681bdee06b754070b49-W3024H3024/w/320" target="_blank" rel="noopener">https://cdn.weipaitang.com/skywebp/fapai/tupian/image/20220726/77341d9a31a04681bdee06b754070b49-W3024H3024/w/320</a><br>这张图片就使用了cdn的webp格式转换，并且把3024<em>3024像素裁剪为了320</em>320尺寸，总体积压缩了50倍，极大减少了网络请求，加快了图片的展示，提高了用户体验。所以，对于其它类型的静态资源优化可以举一反三。</p>
+</li>
+</ul>
+<p><img src="/images/pasted-43.png" alt="upload successful"></p>
+<p>参考资料： <a href="https://www.webpackjs.com/" target="_blank" rel="noopener">https://www.webpackjs.com/</a></p>
+<h1 id="客户端优化的案例"><a href="#客户端优化的案例" class="headerlink" title="客户端优化的案例"></a>客户端优化的案例</h1><p> 在我们电商APP日常开发中，经常会有一些分享图片给好友的需求。要求分享的图片和客户端当前展示的效果差不多。这个时候我们往往会让服务端去做一个海报服务接口，让每个用户在分享的时候调用生成海报服务接口，合成一张分享图片。这个时候我们的性能问题就出现了，如果一个活动分享的人够多，那么我们海报服务的服务器CPU占用率会直线飙升，甚至让挂掉。<br> 在2022年，我们自己手里的手机，其实已经有非常强大的算力。像这种合成图片的功能，我们实际上是可以把算力分散到客户端的，不要让请求海报服务造成瓶颈，让用户长时间等待服务端合成图片，造成非常不好的用户体验。<br> 此例子只是抛砖迎玉，提醒我们应该把此类需要大量运算的功能做到客户端中，不应该让服务器性能成为阻塞。<br><img src="/images/pasted-39.png" alt="upload successful">此图出自微拍堂APP</p>
+<h1 id="为什么要做预加载"><a href="#为什么要做预加载" class="headerlink" title="为什么要做预加载"></a>为什么要做预加载</h1><ol>
+<li><p>当一个项目越来越大的时候，往往会导致项目的首屏加载时间越来越长，我们可以应用 ssr，懒加载等方案来减少首屏的加载时间。</p>
+<p>随之带来的问题就是非首屏会有一定的初始化时间。我们可能会应用 loading 或者骨架屏来优化加载时的体验。在混合开发中，我们希望尽可能地与原生体验接近。在不同页面间切换的时候尽可能地减少 loading 时间。</p>
+<p>通过预加载资源可以减少页面切换时的等待时间。与纯页面应用有所区别的是，在纯网页应用中，一个页面就是一个进程，只包含一个 webview。而在混合开发中，我们可以借助主进程来开启多个渲染进程。对于网页来说即开启多个 webview。我们可以创建一个新的 webview 进程来加载即将打开的页面，在新的 webview 中，我们完成了页面的预加载和预渲染。在跳转的时候，通过切换 webview 的层级即可跳转到新页面。在回退页面的时候，也可以通过切换 webview 层级来回到原来的页面。</p>
+<p>每次发布的时候 app 中存在一定数量的缓存 webview，所以我们在发布新项目的时候需要注意兼容旧版本的代码。</p>
+<p>一般情况下 webview 的底色是白色的，但是有些页面的背景是深色的，在页面加载完之前，可能会显示 webview 的底色，通过调用 jsbridge，我们可以修改 webview 的底色。在业务页面中，我们可以配置当前页面的 webview 底色，到达渲染过程更丝滑的目的，不会出现从白屏到有底色的界面的突兀感觉。</p>
+<p>具体效果可以参考微拍堂APP,从原生首页点击商品 跳转到H5商品详情页的一个体验过程。</p>
+</li>
+<li><p>我们在之前的网络请求章节提到DNS prefetch技术，我们的静态资源也可以有相似的预加载优化</p>
+<ul>
+<li><p>Prefetch</p>
+<p>用于标识下一个页面可能需要的资源，以及浏览器端应获取的资源，以便浏览器端可以在将来请求资源时提供更快的响应。由于仅仅是提前获取资源，因此浏览器不会对资源进行预处理，像 CSS 样式表、JavaScript 脚本这样的资源是不会自动执行并应用于当前文档的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"prefetch"</span> href=<span class="string">"/prefetch.js"</span> <span class="keyword">as</span>=<span class="string">"script"</span>&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>Prerender</p>
+<p>用于标识下一个页面可能需要的资源，以及浏览器端应获取的资源，以便浏览器端可以在将来请求资源时提供更快的响应，同Prefetch不一样的点在于Prerender还会执行该资源。指定浏览器应该在后台预呈现(加载)指定的网页。因此，如果用户访问到这个页面，它会加速页面加载(因为页面已经加载了)。警告!这浪费了用户的带宽!只有在你绝对确定网页在用户旅途中的某个时刻是必需的时候才使用预渲染</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"prerender"</span> href=<span class="string">"//sample.com/nextpage.html"</span>&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p>Preload</p>
+<p>指定浏览器必须根据“as”属性给出的类型(以及与该类型关联的优先级)抢先获取和缓存指定的目标资源。同Prefetch的区别在于，Preload优先级更高。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"preload"</span> href=<span class="string">"./nextpage.js"</span> <span class="keyword">as</span>=<span class="string">"script"</span>&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Prefetch 和 Preload 区别 ？</p>
+<ul>
+<li>preload chunk 会在父 chunk 加载时，以并行方式开始加载。prefetch chunk 会在父 chunk 加载结束后开始加载。</li>
+<li>preload chunk 具有中等优先级，并立即下载。prefetch chunk 在浏览器闲置时下载。</li>
+<li>preload chunk 会在父 chunk 中立即请求，用于当下时刻。prefetch chunk 会用于未来的某个时刻。</li>
+<li>浏览器支持程度不同。</li>
+</ul>
+</li>
+</ul>
+<pre><code>参考资料：https://www.w3.org/TR/resource-hints/，https://www.w3schools.com/tags/att_link_rel.asp
+</code></pre><h1 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h1><p>   前端的性能指标，现在有非常多的工具可以进行统计，浏览器也提供了Performance方法来检测页面性能的能力，完全可以自主开发一套前端性能监控平台。在这里推荐Google的一个网页性能分析工具pagespeed，输入<a href="https://pagespeed.web.dev/" target="_blank" rel="noopener">https://pagespeed.web.dev/</a>, 进入页面，输入想要分析的网址稍等片刻，便会有需要详细的分析，比如：网页的LCP,FID,CLS,FCP,INP,TTFB等指标</p>
+<p><img src="/images/pasted-40.png" alt="upload successful"></p>
+<p>并且还能给出网页的一个性能分析评分</p>
+<p><img src="/images/pasted-41.png" alt="upload successful"></p>
+<p>还能给出一些优化建议</p>
+<p><img src="/images/pasted-42.png" alt="upload successful"></p>
+<p>   最后，希望运维小伙伴们在阅读了《前端性能优化(偏运维篇)》后对前端的性能优化有更深入的了解</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2022/07/18/Untitled-1/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="/2022/02/21/正则表达式/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">常用正则</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2015-2022
+        Steady
+      </li>
+      <li>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+    <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Steady&#39;blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/2019/about.me/index.html">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+      <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+<script src="/js/share.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['面朝大海，春暖花开','愿你一生努力，一生被爱','想要的都拥有，得不到的都释怀'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+<script src="/js/tocbot.min.js"></script>
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+<script src="/js/ayer.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+  </div>
+</body>
+
+</html>
